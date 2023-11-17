@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "514574103486",
+    "project_id": "spedx-7670f",
+    "storage_bucket": "spedx-7670f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514574103486:android:bebc4a620f9601205a3fef",
+        "android_client_info": {
+          "package_name": "TMSv3.SpedX"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIprBIWGBjM5fOrNVH7zZfEVhLmyEV0po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

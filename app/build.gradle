@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace 'ro.alexmamo.firebasesigninwithemailandpassword'
+    namespace 'TMSv3.SpedX'
     compileSdk 34
 
     defaultConfig {
-        applicationId "ro.alexmamo.firebasesigninwithemailandpassword"
+        applicationId "TMSv3.SpedX"
         minSdk 26
         targetSdk 34
         versionCode 1

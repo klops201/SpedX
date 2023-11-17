@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "FirebaseSignInWithEmailAndPassword"
+rootProject.name = "tmsV2"
 include ':app'
