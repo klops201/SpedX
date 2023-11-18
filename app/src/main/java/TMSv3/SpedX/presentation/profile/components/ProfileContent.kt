@@ -12,8 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import TMSv3.SpedX.core.Constants.WELCOME_MESSAGE
+import TMSv3.SpedX.presentation.uiTheme.componentShapes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -23,19 +33,86 @@ import androidx.compose.ui.res.painterResource
 fun ProfileContent(
     padding: PaddingValues
 ) {
+//    Box(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(Color.White)// wazna kolejnosc
+//            .padding(28.dp)
+//    ) {
+//        Image(
+//            painter = painterResource(id = R.drawable.dog),
+//            modifier = Modifier.fillMaxSize(),
+//            contentDescription = "Background Image",
+//            contentScale = ContentScale.Crop
+//            //contentScale = ContentScale.Crop
+//        )
+//
+//    }
+    val scrollState = rememberScrollState()
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .clip(componentShapes.small)
             .background(Color.White)// wazna kolejnosc
             .padding(28.dp)
+            .verticalScroll(state = scrollState)
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.dog),
-            modifier = Modifier.fillMaxSize(),
-            contentDescription = "Background Image",
-            contentScale = ContentScale.Crop
-            //contentScale = ContentScale.Crop
-        )
+        Column (modifier = Modifier
+            .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
+            Greeting()
+
+            Spacer(modifier = Modifier.height(35.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
+
+                BoxDate()
+
+            }
+
+
+            Spacer(modifier = Modifier.height(17.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+
+                ImageBoxMap()
+                Spacer(modifier = Modifier.width(17.dp))
+                BoxSent()
+            }
+
+            Spacer(modifier = Modifier.height(17.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+
+                OrderList()
+
+            }
+            Spacer(modifier = Modifier.height(17.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+
+                EtollBox()
+                Spacer(modifier = Modifier.width(17.dp))
+                SettingsBox()
+            }
+
+            Spacer(modifier = Modifier.height(17.dp))
+
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+
+                WinietBox()
+                Spacer(modifier = Modifier.width(17.dp))
+                AutoSatNetBox()
+            }
+
+        }
+
+
 
     }
+
+
+
+
+
+
 }
