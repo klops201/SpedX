@@ -31,4 +31,5 @@ interface AuthRepository {
     suspend fun revokeAccess(): RevokeAccessResponse
 
     fun getAuthState(viewModelScope: CoroutineScope): AuthStateResponse
+
 }

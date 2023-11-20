@@ -12,6 +12,7 @@ import TMSv3.SpedX.domain.model.Response.Success
 import TMSv3.SpedX.domain.repository.AuthRepository
 import TMSv3.SpedX.domain.repository.ReloadUserResponse
 import TMSv3.SpedX.domain.repository.RevokeAccessResponse
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,4 +37,8 @@ class ProfileViewModel @Inject constructor(
         revokeAccessResponse = Loading
         revokeAccessResponse = repo.revokeAccess()
     }
+
+    //val userEmail = MutableStateFlow("")
+    val userEmail get() = repo.currentUser?.email?: ""
+
 }

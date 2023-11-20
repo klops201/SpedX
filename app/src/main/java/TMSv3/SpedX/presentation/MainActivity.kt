@@ -17,7 +17,7 @@ import TMSv3.SpedX.navigation.Screen.VerifyEmailScreen
 
 @AndroidEntryPoint
 @ExperimentalComposeUiApi
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {//// cala logika odsyłania do ekranów w zależność od stanu zalogowania
     private lateinit var navController: NavHostController
     private val viewModel by viewModels<MainViewModel>()
 

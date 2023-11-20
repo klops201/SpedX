@@ -82,6 +82,8 @@ import TMSv3.SpedX.presentation.uiTheme.tmsContainer
 import TMSv3.SpedX.presentation.uiTheme.tmsOnContainer
 import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
 import TMSv3.SpedX.R
+import TMSv3.SpedX.presentation.profile.ProfileViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -89,9 +91,10 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 @Composable
-fun Greeting(){
+fun Greeting(userEmail: String){
+    //val viewModel: ProfileViewModel = viewModel()
     Text(
-        text = "user",
+        text = userEmail,
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 40.dp),

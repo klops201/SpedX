@@ -32,7 +32,8 @@ fun ProfileScreen(
         },
         content = { padding ->
             ProfileContent(
-                padding = padding
+                padding = padding,
+                uEmail = viewModel.userEmail
             )
         },
         scaffoldState = scaffoldState
