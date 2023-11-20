@@ -141,13 +141,13 @@ fun BoxDate(){
 
 
 @Composable
-fun OrderList() {
+fun OrderList(onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .height(210.dp)
             //.width(210.dp)
             .clip(AlertDialogDefaults.shape)
-            .clickable { println("Button Clicked!") }
+            .clickable {onClick()}
             .background(GreyBG)
             .padding(15.dp)
             .fillMaxWidth()

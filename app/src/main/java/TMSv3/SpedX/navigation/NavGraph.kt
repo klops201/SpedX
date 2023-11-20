@@ -9,12 +9,14 @@ import TMSv3.SpedX.navigation.Screen.ForgotPasswordScreen
 import TMSv3.SpedX.navigation.Screen.ProfileScreen
 import TMSv3.SpedX.navigation.Screen.SignInScreen
 import TMSv3.SpedX.navigation.Screen.SignUpScreen
+import TMSv3.SpedX.navigation.Screen.OrdersScreen
 import TMSv3.SpedX.navigation.Screen.VerifyEmailScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
 import TMSv3.SpedX.presentation.sign_in.SignInScreen
 import TMSv3.SpedX.presentation.sign_up.SignUpScreen
 import TMSv3.SpedX.presentation.verify_email.VerifyEmailScreen
+import TMSv3.SpedX.presentation.orders_list.OrdersScreen
 
 @Composable
 @ExperimentalComposeUiApi
@@ -71,7 +73,20 @@ fun NavGraph(
         composable(
             route = ProfileScreen.route
         ) {
-            ProfileScreen()
+            ProfileScreen(navController = navController,
+                navigateToOrdersScreen = {
+                    navController.navigate(OrdersScreen.route)
+                })
+        }
+        composable(
+            route = OrdersScreen.route
+        ) {
+            OrdersScreen(
+                navController = navController,
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
         }
     }
 }

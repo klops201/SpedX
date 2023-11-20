@@ -1,4 +1,4 @@
-package TMSv3.SpedX.presentation.profile.components
+package TMSv3.SpedX.presentation.orders_list.components
 
 import TMSv3.SpedX.R
 import androidx.compose.foundation.layout.Box
@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.produceState
@@ -34,12 +35,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 @Composable
-fun ProfileContent(
-    padding: PaddingValues,
-    uEmail: String,
-    navigateToOrdersScreen: () -> Unit
+fun OrdersContent(padding: PaddingValues,
 ) {
-    var goOrders: Boolean = false
 //    Box(
 //        modifier = Modifier
 //            .fillMaxSize()
@@ -55,70 +52,19 @@ fun ProfileContent(
 //        )
 //
 //    }
-    val scrollState = rememberScrollState()
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .clip(componentShapes.small)
-            .background(Color.White)// wazna kolejnosc
-            .padding(28.dp)
-            .verticalScroll(state = scrollState)
-    ) {
-        Column (modifier = Modifier
-            .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
-            Greeting(userEmail = uEmail)
-
-            Spacer(modifier = Modifier.height(35.dp))
-
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
-
-                BoxDate()
-
-            }
-
-
-            Spacer(modifier = Modifier.height(17.dp))
-
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
-
-                ImageBoxMap()
-                Spacer(modifier = Modifier.width(17.dp))
-                BoxSent()
-            }
-
-            Spacer(modifier = Modifier.height(17.dp))
-
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
-
-                OrderList(onClick = {navigateToOrdersScreen()})
-
-            }
-            Spacer(modifier = Modifier.height(17.dp))
-
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
-
-                EtollBox()
-                Spacer(modifier = Modifier.width(17.dp))
-                SettingsBox()
-            }
-
-            Spacer(modifier = Modifier.height(17.dp))
-
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
-
-                WinietBox()
-                Spacer(modifier = Modifier.width(17.dp))
-                AutoSatNetBox()
-            }
-
+    LazyColumn {
+        item {
+            Text(text = "First Item")
         }
 
+        items(count = 14) { countValue ->
+            Text(text = "Items: $countValue")
+        }
 
-
+        item {
+            Text(text = "Last Item")
+        }
     }
-
-
-
 
 
 

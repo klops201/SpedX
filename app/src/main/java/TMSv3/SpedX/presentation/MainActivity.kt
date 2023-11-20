@@ -11,9 +11,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import TMSv3.SpedX.navigation.NavGraph
+import TMSv3.SpedX.navigation.Screen
 import TMSv3.SpedX.navigation.Screen.ProfileScreen
 import TMSv3.SpedX.navigation.Screen.SignInScreen
 import TMSv3.SpedX.navigation.Screen.VerifyEmailScreen
+import TMSv3.SpedX.navigation.Screen.OrdersScreen
 
 @AndroidEntryPoint
 @ExperimentalComposeUiApi
@@ -59,6 +61,7 @@ class MainActivity : ComponentActivity() {//// cala logika odsyłania do ekranó
             inclusive = true
         }
     }
+
 
     @Composable
     private fun NavigateToVerifyEmailScreen() = navController.navigate(VerifyEmailScreen.route) {
