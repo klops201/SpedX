@@ -38,7 +38,4 @@ class OrdersViewModel @Inject constructor(
         revokeAccessResponse = repo.revokeAccess()
     }
 
-    //val userEmail = MutableStateFlow("")
-    val userEmail get() = repo.currentUser?.email?: ""
-
 }

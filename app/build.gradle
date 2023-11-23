@@ -53,7 +53,10 @@ dependencies {
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version"
     //Firebase
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
-    implementation "com.google.firebase:firebase-auth-ktx"
+    implementation "com.google.firebase:firebase-auth"
+    implementation 'com.google.firebase:firebase-database:20.3.0'
+    implementation 'com.google.firebase:firebase-firestore:24.9.1'
+    //implementation "com.google.firebase:firebase-firestore-ktx"
     //Material3
     implementation("androidx.compose.material3:material3:1.1.2")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
