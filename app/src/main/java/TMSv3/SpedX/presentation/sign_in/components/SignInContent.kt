@@ -26,6 +26,8 @@ import TMSv3.SpedX.core.Constants.NO_ACCOUNT
 import TMSv3.SpedX.core.Constants.SIGN_IN_BUTTON
 import TMSv3.SpedX.core.Constants.VERTICAL_DIVIDER
 
+import com.google.firebase.annotations.PreviewApi
+
 @Composable
 @ExperimentalComposeUiApi
 fun SignInContent(
@@ -112,3 +114,5 @@ fun SignInContent(
         }
     }
 }
+
+

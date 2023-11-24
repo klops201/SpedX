@@ -12,7 +12,8 @@ import TMSv3.SpedX.presentation.sign_up.SignUpViewModel
 fun SignUp(
     viewModel: SignUpViewModel = hiltViewModel(),
     sendEmailVerification: () -> Unit,
-    showVerifyEmailMessage: () -> Unit
+    showVerifyEmailMessage: () -> Unit,
+    createUserFirestore: () -> Unit,
 ) {
     when(val signUpResponse = viewModel.signUpResponse) {
         is Loading -> ProgressBar()
@@ -22,6 +23,7 @@ fun SignUp(
                 if (isUserSignedUp) {
                     sendEmailVerification()
                     showVerifyEmailMessage()
+                    createUserFirestore()
                 }
             }
         }

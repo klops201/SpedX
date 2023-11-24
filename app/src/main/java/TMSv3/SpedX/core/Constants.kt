@@ -24,6 +24,7 @@ object Constants {
     //Labels
     const val EMAIL_LABEL = "Email"
     const val PASSWORD_LABEL = "Password"
+    const val NAME_LABEL = "Imię"
 
     //Useful
     const val EMPTY_STRING = ""

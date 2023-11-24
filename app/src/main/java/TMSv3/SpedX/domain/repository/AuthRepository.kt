@@ -11,6 +11,7 @@ typealias SignInResponse = Response<Boolean>
 typealias ReloadUserResponse = Response<Boolean>
 typealias SendPasswordResetEmailResponse = Response<Boolean>
 typealias RevokeAccessResponse = Response<Boolean>
+typealias CreateUserResponse = Response<Boolean>
 typealias AuthStateResponse = StateFlow<Boolean>
 
 interface AuthRepository {
@@ -19,6 +20,8 @@ interface AuthRepository {
     suspend fun firebaseSignUpWithEmailAndPassword(email: String, password: String): SignUpResponse
 
     suspend fun sendEmailVerification(): SendEmailVerificationResponse
+
+    suspend fun createFirebaseUser(name: String): CreateUserResponse
 
     suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String): SignInResponse
 

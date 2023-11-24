@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.sp
 import TMSv3.SpedX.components.EmailField
 import TMSv3.SpedX.components.PasswordField
+import TMSv3.SpedX.components.NameField
 import TMSv3.SpedX.components.SmallSpacer
 import TMSv3.SpedX.core.Constants.ALREADY_USER
 import TMSv3.SpedX.core.Constants.EMPTY_STRING
@@ -26,7 +27,7 @@ import TMSv3.SpedX.core.Constants.SIGN_UP_BUTTON
 @ExperimentalComposeUiApi
 fun SignUpContent(
     padding: PaddingValues,
-    signUp: (email: String, password: String) -> Unit,
+    signUp: (name: String, email: String, password: String) -> Unit,
     navigateBack: () -> Unit
 ) {
     var email by rememberSaveable(
@@ -49,6 +50,17 @@ fun SignUpContent(
             )
         }
     )
+
+    var name by rememberSaveable(
+        stateSaver = TextFieldValue.Saver,
+        init = {
+            mutableStateOf(
+                value = TextFieldValue(
+                    text = EMPTY_STRING
+                )
+            )
+        }
+    )
     val keyboard = LocalSoftwareKeyboardController.current
 
     Column(
@@ -58,6 +70,13 @@ fun SignUpContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        NameField(
+            name = name,
+            onNameValueChange = { newValue ->
+                name = newValue
+            }
+        )
+        SmallSpacer()
         EmailField(
             email = email,
             onEmailValueChange = { newValue ->
@@ -75,7 +94,7 @@ fun SignUpContent(
         Button(
             onClick = {
                 keyboard?.hide()
-                signUp(email.text, password.text)
+                signUp(name.text, email.text, password.text)
             }
         ) {
             Text(

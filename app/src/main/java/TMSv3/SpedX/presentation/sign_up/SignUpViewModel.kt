@@ -10,8 +10,10 @@ import kotlinx.coroutines.launch
 import TMSv3.SpedX.domain.model.Response.Loading
 import TMSv3.SpedX.domain.model.Response.Success
 import TMSv3.SpedX.domain.repository.AuthRepository
+import TMSv3.SpedX.domain.repository.CreateUserResponse
 import TMSv3.SpedX.domain.repository.SendEmailVerificationResponse
 import TMSv3.SpedX.domain.repository.SignUpResponse
+import androidx.compose.runtime.State
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,13 +25,26 @@ class SignUpViewModel @Inject constructor(
     var sendEmailVerificationResponse by mutableStateOf<SendEmailVerificationResponse>(Success(false))
         private set
 
+    val _name = mutableStateOf("")
+    val name: State<String> = _name
+
+
+    var createUserResponse by mutableStateOf<CreateUserResponse>(Success(false))
+        private set
+
     fun signUpWithEmailAndPassword(email: String, password: String) = viewModelScope.launch {
         signUpResponse = Loading
-        signUpResponse = repo.firebaseSignUpWithEmailAndPassword(email, password)
+        signUpResponse = repo.firebaseSignUpWithEmailAndPassword( email, password)
     }
 
     fun sendEmailVerification() = viewModelScope.launch {
         sendEmailVerificationResponse = Loading
         sendEmailVerificationResponse = repo.sendEmailVerification()
     }
+
+    fun createFirebaseUser(name: String) = viewModelScope.launch {
+        createUserResponse = Loading
+        createUserResponse = repo.createFirebaseUser(name)
+    }
+
 }

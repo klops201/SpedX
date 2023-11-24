@@ -15,6 +15,7 @@ import TMSv3.SpedX.domain.repository.AuthRepository
 import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,7 +30,7 @@ class AuthRepositoryImpl @Inject constructor(
         email: String, password: String
     ) = try {
         auth.createUserWithEmailAndPassword(email, password).await()
-        createUserInFirestore()
+        Log.d(TAG, "po stworzeniu user: $currentUser")
         Success(true)
     } catch (e: Exception) {
         Failure(e)
@@ -85,39 +86,48 @@ class AuthRepositoryImpl @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), auth.currentUser == null)
 
 
+    override suspend fun createFirebaseUser(name: String) = try {
+        Log.d(TAG, "createFirebaseUser: $currentUser")
+        auth.currentUser?.apply {
+            Log.d(TAG, "po user apply")
+            val user = toUser(name)
+            Log.d(TAG, "po funkcji toUser")
+            val uid = currentUser?.uid ?: name
+            Log.d(TAG, "user id: $uid")
+            db.collection("users")
+                .document(uid)
+                .set(user)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "DocumentSnapshot added with ID: $uid")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding document", e)
+                }.await()
+        }
+        Log.d(TAG, "createUserInFirestore: $name")
+        Success(true)
+    } catch (e: Exception) {
+        Failure(e)
+    }
 
 
-//    private suspend fun createUserInFirestore() {
+//    private fun createUserInFirestore(name: String) {
+//        Log.d(TAG, "ostatnia funkcja---------------------------------")
 //        auth.currentUser?.apply {
-//            val user = hashMapOf(
-//                "first" to "Ada",
-//                "last" to "Lovelace",
-//                "born" to 1815)
+//            val user = toUser(name)
+//            val uid = currentUser?.uid ?: name
+//            Log.d(TAG, "ostatnia funkcja: $uid")
 //            db.collection("users")
-//                .add(user)
+//                .document("test")
+//                .set(user)
 //                .addOnSuccessListener { documentReference ->
-//                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+//                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
 //                }
 //                .addOnFailureListener { e ->
 //                    Log.w(TAG, "Error adding document", e)
 //                }
 //        }
 //    }
-    private suspend fun createUserInFirestore() {
-        auth.currentUser?.apply {
-            val user = toUser()
-            val uid = currentUser?.uid ?: "brak id"
-            db.collection("users")
-                .document(uid)
-                .set(user)
-                .addOnSuccessListener { documentReference ->
-                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Error adding document", e)
-                }
-        }
-    }
 
 
 
@@ -125,7 +135,8 @@ class AuthRepositoryImpl @Inject constructor(
 }
 
 
-fun FirebaseUser.toUser() = mapOf(
-    "email" to email
+fun FirebaseUser.toUser(name: String) = mapOf(
+    "email" to email,
+    "name" to name
 )
 
