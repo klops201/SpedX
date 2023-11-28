@@ -111,27 +111,6 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
 
-//    private fun createUserInFirestore(name: String) {
-//        Log.d(TAG, "ostatnia funkcja---------------------------------")
-//        auth.currentUser?.apply {
-//            val user = toUser(name)
-//            val uid = currentUser?.uid ?: name
-//            Log.d(TAG, "ostatnia funkcja: $uid")
-//            db.collection("users")
-//                .document("test")
-//                .set(user)
-//                .addOnSuccessListener { documentReference ->
-//                    Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference}")
-//                }
-//                .addOnFailureListener { e ->
-//                    Log.w(TAG, "Error adding document", e)
-//                }
-//        }
-//    }
-
-
-
-
 }
 
 

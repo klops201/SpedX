@@ -36,7 +36,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 @Composable
 fun ProfileContent(
     padding: PaddingValues,
-    uEmail: String,
+    userName: String,
     navigateToOrdersScreen: () -> Unit
 ) {
     var goOrders: Boolean = false
@@ -66,7 +66,7 @@ fun ProfileContent(
     ) {
         Column (modifier = Modifier
             .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
-            Greeting(userEmail = uEmail)
+            Greeting(userName = userName)
 
             Spacer(modifier = Modifier.height(35.dp))
 

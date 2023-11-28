@@ -10,19 +10,30 @@ import kotlinx.coroutines.launch
 import TMSv3.SpedX.domain.model.Response.Loading
 import TMSv3.SpedX.domain.model.Response.Success
 import TMSv3.SpedX.domain.repository.AuthRepository
+import TMSv3.SpedX.domain.repository.MainRepository
 import TMSv3.SpedX.domain.repository.ReloadUserResponse
 import TMSv3.SpedX.domain.repository.RevokeAccessResponse
+import TMSv3.SpedX.domain.repository.CreateUserResponse
+import TMSv3.SpedX.domain.repository.UserNameResponse
+import androidx.compose.runtime.State
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val repo: AuthRepository
+    private val repo: AuthRepository,
+    private val repoM: MainRepository
 ): ViewModel() {
     var revokeAccessResponse by mutableStateOf<RevokeAccessResponse>(Success(false))
         private set
     var reloadUserResponse by mutableStateOf<ReloadUserResponse>(Success(false))
         private set
+    var createUserAppResponse by mutableStateOf<UserNameResponse>(Loading)
+        private set
+
+    val _nameFirebase = mutableStateOf("")
+    val nameFirebase: State<String> = _nameFirebase
+
 
     fun reloadUser() = viewModelScope.launch {
         reloadUserResponse = Loading
@@ -39,6 +50,13 @@ class ProfileViewModel @Inject constructor(
     }
 
     //val userEmail = MutableStateFlow("")
-    val userEmail get() = repo.currentUser?.email?: ""
+    //val userEmail get() = repo.currentUser?.email?: ""
+
+    fun getUserName() = viewModelScope.launch {
+        createUserAppResponse = repoM.getUserName()
+    }
+
+
+
 
 }

@@ -91,10 +91,9 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 
 @Composable
-fun Greeting(userEmail: String){
-    //val viewModel: ProfileViewModel = viewModel()
+fun Greeting(userName: String){
     Text(
-        text = userEmail,
+        text = "Cześć $userName",
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 40.dp),

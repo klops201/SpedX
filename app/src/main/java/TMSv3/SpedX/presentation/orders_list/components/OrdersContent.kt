@@ -37,21 +37,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 @Composable
 fun OrdersContent(padding: PaddingValues,
 ) {
-//    Box(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(Color.White)// wazna kolejnosc
-//            .padding(28.dp)
-//    ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.dog),
-//            modifier = Modifier.fillMaxSize(),
-//            contentDescription = "Background Image",
-//            contentScale = ContentScale.Crop
-//            //contentScale = ContentScale.Crop
-//        )
-//
-//    }
     LazyColumn {
         item {
             Text(text = "First Item")

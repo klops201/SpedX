@@ -8,6 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import TMSv3.SpedX.components.TopBar
 import TMSv3.SpedX.core.Constants.PROFILE_SCREEN
 import TMSv3.SpedX.navigation.Screen
+import TMSv3.SpedX.presentation.profile.components.LoadUserName
 import TMSv3.SpedX.presentation.profile.components.ProfileContent
 import TMSv3.SpedX.presentation.profile.components.RevokeAccess
 import androidx.navigation.NavController
@@ -22,6 +23,10 @@ fun ProfileScreen(
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
 
+    viewModel.getUserName()
+    LoadUserName(onSuccess = {userName ->
+        viewModel._nameFirebase.value = userName
+    })
     Scaffold(
         topBar = {
             TopBar(
@@ -37,7 +42,7 @@ fun ProfileScreen(
         content = { padding ->
             ProfileContent(
                 padding = padding,
-                uEmail = viewModel.userEmail,
+                userName = viewModel._nameFirebase.value,
                 navigateToOrdersScreen = navigateToOrdersScreen
             )
         },
