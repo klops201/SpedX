@@ -7,8 +7,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import TMSv3.SpedX.data.repository.AuthRepositoryImpl
 import TMSv3.SpedX.data.repository.MainRepositoryImpl
+import TMSv3.SpedX.data.repository.OrderRepositoryImpl
 import TMSv3.SpedX.domain.repository.AuthRepository
 import TMSv3.SpedX.domain.repository.MainRepository
+import TMSv3.SpedX.domain.repository.OrderRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -47,6 +49,13 @@ object AppModule {
         db = db
     )
 
+
+    @Provides
+    fun provideOrdersRepository(auth: FirebaseAuth, db: FirebaseFirestore,
+    ): OrderRepository = OrderRepositoryImpl(
+        auth = auth,
+        db = db
+    )
 
 
 
