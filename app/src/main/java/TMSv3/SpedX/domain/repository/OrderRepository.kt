@@ -7,9 +7,11 @@ import kotlinx.coroutines.flow.Flow
 
 
 typealias getOrdersResponse = Response<List<Order>>
+typealias getOrderDetailsResponse = Response<Order?>
 
 
 interface OrderRepository {
 
     suspend fun getOrdersList(): getOrdersResponse
+    suspend fun getOrderDetails(orderID: String): getOrderDetailsResponse
 }

@@ -39,9 +39,6 @@ class OrdersViewModel @Inject constructor(
         Log.d(Constants.TAG, "ViewModel initialized with orders viewModel: $_ordersList")
     }
 
-    var _ordersList = listOf<Order>()
-
-
 
     fun reloadUser() = viewModelScope.launch {
         reloadUserResponse = Loading

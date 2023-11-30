@@ -51,23 +51,23 @@ import androidx.compose.runtime.remember
 @Composable
 fun OrdersContent(padding: PaddingValues,
     viewModel: OrdersViewModel = hiltViewModel(),
+          orderClicked: (String?) -> Unit
 ) {
 
         getOrders { orders ->
-            viewModel._ordersList = orders.toList()
-            val testList = viewModel._ordersList
-            Log.d(Constants.TAG, "test in ordersContent: $testList")
-
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
                 contentPadding = PaddingValues(8.dp)
             ) {
-                items(testList) { order ->
+                items(orders) { order ->
                     Log.d(Constants.TAG, "exe funct lazy column -------------------: $order")
-                    ShowOrder(order = order)
+                    val clickecOrderID = order.orderId
+                    ShowOrder(order = order, onClick = {
+                        Log.d(Constants.TAG, "ORDER CLICKED---------CHECK ORDERID---------->>>>: $order")
+                        orderClicked(clickecOrderID)
+                        } )
                 }
             }
 
@@ -76,22 +76,23 @@ fun OrdersContent(padding: PaddingValues,
     }
 
 @Composable
-fun ShowOrder(order: Order) {
+fun ShowOrder(order: Order, onClick: (String?) -> Unit) {
     Row(
         modifier = Modifier
             .background(MaterialTheme.colors.primary)
             .fillMaxWidth()
+            .clickable { onClick(order.orderId) }
             .padding(vertical = 4.dp, horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            "Zamówienie o nr:        ",
+            "Zamówienie :        ",
             style = MaterialTheme.typography.subtitle1,
             color = Color.White
         )
         Spacer(Modifier.width(10.dp))
         Text(
-            text = "${order.orderId}",
+            text = "${order.orderTitle}",
             style = MaterialTheme.typography.subtitle1,
             color = Color.White
         )

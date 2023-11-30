@@ -83,6 +83,7 @@ import TMSv3.SpedX.presentation.uiTheme.tmsOnContainer
 import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
 import TMSv3.SpedX.R
 import TMSv3.SpedX.presentation.profile.ProfileViewModel
+import androidx.compose.material.icons.filled.Add
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
@@ -118,6 +119,20 @@ fun GetDayDate():String{
     val currentDateAndTime = sdf.format(Date())
     return currentDateAndTime
 }
+
+
+
+
+@Composable
+fun Example(onClick: () -> Unit) {
+    FloatingActionButton(
+        onClick = { onClick() },
+    ) {
+        Icon(Icons.Filled.Add, "Floating action button.")
+    }
+}
+
+
 
 
 
