@@ -1,5 +1,6 @@
 package TMSv3.SpedX.navigation
 
+import TMSv3.SpedX.core.Constants.ADD_ORDER_SCREEN
 import TMSv3.SpedX.core.Constants.FORGOT_PASSWORD_SCREEN
 import TMSv3.SpedX.core.Constants.ORDERS_SCREEN
 import TMSv3.SpedX.core.Constants.PICK_ORDER_SCREEN
@@ -16,4 +17,5 @@ sealed class Screen(val route: String) {
     object ProfileScreen: Screen(PROFILE_SCREEN)
     object OrdersScreen: Screen(ORDERS_SCREEN)
     object PickOrderScreen: Screen(PICK_ORDER_SCREEN)
+    object AddOrderScreen: Screen(ADD_ORDER_SCREEN)
 }

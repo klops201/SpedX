@@ -15,6 +15,7 @@ import TMSv3.SpedX.navigation.Screen.SignUpScreen
 import TMSv3.SpedX.navigation.Screen.OrdersScreen
 import TMSv3.SpedX.navigation.Screen.PickOrderScreen
 import TMSv3.SpedX.navigation.Screen.VerifyEmailScreen
+import TMSv3.SpedX.navigation.Screen.AddOrderScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
 import TMSv3.SpedX.presentation.sign_in.SignInScreen
@@ -22,6 +23,7 @@ import TMSv3.SpedX.presentation.sign_up.SignUpScreen
 import TMSv3.SpedX.presentation.verify_email.VerifyEmailScreen
 import TMSv3.SpedX.presentation.orders_list.OrdersScreen
 import TMSv3.SpedX.presentation.pick_order.PickOrderScreen
+import TMSv3.SpedX.presentation.add_order.AddOrderScreen
 import android.util.Log
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -87,6 +89,15 @@ fun NavGraph(
                 })
         }
         composable(
+            route = AddOrderScreen.route
+        ) {
+            AddOrderScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                }, navigateToOrders = { navController.navigate(OrdersScreen.route)}
+                )
+        }
+        composable(
             route = OrdersScreen.route
         ) {
             OrdersScreen(
@@ -95,6 +106,7 @@ fun NavGraph(
                     navController.popBackStack()
                 },
                 navigateToAddOrder = {
+                    navController.navigate(AddOrderScreen.route)
                 },
                 navigateToOrderDetails = {
                         clickedOrderID ->
@@ -105,18 +117,6 @@ fun NavGraph(
                 }
             )
         }
-
-//        composable(
-//            route = PickOrderScreen.route
-//        ) {
-//            PickOrderScreen(
-//                navController = navController,
-//                navigateBack = {
-//                    navController.popBackStack()
-//                },
-////                orderId = "2"
-//            )
-//        }
 
         composable(
             route = "${PickOrderScreen.route}/{$ORDER_ID}",

@@ -177,7 +177,7 @@ fun OrderList(onClick: () -> Unit) {
                     modifier = Modifier
                         .align(Alignment.Center),
                     textAlign = TextAlign.Center,
-                    text = "Lista przewozów",
+                    text = "Lista zleceń",
                     fontSize = 20.sp
                 )
             }

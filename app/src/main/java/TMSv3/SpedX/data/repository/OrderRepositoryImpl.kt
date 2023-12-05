@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.domain.model.OrdersList
 import TMSv3.SpedX.domain.model.Response
+import TMSv3.SpedX.domain.repository.addOrderResponse
 import TMSv3.SpedX.domain.repository.getOrderDetailsResponse
 import TMSv3.SpedX.domain.repository.getOrdersResponse
 import com.google.firebase.firestore.Query
@@ -68,6 +69,41 @@ class OrderRepositoryImpl @Inject constructor(
 
 
     }
+
+    override suspend fun addOrder(
+        orderTitle: String,
+        orderID: String,
+        position: String?,
+        finalDest: String,
+        startDest: String,
+        cargoName: String,
+        cargoWeight: Int,
+        driverID: String,
+        cmrID: String?,
+        createAt: String
+    ): addOrderResponse {
+        return try {
+            val order = Order(
+                orderTitle,
+                orderID,
+                position,
+                finalDest,
+                startDest,
+                cargoName,
+                cargoWeight,
+                driverID,
+                cmrID,
+                createAt
+            )
+            userRef.collection("orders").document()
+                .set(order).await()
+
+            Success(true)
+        } catch (e: Exception) {
+            Failure(e)
+
+        }    }
+
 
 
 

@@ -11,6 +11,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.job
 
 @Composable
@@ -43,3 +44,11 @@ fun NameField(
         }
     }
 }
+
+
+
+//@Preview
+//@Composable
+//fun checkPPPP(){
+//    NameField(name = TextFieldValue() , onNameValueChange = {})
+//}
