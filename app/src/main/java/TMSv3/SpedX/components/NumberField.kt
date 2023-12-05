@@ -25,12 +25,14 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NumberField(  labelValue: String,
-                  value: Int,
-                  onValueChange: (newValue: Int) -> Unit) { // okna do wpisywania danych
+                  value: TextFieldValue,
+                  onValueChange: (newValue: TextFieldValue) -> Unit) { // okna do wpisywania danych
 
 
     OutlinedTextField(
-        label = { labelValue },
+        label = {
+            Text(text = labelValue)
+        },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = colorResource(id = R.color.colorText),
             focusedBorderColor = colorResource(id = R.color.colorRed), //kolor ramki przy wpisywaniu tekstu
@@ -41,11 +43,8 @@ fun NumberField(  labelValue: String,
         singleLine = true,
         shape = RoundedCornerShape(12.dp),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-        value = value.toString(),
-        onValueChange = { newText ->
-            val newValue = newText.toIntOrNull()
-            if (newValue != null) {
-                onValueChange(newValue)
-            }
-        })
+        value = value,
+        onValueChange = { newValue ->
+            onValueChange(newValue)
+        },)
 }

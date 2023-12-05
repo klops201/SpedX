@@ -115,9 +115,16 @@ fun AddOrderContent(
             )
         }
     )
-    var cargoWeight by rememberSaveable {
-        mutableStateOf<Int?>(null)
-    }
+    var cargoWeight by rememberSaveable(
+        stateSaver = TextFieldValue.Saver,
+        init = {
+            mutableStateOf(
+                value = TextFieldValue(
+                    text = Constants.EMPTY_STRING
+                )
+            )
+        }
+    )
     var driverID by rememberSaveable(
         stateSaver = TextFieldValue.Saver,
         init = {
@@ -206,7 +213,7 @@ fun AddOrderContent(
         Spacer(modifier = Modifier.height(17.dp))
         NumberField(
             labelValue = "Waga ładunku",
-            value = cargoWeight?: 0,
+            value = cargoWeight,
             onValueChange = { newValue ->
                 cargoWeight = newValue
             }
@@ -229,7 +236,7 @@ fun AddOrderContent(
         )
         Spacer(modifier = Modifier.height(17.dp))
         DataTextField(
-            labelValue = "Data utworzenia",
+            labelValue = "Data utworzenia dd-mm-rrrr",
             data = createAt,
             onDataValueChange = { newValue ->
                 createAt = newValue
@@ -239,7 +246,7 @@ fun AddOrderContent(
         Button(
             onClick = {
                 addOrder(orderTitle.text, orderID.text, position.text, finalDest.text,
-                    startDest.text, cargoName.text, cargoWeight ?: 0, driverID.text, cmrID.text,
+                    startDest.text, cargoName.text, cargoWeight.text.toInt(), driverID.text, cmrID.text,
                     createAt.text)
                 navigateToOrdersScr()
             }
