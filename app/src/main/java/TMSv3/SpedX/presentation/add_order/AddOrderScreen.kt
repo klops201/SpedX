@@ -15,11 +15,13 @@ import TMSv3.SpedX.presentation.profile.components.ProfileContent
 import TMSv3.SpedX.presentation.profile.components.RevokeAccess
 import android.util.Log
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.navigation.NavController
 import com.google.firebase.annotations.PreviewApi
+import kotlinx.coroutines.launch
 
 @Composable
 fun AddOrderScreen(
@@ -38,7 +40,15 @@ fun AddOrderScreen(
                     createAt -> viewModel.addOrderFirebase(orderTitle, orderID, position, finalDest,
                     startDest, cargoName, cargoWeight, driverID, cmrID,
                     createAt)},
-                navigateToOrdersScr = navigateToOrders)
+                navigateToOrdersScr = navigateToOrders,
+                showSnackBar = {
+                    coroutineScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            message = "Uzupełenij pola!",
+                            duration = SnackbarDuration.Short
+                        )
+                    }
+                })
         },
         scaffoldState = scaffoldState,
     )

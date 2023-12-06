@@ -46,6 +46,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 
+
+
+
 @Composable
 fun AddOrderContent(
     padding: PaddingValues,
@@ -53,7 +56,10 @@ fun AddOrderContent(
             startDest: String, cargoName: String, cargoWeight: Int,
             driverID: String, cmrID: String?, createAt: String) -> Unit,
             navigateToOrdersScr: () -> Unit,
+    showSnackBar: () -> Unit,
 ){
+
+
     val scrollState = rememberScrollState()
     var orderTitle by rememberSaveable(
         stateSaver = TextFieldValue.Saver,
@@ -245,10 +251,26 @@ fun AddOrderContent(
         SmallSpacer()
         Button(
             onClick = {
-                addOrder(orderTitle.text, orderID.text, position.text, finalDest.text,
-                    startDest.text, cargoName.text, cargoWeight.text.toInt(), driverID.text, cmrID.text,
-                    createAt.text)
-                navigateToOrdersScr()
+                if (areFieldsFilled(orderTitle, orderID, finalDest,
+                        startDest, cargoName, cargoWeight, driverID,
+                        createAt))
+                {
+                    addOrder(
+                        orderTitle.text,
+                        orderID.text,
+                        position.text,
+                        finalDest.text,
+                        startDest.text,
+                        cargoName.text,
+                        cargoWeight.text.toInt(),
+                        driverID.text,
+                        cmrID.text,
+                        createAt.text
+                    )
+                    navigateToOrdersScr()
+                }else{
+                    showSnackBar()
+                }
             }
         ) {
             androidx.compose.material.Text(
@@ -260,3 +282,15 @@ fun AddOrderContent(
 
 }
 
+private fun areFieldsFilled(orderTitle: TextFieldValue, orderID: TextFieldValue, finalDest: TextFieldValue,
+                               startDest: TextFieldValue, cargoName: TextFieldValue, cargoWeight: TextFieldValue,
+                               driverID: TextFieldValue, createAt: TextFieldValue): Boolean {
+    return orderTitle.text.isNotEmpty() &&
+            orderID.text.isNotEmpty() &&
+            startDest.text.isNotEmpty() &&
+            finalDest.text.isNotEmpty() &&
+            cargoName.text.isNotEmpty() &&
+            cargoWeight.text.isNotEmpty() &&
+            driverID.text.isNotEmpty() &&
+            createAt.text.isNotEmpty()
+}
