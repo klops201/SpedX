@@ -1,20 +1,16 @@
 package TMSv3.SpedX.data.repository
 
 import TMSv3.SpedX.core.Constants
-import TMSv3.SpedX.domain.model.Response.*
-import TMSv3.SpedX.domain.model.UserApp
-import TMSv3.SpedX.domain.repository.OrderRepository
-import android.util.Log
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.flow.Flow
 import TMSv3.SpedX.domain.model.Order
-import TMSv3.SpedX.domain.model.OrdersList
-import TMSv3.SpedX.domain.model.Response
+import TMSv3.SpedX.domain.model.Response.*
+import TMSv3.SpedX.domain.repository.OrderRepository
 import TMSv3.SpedX.domain.repository.addOrderResponse
+import TMSv3.SpedX.domain.repository.editOrderResponse
 import TMSv3.SpedX.domain.repository.getOrderDetailsResponse
 import TMSv3.SpedX.domain.repository.getOrdersResponse
+import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -54,14 +50,15 @@ class OrderRepositoryImpl @Inject constructor(
     override suspend fun getOrderDetails(orderID: String): getOrderDetailsResponse {
 
         return try {
-            val orderDetailRef = userRef.collection("orders").whereEqualTo("orderId", orderID)
-            Log.d(Constants.TAG, "przed snapshot--------------pobranie konkretnego orderu:: $orderID")
+            val orderDetailRef = userRef.collection("orders").document(orderID)
+//            Log.d(Constants.TAG, "przed snapshot--------------pobranie konkretnego orderu:: $orderID")
             val snapshot = orderDetailRef.get().await()
-            Log.d(Constants.TAG, "po snapshot--------------snapshot rozmiar:: ${snapshot.documents.size}")
-            val ordersList = snapshot.documents.map { doc ->
-                doc.toObject(Order::class.java)
-            }
-            val order = ordersList.first()
+//            Log.d(Constants.TAG, "po snapshot--------------snapshot rozmiar:: ${snapshot.documents.size}")
+//            val ordersList = snapshot.documents.map { doc ->
+//                doc.toObject(Order::class.java)
+//            }
+//            val order = ordersList.first()
+            val order = snapshot.toObject(Order::class.java)
             Success(order)
         } catch (e: Exception) {
             Failure(e)
@@ -83,7 +80,11 @@ class OrderRepositoryImpl @Inject constructor(
         createAt: String
     ): addOrderResponse {
         return try {
+            val docId: String = userRef.collection("orders").document().getId()
+
+
             val order = Order(
+                docId,
                 orderTitle,
                 orderID,
                 position,
@@ -95,7 +96,7 @@ class OrderRepositoryImpl @Inject constructor(
                 cmrID,
                 createAt
             )
-            userRef.collection("orders").document()
+            userRef.collection("orders").document(docId)
                 .set(order).await()
 
             Success(true)
@@ -104,8 +105,47 @@ class OrderRepositoryImpl @Inject constructor(
 
         }    }
 
+    override suspend fun editOrder(
+        orderTitle: String,
+        orderID: String,
+        position: String,
+        finalDest: String,
+        startDest: String,
+        cargoName: String,
+        cargoWeight: Int,
+        driverID: String,
+        cmrID: String,
+        createAt: String
+    ): editOrderResponse {
+        return try {
+            val orderDetailRef = userRef.collection("orders").whereEqualTo("orderId", orderID).limit(1)
+            Log.d(Constants.TAG, "przed snapshot--------------pobranie konkretnego orderu EDYCJA:: $orderID")
+            db.collection("orders").document("frank")
+                .update(
+                    mapOf(
+                        "orderTitle" to orderTitle,
+                        "orderId" to orderID,
+                        "position" to position,
+                        "finaldestination" to finalDest,
+                        "startdestination" to startDest,
+                        "cargoName" to cargoName,
+                        "cargoWeight" to cargoWeight,
+                        "driverId" to driverID,
+                        "cmrId" to cmrID,
+                        "createAt" to createAt,
+
+                    ),
+                )
 
 
 
 
-}
+
+        Success(true)
+    } catch (e: Exception) {
+            Failure(e)
+
+        }
+
+
+}}

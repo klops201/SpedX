@@ -1,6 +1,5 @@
-package TMSv3.SpedX.presentation.add_order
+package TMSv3.SpedX.presentation.orders.add_order
 
-import TMSv3.SpedX.domain.model.Response
 import TMSv3.SpedX.domain.repository.OrderRepository
 import TMSv3.SpedX.domain.repository.addOrderResponse
 import androidx.compose.runtime.getValue

@@ -1,4 +1,4 @@
-package TMSv3.SpedX.presentation.orders_list
+package TMSv3.SpedX.presentation.orders.orders_list
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -8,8 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import TMSv3.SpedX.components.TopBar
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.core.Constants.ORDERS_SCREEN
-import TMSv3.SpedX.presentation.orders_list.components.OrdersContent
-import TMSv3.SpedX.presentation.profile.components.ProfileContent
+import TMSv3.SpedX.presentation.orders.orders_list.components.OrdersContent
 import TMSv3.SpedX.presentation.profile.components.RevokeAccess
 import android.util.Log
 import androidx.compose.material.FloatingActionButton
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.navigation.NavController
-import com.google.firebase.annotations.PreviewApi
 
 @Composable
 fun OrdersScreen(

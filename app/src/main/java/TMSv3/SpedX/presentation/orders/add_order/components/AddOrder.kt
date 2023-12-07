@@ -1,10 +1,8 @@
-package TMSv3.SpedX.presentation.add_order.components
+package TMSv3.SpedX.presentation.orders.add_order.components
 
 import TMSv3.SpedX.components.ProgressBar
 import TMSv3.SpedX.core.Utils
-import TMSv3.SpedX.domain.model.Response
-import TMSv3.SpedX.presentation.add_order.AddOrderViewModel
-import TMSv3.SpedX.presentation.sign_up.SignUpViewModel
+import TMSv3.SpedX.presentation.orders.add_order.AddOrderViewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel

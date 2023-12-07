@@ -1,4 +1,4 @@
-package TMSv3.SpedX.presentation.orders_list.components
+package TMSv3.SpedX.presentation.orders.orders_list.components
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarResult

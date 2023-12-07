@@ -16,6 +16,7 @@ object Constants {
     //Order
     const val ORDER_DETAILS = "Informacje o zleceniu"
     const val ADD_ORDER = "Dodaj zlecenie"
+    const val EDIT_ORDER = "Edytuj zlecenie"
 
 
 
@@ -37,6 +38,7 @@ object Constants {
     const val ORDERS_SCREEN = "Zlecenia"
     const val PICK_ORDER_SCREEN = "Zlecenie "
     const val ADD_ORDER_SCREEN = "Dodaj zlecenie"
+    const val EDIT_ORDER_SCREEN = "Edytuj zlecenie"
 
     //Labels
     const val EMAIL_LABEL = "Email"

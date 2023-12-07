@@ -16,14 +16,16 @@ import TMSv3.SpedX.navigation.Screen.OrdersScreen
 import TMSv3.SpedX.navigation.Screen.PickOrderScreen
 import TMSv3.SpedX.navigation.Screen.VerifyEmailScreen
 import TMSv3.SpedX.navigation.Screen.AddOrderScreen
+import TMSv3.SpedX.navigation.Screen.EditOrderScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
 import TMSv3.SpedX.presentation.sign_in.SignInScreen
 import TMSv3.SpedX.presentation.sign_up.SignUpScreen
 import TMSv3.SpedX.presentation.verify_email.VerifyEmailScreen
-import TMSv3.SpedX.presentation.orders_list.OrdersScreen
-import TMSv3.SpedX.presentation.pick_order.PickOrderScreen
-import TMSv3.SpedX.presentation.add_order.AddOrderScreen
+import TMSv3.SpedX.presentation.orders.orders_list.OrdersScreen
+import TMSv3.SpedX.presentation.orders.pick_order.PickOrderScreen
+import TMSv3.SpedX.presentation.orders.add_order.AddOrderScreen
+import TMSv3.SpedX.presentation.orders.edit_order.EditOrderScreen
 import android.util.Log
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -135,6 +137,27 @@ fun NavGraph(
                 navController = navController,
             )
         }
+
+
+        composable(
+            route = "${EditOrderScreen.route}/{$ORDER_ID}",
+            arguments = listOf(
+                navArgument(ORDER_ID) {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val orderId: String = backStackEntry.arguments?.getString(ORDER_ID) ?: NO_VALUE
+            EditOrderScreen(
+                orderId = orderId,
+                navigateBack = {
+                    navController.popBackStack()
+                },
+                navController = navController,
+                navigateToOrderDetails = { navController.navigate(OrdersScreen.route)}
+            )
+        }
+
 
 
 

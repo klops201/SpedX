@@ -1,6 +1,7 @@
 package TMSv3.SpedX.domain.model
 
 data class Order(
+    val firestoreID: String? = null,
     val orderTitle: String? = null,
     val orderId: String? = null,
    // val userId: String? = null,

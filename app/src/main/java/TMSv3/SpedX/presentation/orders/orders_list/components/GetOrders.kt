@@ -1,11 +1,10 @@
-package TMSv3.SpedX.presentation.orders_list.components
+package TMSv3.SpedX.presentation.orders.orders_list.components
 
 import TMSv3.SpedX.components.ProgressBar
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.domain.model.Order
-import TMSv3.SpedX.domain.model.Response
 import TMSv3.SpedX.domain.model.Response.*
-import TMSv3.SpedX.presentation.orders_list.OrdersViewModel
+import TMSv3.SpedX.presentation.orders.orders_list.OrdersViewModel
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
