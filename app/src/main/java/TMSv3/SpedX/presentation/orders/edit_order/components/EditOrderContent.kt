@@ -34,7 +34,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 @Composable
 fun EditOrderContent(
     padding: PaddingValues,
-    editOrder: (orderTitle: String, position: String, finalDest: String,
+    editOrder: (orderTitle: String, orderID: String, position: String, finalDest: String,
                startDest: String, cargoName: String, cargoWeight: Int,
                driverID: String, cmrID: String, createAt: String) -> Unit,
     navigateToOrderDetails: () -> Unit,
@@ -49,16 +49,16 @@ fun EditOrderContent(
 
 
     val scrollState = rememberScrollState()
-    var orderTitle by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
+//    var orderTitle by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = orderTitleFB
+//                )
+//            )
+//        }
+//    )
 //    var orderID by rememberSaveable(
 //        stateSaver = TextFieldValue.Saver,
 //        init = {
@@ -69,86 +69,86 @@ fun EditOrderContent(
 //            )
 //        }
 //    )
-    var position by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
-    var finalDest by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
-    var startDest by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
-    var cargoName by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
-    var cargoWeight by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
-    var driverID by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
-    var cmrID by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
-    var createAt by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
+//    var position by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = Constants.EMPTY_STRING
+//                )
+//            )
+//        }
+//    )
+//    var finalDest by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = Constants.EMPTY_STRING
+//                )
+//            )
+//        }
+//    )
+//    var startDest by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = Constants.EMPTY_STRING
+//                )
+//            )
+//        }
+//    )
+//    var cargoName by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = Constants.EMPTY_STRING
+//                )
+//            )
+//        }
+//    )
+//    var cargoWeight by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = Constants.EMPTY_STRING
+//                )
+//            )
+//        }
+//    )
+//    var driverID by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = Constants.EMPTY_STRING
+//                )
+//            )
+//        }
+//    )
+//    var cmrID by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = Constants.EMPTY_STRING
+//                )
+//            )
+//        }
+//    )
+//    var createAt by rememberSaveable(
+//        stateSaver = TextFieldValue.Saver,
+//        init = {
+//            mutableStateOf(
+//                value = TextFieldValue(
+//                    text = Constants.EMPTY_STRING
+//                )
+//            )
+//        }
+//    )
 
 
     OrderData {item ->
@@ -170,24 +170,127 @@ fun EditOrderContent(
             val driverIDFB = item.driverId ?: ""
             val cmrIDFB = item.cmrId ?: ""
             val createAtFB = item.createAt ?: ""
+
+            var orderTitle by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = orderTitleFB
+                        )
+                    )
+                }
+            )
+            var orderID by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = orderIdFB
+                        )
+                    )
+                }
+            )
+            var position by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = positionFB
+                        )
+                    )
+                }
+            )
+            var finalDest by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = finaldestinationFB
+                        )
+                    )
+                }
+            )
+            var startDest by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = startDestFB
+                        )
+                    )
+                }
+            )
+            var cargoName by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = cargoNameFB
+                        )
+                    )
+                }
+            )
+            var cargoWeight by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = cargoWeightFB.toString()
+                        )
+                    )
+                }
+            )
+            var driverID by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = driverIDFB
+                        )
+                    )
+                }
+            )
+            var cmrID by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = cmrIDFB
+                        )
+                    )
+                }
+            )
+            var createAt by rememberSaveable(
+                stateSaver = TextFieldValue.Saver,
+                init = {
+                    mutableStateOf(
+                        value = TextFieldValue(
+                            text = createAtFB
+                        )
+                    )
+                }
+            )
+
+
             DataTextField(
-                labelValue = "Tytuł zlecenia: $orderTitleFB",
+                labelValue = "Tytuł zlecenia:",
                 data = orderTitle,
                 onDataValueChange = { newValue ->
                     orderTitle = newValue
                 }
             )
-//            Spacer(modifier = Modifier.height(17.dp))
-//            DataTextField(
-//                labelValue = "Numer zlecenia: $orderIdFB",
-//                data = orderID,
-//                onDataValueChange = { newValue ->
-//                    orderID = newValue
-//                }
-//            )
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(
-                labelValue = "Aktualna pozycja: $positionFB",
+                labelValue = "Numer zlecenia:",
+                data = orderID,
+                onDataValueChange = { newValue ->
+                    orderID = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(
+                labelValue = "Aktualna pozycja:",
                 data = position,
                 onDataValueChange = { newValue ->
                     position = newValue
@@ -195,7 +298,7 @@ fun EditOrderContent(
             )
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(
-                labelValue = "Miejsce załadowania: $startDestFB",
+                labelValue = "Miejsce załadowania:",
                 data = startDest,
                 onDataValueChange = { newValue ->
                     startDest = newValue
@@ -203,7 +306,7 @@ fun EditOrderContent(
             )
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(
-                labelValue = "Miejsce przeznaczenia: $finaldestinationFB",
+                labelValue = "Miejsce przeznaczenia:",
                 data = finalDest,
                 onDataValueChange = { newValue ->
                     finalDest = newValue
@@ -211,7 +314,7 @@ fun EditOrderContent(
             )
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(
-                labelValue = "Rodzaj ładunku: $cargoNameFB",
+                labelValue = "Rodzaj ładunku:",
                 data = cargoName,
                 onDataValueChange = { newValue ->
                     cargoName = newValue
@@ -219,7 +322,7 @@ fun EditOrderContent(
             )
             Spacer(modifier = Modifier.height(17.dp))
             NumberField(
-                labelValue = "Waga ładunku: $cargoWeightFB",
+                labelValue = "Waga ładunku:",
                 value = cargoWeight,
                 onValueChange = { newValue ->
                     cargoWeight = newValue
@@ -227,7 +330,7 @@ fun EditOrderContent(
             )
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(
-                labelValue = "Identyfikator kierowcy: $driverIDFB",
+                labelValue = "Identyfikator kierowcy:",
                 data = driverID,
                 onDataValueChange = { newValue ->
                     driverID = newValue
@@ -235,7 +338,7 @@ fun EditOrderContent(
             )
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(
-                labelValue = "Identyfikator CMR: $cmrIDFB",
+                labelValue = "Identyfikator CMR:",
                 data = cmrID,
                 onDataValueChange = { newValue ->
                     cmrID = newValue
@@ -243,7 +346,7 @@ fun EditOrderContent(
             )
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(
-                labelValue = "Data utworzenia: $createAtFB",
+                labelValue = "Data utworzenia:",
                 data = createAt,
                 onDataValueChange = { newValue ->
                     createAt = newValue
@@ -253,16 +356,16 @@ fun EditOrderContent(
             Button(
                 onClick = {
                     editOrder(
-                        orderTitle.text?: orderTitleFB,
-//                        orderID.text?: orderIdFB,
-                        position.text?: positionFB,
-                        finalDest.text?: finaldestinationFB,
-                        startDest.text?: startDestFB,
-                        cargoName.text?: cargoNameFB,
-                        cargoWeight.text.toInt()?: cargoWeightFB,
-                        driverID.text?: driverIDFB,
-                        cmrID.text?: cmrIDFB,
-                        createAt.text?: createAtFB
+                        orderTitle.text,
+                        orderID.text,
+                        position.text,
+                        finalDest.text,
+                        startDest.text,
+                        cargoName.text,
+                        cargoWeight.text.toInt(),
+                        driverID.text,
+                        cmrID.text,
+                        createAt.text
                     )
                     navigateToOrderDetails()
 

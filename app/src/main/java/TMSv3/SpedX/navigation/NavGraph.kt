@@ -96,7 +96,11 @@ fun NavGraph(
             AddOrderScreen(
                 navigateBack = {
                     navController.popBackStack()
-                }, navigateToOrders = { navController.navigate(OrdersScreen.route)}
+                }, navigateToOrders = { navController.navigate(OrdersScreen.route){
+                    popUpTo(OrdersScreen.route) {
+                        inclusive = true
+                    }
+                }}
                 )
         }
         composable(
@@ -135,6 +139,9 @@ fun NavGraph(
                     navController.popBackStack()
                 },
                 navController = navController,
+                navigateToEditOrder = {orderId ->
+                    navController.navigate("${EditOrderScreen.route}/$orderId")
+                }
             )
         }
 
@@ -154,7 +161,12 @@ fun NavGraph(
                     navController.popBackStack()
                 },
                 navController = navController,
-                navigateToOrderDetails = { navController.navigate(OrdersScreen.route)}
+                navigateToOrderDetails = { navController.navigate("${PickOrderScreen.route}/$orderId")},
+                navigateToOrders = { navController.navigate(OrdersScreen.route){
+                    popUpTo(OrdersScreen.route) {
+                        inclusive = true
+                    }
+                }}
             )
         }
 

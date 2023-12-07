@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import TMSv3.SpedX.domain.model.Response.Loading
 import TMSv3.SpedX.domain.model.Response.Success
+import TMSv3.SpedX.domain.repository.deleteOrderResponse
 import TMSv3.SpedX.domain.repository.editOrderResponse
 
 
@@ -29,18 +30,30 @@ class EditOrderViewModel @Inject constructor(
         private set
 
 
+    var deleteOrderResponse by mutableStateOf<deleteOrderResponse>(Success(false))
+        private set
+
+
+
     fun getOrderDetails(orderID: String) = viewModelScope.launch {
         Log.d(Constants.TAG, "pickOrderViewModelgetOrderDetails-------------------: $orderID")
         orderDetailResponse = repoOrder.getOrderDetails(orderID)
     }
 
 
-    fun editOrderDetails(orderTitle: String, orderID: String, position: String, finalDest: String,
+    fun editOrderDetails(firestoreID: String, orderTitle: String, orderID: String, position: String, finalDest: String,
                          startDest: String, cargoName: String, cargoWeight: Int,
                          driverID: String, cmrID: String, createAt: String) = viewModelScope.launch {
         editOrderResponse = Loading
-        editOrderResponse = repoOrder.editOrder(orderTitle, orderID, position, finalDest, startDest, cargoName, cargoWeight, driverID, cmrID, createAt)
+        editOrderResponse = repoOrder.editOrder(firestoreID, orderTitle, orderID, position, finalDest, startDest, cargoName, cargoWeight, driverID, cmrID, createAt)
 
+    }
+
+
+
+    fun deleteOrder(firestoreID: String, delete: Boolean) = viewModelScope.launch {
+        deleteOrderResponse = Loading
+        if(delete){deleteOrderResponse = repoOrder.deleteOrder(firestoreID)}
     }
 
 

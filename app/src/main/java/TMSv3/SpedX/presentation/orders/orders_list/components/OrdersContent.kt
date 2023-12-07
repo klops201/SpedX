@@ -22,13 +22,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import TMSv3.SpedX.domain.model.Order
 import android.util.Log
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
 
 @Composable
 fun OrdersContent(padding: PaddingValues,
     viewModel: OrdersViewModel = hiltViewModel(),
           orderClicked: (String?) -> Unit
 ) {
+
+
+    val scrollState = rememberScrollState()
+    LaunchedEffect(viewModel) {
+        viewModel.getOrdersListFirestore()
+    }
 
         getOrders { orders ->
             LazyColumn(

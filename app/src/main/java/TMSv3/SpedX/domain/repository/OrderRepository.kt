@@ -10,6 +10,7 @@ typealias getOrdersResponse = Response<List<Order>>
 typealias getOrderDetailsResponse = Response<Order?>
 typealias addOrderResponse = Response<Boolean>
 typealias editOrderResponse = Response<Boolean>
+typealias deleteOrderResponse = Response<Boolean>
 
 
 interface OrderRepository {
@@ -21,7 +22,11 @@ interface OrderRepository {
                          startDest: String, cargoName: String, cargoWeight: Int,
                          driverID: String, cmrID: String?, createAt: String): addOrderResponse
 
-    suspend fun editOrder(orderTitle: String, orderID: String, position: String, finalDest: String,
+    suspend fun editOrder(firestoreID: String, orderTitle: String, orderID: String, position: String, finalDest: String,
                          startDest: String, cargoName: String, cargoWeight: Int,
                          driverID: String, cmrID: String, createAt: String): editOrderResponse
+
+
+    suspend fun deleteOrder(firestoreID: String): deleteOrderResponse
+
 }

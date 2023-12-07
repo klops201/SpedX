@@ -5,6 +5,7 @@ import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.domain.model.Response.*
 import TMSv3.SpedX.domain.repository.OrderRepository
 import TMSv3.SpedX.domain.repository.addOrderResponse
+import TMSv3.SpedX.domain.repository.deleteOrderResponse
 import TMSv3.SpedX.domain.repository.editOrderResponse
 import TMSv3.SpedX.domain.repository.getOrderDetailsResponse
 import TMSv3.SpedX.domain.repository.getOrdersResponse
@@ -106,6 +107,7 @@ class OrderRepositoryImpl @Inject constructor(
         }    }
 
     override suspend fun editOrder(
+        firestoreID: String,
         orderTitle: String,
         orderID: String,
         position: String,
@@ -118,9 +120,9 @@ class OrderRepositoryImpl @Inject constructor(
         createAt: String
     ): editOrderResponse {
         return try {
-            val orderDetailRef = userRef.collection("orders").whereEqualTo("orderId", orderID).limit(1)
-            Log.d(Constants.TAG, "przed snapshot--------------pobranie konkretnego orderu EDYCJA:: $orderID")
-            db.collection("orders").document("frank")
+            val orderDetailRef = userRef.collection("orders").document(firestoreID)
+            Log.d(Constants.TAG, "przed snapshot--------------pobranie konkretnego orderu EDYCJA:: $firestoreID")
+            orderDetailRef
                 .update(
                     mapOf(
                         "orderTitle" to orderTitle,
@@ -148,4 +150,15 @@ class OrderRepositoryImpl @Inject constructor(
         }
 
 
-}}
+}
+
+    override suspend fun deleteOrder(firestoreID: String): deleteOrderResponse {
+        return try {
+            userRef.collection("orders").document(firestoreID).delete().await()
+            Success(true)
+        } catch (e: Exception) {
+            Failure(e)
+
+        }
+    }
+}

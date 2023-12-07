@@ -31,11 +31,11 @@ class OrdersViewModel @Inject constructor(
 
     var ordersListResponse by mutableStateOf<Response<List<Order>>>(Success(emptyList()))
 
-    init {
-        var _ordersList = listOf<Order>()
-        getOrdersListFirestore()
-        Log.d(Constants.TAG, "ViewModel initialized with orders viewModel: $_ordersList")
-    }
+//    init {
+//        var _ordersList = listOf<Order>()
+//        getOrdersListFirestore()
+//        Log.d(Constants.TAG, "ViewModel initialized with orders viewModel: $_ordersList")
+//    }
 
 
     fun reloadUser() = viewModelScope.launch {
