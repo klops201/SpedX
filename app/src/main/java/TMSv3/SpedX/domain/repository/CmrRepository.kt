@@ -12,7 +12,7 @@ typealias getCmrFromOrderResponse = Response<String?>
 
 interface CmrRepository {
 
-    suspend fun addCmrFirebase(imageUri: Uri): addCmrFirebaseResponse
+    suspend fun addCmrFirebase(imageUri: Uri, orderID: String): addCmrFirebaseResponse
 
     suspend fun addCmrToOrder(downloadUri: Uri, orderID: String): addCmrToOrderResponse
 

@@ -35,7 +35,7 @@ fun EditOrderScreen(
     val coroutineScope = rememberCoroutineScope()
     val galleryLauncher =  rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
         imageUri?.let {
-            viewModel.addCMR(imageUri)
+            viewModel.addCMR(imageUri, orderId)
         }
     }
 

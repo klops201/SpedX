@@ -73,9 +73,9 @@ class EditOrderViewModel @Inject constructor(
 
 
 
-    fun addCMR(imageUri: Uri) = viewModelScope.launch {
+    fun addCMR(imageUri: Uri, orderID: String) = viewModelScope.launch {
         addCmrFirebaseResponse = Loading
-        addCmrFirebaseResponse = repoCmr.addCmrFirebase(imageUri)
+        addCmrFirebaseResponse = repoCmr.addCmrFirebase(imageUri, orderID)
     }
 
 

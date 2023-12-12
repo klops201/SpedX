@@ -31,9 +31,9 @@ class CmrRepositoryImpl @Inject constructor(
 
 
 
-    override suspend fun addCmrFirebase(imageUri: Uri): addCmrFirebaseResponse {
+    override suspend fun addCmrFirebase(imageUri: Uri, orderID: String): addCmrFirebaseResponse {
         return try {
-            val downloadUrl = storage.reference.child("cmr").child(uid)
+            val downloadUrl = storage.reference.child("cmr").child(uid).child(orderID)
                 .putFile(imageUri).await()
                 .storage.downloadUrl.await()
             (Success(downloadUrl))
