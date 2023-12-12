@@ -15,14 +15,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import TMSv3.SpedX.domain.model.Response.Loading
 import TMSv3.SpedX.domain.model.Response.Success
+import TMSv3.SpedX.domain.repository.CmrRepository
+import TMSv3.SpedX.domain.repository.addCmrFirebaseResponse
 import TMSv3.SpedX.domain.repository.deleteOrderResponse
 import TMSv3.SpedX.domain.repository.editOrderResponse
+import android.net.Uri
 
 
 @HiltViewModel
 class EditOrderViewModel @Inject constructor(
-    private val repoOrder: OrderRepository
-): ViewModel() {
+    private val repoOrder: OrderRepository,
+    private val repoCmr: CmrRepository,
+
+    ): ViewModel() {
 
     var orderDetailResponse by mutableStateOf<Response<Order?>>(Loading)
 
@@ -32,6 +37,17 @@ class EditOrderViewModel @Inject constructor(
 
     var deleteOrderResponse by mutableStateOf<deleteOrderResponse>(Success(false))
         private set
+
+
+
+
+    var addCmrFirebaseResponse by mutableStateOf<addCmrFirebaseResponse>(Success(null))
+        private set
+//    var addImageToDatabaseResponse by mutableStateOf<Response<Boolean>>(Success(null))
+//        private set
+//    var getImageFromDatabaseResponse by mutableStateOf<Response<String>>(Success(null))
+//        private set
+
 
 
 
@@ -55,6 +71,17 @@ class EditOrderViewModel @Inject constructor(
         deleteOrderResponse = Loading
         if(delete){deleteOrderResponse = repoOrder.deleteOrder(firestoreID)}
     }
+
+
+
+    fun addCMR(imageUri: Uri) = viewModelScope.launch {
+        addCmrFirebaseResponse = Loading
+        addCmrFirebaseResponse = repoCmr.addCmrFirebase(imageUri)
+    }
+
+
+
+
 
 
 }

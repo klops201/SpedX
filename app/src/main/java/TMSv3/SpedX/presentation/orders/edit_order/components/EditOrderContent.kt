@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -39,6 +40,7 @@ fun EditOrderContent(
                driverID: String, cmrID: String, createAt: String) -> Unit,
     navigateToOrderDetails: () -> Unit,
     orderID: String,
+    uploadCmr: () -> Unit,
     viewModel: EditOrderViewModel = hiltViewModel(),
 ){
 
@@ -353,28 +355,42 @@ fun EditOrderContent(
                 }
             )
             SmallSpacer()
-            Button(
-                onClick = {
-                    editOrder(
-                        orderTitle.text,
-                        orderID.text,
-                        position.text,
-                        finalDest.text,
-                        startDest.text,
-                        cargoName.text,
-                        cargoWeight.text.toInt(),
-                        driverID.text,
-                        cmrID.text,
-                        createAt.text
-                    )
-                    navigateToOrderDetails()
+            Row {
+                Button(
+                    onClick = {
+                        editOrder(
+                            orderTitle.text,
+                            orderID.text,
+                            position.text,
+                            finalDest.text,
+                            startDest.text,
+                            cargoName.text,
+                            cargoWeight.text.toInt(),
+                            driverID.text,
+                            cmrID.text,
+                            createAt.text
+                        )
+                        navigateToOrderDetails()
 
+                    }
+                ) {
+                    Text(
+                        text = Constants.EDIT_ORDER,
+                        fontSize = 15.sp
+                    )
                 }
-            ) {
-                Text(
-                    text = Constants.EDIT_ORDER,
-                    fontSize = 15.sp
-                )
+                SmallSpacer()
+                Button(
+                    onClick = {
+                        uploadCmr(
+                        )
+                    }
+                ) {
+                    Text(
+                        text = "dodaj CMR",
+                        fontSize = 15.sp
+                    )
+                }
             }
         }
 

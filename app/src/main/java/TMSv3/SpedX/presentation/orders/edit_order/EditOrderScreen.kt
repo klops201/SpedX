@@ -2,6 +2,8 @@ package TMSv3.SpedX.presentation.orders.edit_order
 
 import TMSv3.SpedX.presentation.orders.edit_order.components.EditOrderContent
 import TMSv3.SpedX.presentation.orders.pick_order.components.PickOrderContent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
@@ -12,6 +14,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +32,11 @@ fun EditOrderScreen(
 
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
-
+    val galleryLauncher =  rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { imageUri ->
+        imageUri?.let {
+            viewModel.addCMR(imageUri)
+        }
+    }
 
 
 
@@ -43,7 +50,8 @@ fun EditOrderScreen(
                              createAt -> viewModel.editOrderDetails(orderId, orderTitle, orderID, position, finalDest,
                     startDest, cargoName, cargoWeight, driverID, cmrID,
                     createAt)},
-                navigateToOrderDetails = navigateToOrderDetails
+                navigateToOrderDetails = navigateToOrderDetails,
+                uploadCmr =  {galleryLauncher.launch("image/*")}
             )
         },
         scaffoldState = scaffoldState,
