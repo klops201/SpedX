@@ -66,7 +66,7 @@ fun ShowOrder(order: Order, onClick: (String?) -> Unit) {
             .background(MaterialTheme.colors.primary)
             .fillMaxWidth()
             .clickable { onClick(order.firestoreID) }
-            .padding(vertical = 4.dp, horizontal = 24.dp),
+            .padding(vertical = 20.dp, horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -80,6 +80,7 @@ fun ShowOrder(order: Order, onClick: (String?) -> Unit) {
             style = MaterialTheme.typography.subtitle1,
             color = Color.White
         )
+        Spacer(Modifier.width(10.dp))
         Log.d(Constants.TAG, "exe function ShowOrder----------------------------------: $order")
     }
 }

@@ -1,5 +1,6 @@
 package TMSv3.SpedX.presentation.orders.edit_order
 
+import TMSv3.SpedX.presentation.orders.edit_order.components.AddCmrOrder
 import TMSv3.SpedX.presentation.orders.edit_order.components.EditOrderContent
 import TMSv3.SpedX.presentation.orders.pick_order.components.PickOrderContent
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -79,6 +80,6 @@ fun EditOrderScreen(
         }
     )
 
-
+    AddCmrOrder(addCmrToFirestore = {downloaduri -> viewModel.addCmrToOrder(downloaduri, orderId ) })
 
 }

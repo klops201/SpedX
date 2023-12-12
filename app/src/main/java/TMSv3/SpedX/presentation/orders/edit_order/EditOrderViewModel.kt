@@ -17,6 +17,7 @@ import TMSv3.SpedX.domain.model.Response.Loading
 import TMSv3.SpedX.domain.model.Response.Success
 import TMSv3.SpedX.domain.repository.CmrRepository
 import TMSv3.SpedX.domain.repository.addCmrFirebaseResponse
+import TMSv3.SpedX.domain.repository.addCmrToOrderResponse
 import TMSv3.SpedX.domain.repository.deleteOrderResponse
 import TMSv3.SpedX.domain.repository.editOrderResponse
 import android.net.Uri
@@ -43,11 +44,9 @@ class EditOrderViewModel @Inject constructor(
 
     var addCmrFirebaseResponse by mutableStateOf<addCmrFirebaseResponse>(Success(null))
         private set
-//    var addImageToDatabaseResponse by mutableStateOf<Response<Boolean>>(Success(null))
-//        private set
-//    var getImageFromDatabaseResponse by mutableStateOf<Response<String>>(Success(null))
-//        private set
 
+    var addCmrOrderResponse by mutableStateOf<addCmrToOrderResponse>(Success(false))
+        private set
 
 
 
@@ -79,6 +78,11 @@ class EditOrderViewModel @Inject constructor(
         addCmrFirebaseResponse = repoCmr.addCmrFirebase(imageUri)
     }
 
+
+    fun addCmrToOrder(downloadUri: Uri, orderID: String) = viewModelScope.launch {
+        addCmrOrderResponse = Loading
+        addCmrOrderResponse = repoCmr.addCmrToOrder(downloadUri, orderID)
+    }
 
 
 

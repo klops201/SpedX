@@ -4,8 +4,8 @@ import TMSv3.SpedX.domain.model.Response
 import TMSv3.SpedX.domain.model.Response.*
 import TMSv3.SpedX.domain.repository.CmrRepository
 import TMSv3.SpedX.domain.repository.addCmrFirebaseResponse
-import TMSv3.SpedX.domain.repository.addImageToOrderResponse
-import TMSv3.SpedX.domain.repository.getImageFromOrderResponse
+import TMSv3.SpedX.domain.repository.addCmrToOrderResponse
+import TMSv3.SpedX.domain.repository.getCmrFromOrderResponse
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -42,7 +42,7 @@ class CmrRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addImageToOrder(downloadUri: Uri, orderID: String): addImageToOrderResponse {
+    override suspend fun addCmrToOrder(downloadUri: Uri, orderID: String): addCmrToOrderResponse {
         return try {
             userRef.collection("orders").document(orderID)
                 .update("cmrId", downloadUri.toString())
@@ -53,7 +53,7 @@ class CmrRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getImageFromOrder( orderID: String): getImageFromOrderResponse {
+    override suspend fun getCmrFromOrder( orderID: String): getCmrFromOrderResponse {
         return try {
             val imageUrl = userRef.collection("orders").document(orderID).get().await().getString("cmrId") ?: "brak Url"
             Success(imageUrl)

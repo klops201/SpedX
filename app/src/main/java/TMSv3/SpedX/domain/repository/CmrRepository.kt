@@ -7,14 +7,14 @@ import android.net.Uri
 
 
 typealias addCmrFirebaseResponse = Response<Uri?>
-typealias addImageToOrderResponse = Response<Boolean>
-typealias getImageFromOrderResponse = Response<String>
+typealias addCmrToOrderResponse = Response<Boolean>
+typealias getCmrFromOrderResponse = Response<String?>
 
 interface CmrRepository {
 
     suspend fun addCmrFirebase(imageUri: Uri): addCmrFirebaseResponse
 
-    suspend fun addImageToOrder(downloadUri: Uri, orderID: String): addImageToOrderResponse
+    suspend fun addCmrToOrder(downloadUri: Uri, orderID: String): addCmrToOrderResponse
 
-    suspend fun getImageFromOrder( orderID: String): getImageFromOrderResponse
+    suspend fun getCmrFromOrder( orderID: String): getCmrFromOrderResponse
 }
