@@ -37,7 +37,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 fun ProfileContent(
     padding: PaddingValues,
     userName: String,
-    navigateToOrdersScreen: () -> Unit
+    navigateToOrdersScreen: () -> Unit,
+    openMap: () -> Unit,
 ) {
     var goOrders: Boolean = false
 //    Box(
@@ -81,7 +82,7 @@ fun ProfileContent(
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
 
-                ImageBoxMap()
+                ImageBoxMap(openMap = openMap)
                 Spacer(modifier = Modifier.width(17.dp))
                 BoxSent()
             }

@@ -235,13 +235,13 @@ fun OrderList(onClick: () -> Unit) {
 }
 
 @Composable
-fun ImageBoxMap(){
+fun ImageBoxMap(openMap: () -> Unit){
     Box(modifier = Modifier
         .height(100.dp)
         .width(100.dp)
         .clip(AlertDialogDefaults.shape)
         .fillMaxSize()
-        .clickable{}, contentAlignment = Alignment.Center){
+        .clickable{openMap()}, contentAlignment = Alignment.Center){
         Image(painter = painterResource(id = R.drawable.map), contentDescription = null,
             contentScale = ContentScale.Crop)
 }}

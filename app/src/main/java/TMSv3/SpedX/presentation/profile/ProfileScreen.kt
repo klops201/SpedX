@@ -22,7 +22,8 @@ import com.google.firebase.annotations.PreviewApi
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     navController: NavController,
-    navigateToOrdersScreen: () -> Unit
+    navigateToOrdersScreen: () -> Unit,
+    navigateToMapScreen: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
@@ -47,7 +48,8 @@ fun ProfileScreen(
             ProfileContent(
                 padding = padding,
                 userName = viewModel._nameFirebase.value,
-                navigateToOrdersScreen = navigateToOrdersScreen
+                navigateToOrdersScreen = navigateToOrdersScreen,
+                openMap = navigateToMapScreen
             )
         },
         scaffoldState = scaffoldState

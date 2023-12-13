@@ -17,6 +17,7 @@ import TMSv3.SpedX.navigation.Screen.PickOrderScreen
 import TMSv3.SpedX.navigation.Screen.VerifyEmailScreen
 import TMSv3.SpedX.navigation.Screen.AddOrderScreen
 import TMSv3.SpedX.navigation.Screen.EditOrderScreen
+import TMSv3.SpedX.navigation.Screen.MapScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
 import TMSv3.SpedX.presentation.sign_in.SignInScreen
@@ -26,6 +27,7 @@ import TMSv3.SpedX.presentation.orders.orders_list.OrdersScreen
 import TMSv3.SpedX.presentation.orders.pick_order.PickOrderScreen
 import TMSv3.SpedX.presentation.orders.add_order.AddOrderScreen
 import TMSv3.SpedX.presentation.orders.edit_order.EditOrderScreen
+import TMSv3.SpedX.presentation.map.MapScreen
 import android.util.Log
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -70,6 +72,15 @@ fun NavGraph(
             )
         }
         composable(
+            route = MapScreen.route
+        ) {
+            MapScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable(
             route = VerifyEmailScreen.route
         ) {
             VerifyEmailScreen(
@@ -88,7 +99,8 @@ fun NavGraph(
             ProfileScreen(navController = navController,
                 navigateToOrdersScreen = {
                     navController.navigate(OrdersScreen.route)
-                })
+                },
+                navigateToMapScreen = {navController.navigate(MapScreen.route)})
         }
         composable(
             route = AddOrderScreen.route
