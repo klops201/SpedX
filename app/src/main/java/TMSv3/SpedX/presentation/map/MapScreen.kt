@@ -21,11 +21,11 @@ fun MapScreen(
     navigateBack: () -> Boolean,
 ) {
     Log.d(Constants.TAG, "przed wczytaniem zmiennych singapore")
-    val singapore = LatLng(1.35, 103.87)
+    val singapore = LatLng(51.90675735473633, 22.7077693939209)
     val cameraPositionState = rememberCameraPositionState {
         Log.d(Constants.TAG, "wczytanie cameraPositionState-----------------------------------")
 
-        position = CameraPosition.fromLatLngZoom(singapore, 10f)
+        position = CameraPosition.fromLatLngZoom(singapore, 17f)
     }
     Log.d(Constants.TAG, "przed uruchomieniem mapy-----------------------------------")
     GoogleMap(
