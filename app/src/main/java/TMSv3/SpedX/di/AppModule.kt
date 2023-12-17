@@ -10,6 +10,7 @@ import TMSv3.SpedX.data.repository.CmrRepositoryImpl
 import TMSv3.SpedX.data.repository.MainRepositoryImpl
 import TMSv3.SpedX.data.repository.OrderRepositoryImpl
 import TMSv3.SpedX.domain.repository.AuthRepository
+import TMSv3.SpedX.domain.repository.AutoSatNetService
 import TMSv3.SpedX.domain.repository.CmrRepository
 import TMSv3.SpedX.domain.repository.MainRepository
 import TMSv3.SpedX.domain.repository.OrderRepository
@@ -73,6 +74,10 @@ object AppModule {
         storage = storage,
     )
 
+//
+//    @Provides
+//    fun providesAutoSatNetRepository(autoSatNetService: AutoSatNetService): AutoSatNetRepository = AutoSatNetRepositoryImpl()
+//
 
 
 

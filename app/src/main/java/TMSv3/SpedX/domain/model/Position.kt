@@ -1,12 +1,15 @@
 package TMSv3.SpedX.domain.model
 
-class Position (
-    val vehicleId: String? = null,
-    val vehicleName: String? = null,
-    val driverId: String? = null,
-    val latitude: Double? = null,
-    val longitude: Double? = null,
-    val speed: Int? = null,
-    val timestamp : Int? = null,
-    val fuelPercentage: Int? = null,
+data class Position(
+    val counter: Int,
+    val driverId1: String,
+    val fuelLevel: Double,
+    val fuelUsage: String,
+    val ignitionState: Boolean,
+    val latitude: Double,
+    val longitude: Double,
+    val speed: Int,
+    val timeStampUnix: Int,
+    val vehicleId: String,
+    val vehicleName: String
 )
