@@ -21,11 +21,12 @@ import TMSv3.SpedX.components.DataTextField
 import TMSv3.SpedX.components.NumberField
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-
-
+import androidx.compose.ui.tooling.preview.Preview
 
 
 @Composable
@@ -228,7 +229,7 @@ fun AddOrderContent(
             }
         )
         SmallSpacer()
-        Button(
+        Button(shape = CircleShape,
             onClick = {
                 if (areFieldsFilled(orderTitle, orderID, finalDest,
                         startDest, cargoName, cargoWeight, driverID,
@@ -260,6 +261,20 @@ fun AddOrderContent(
     }
 
 }
+
+
+@Preview
+@Composable
+fun PreviewAddOrderContent() {
+    AddOrderContent(
+        padding = PaddingValues(0.dp),
+        addOrder = { _, _, _, _, _, _, _, _, _, _ -> },
+        navigateToOrdersScr = {},
+        showSnackBar = {}
+    )
+}
+
+
 
 private fun areFieldsFilled(orderTitle: TextFieldValue, orderID: TextFieldValue, finalDest: TextFieldValue,
                                startDest: TextFieldValue, cargoName: TextFieldValue, cargoWeight: TextFieldValue,

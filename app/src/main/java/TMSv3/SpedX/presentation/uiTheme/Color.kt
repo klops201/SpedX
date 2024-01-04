@@ -15,7 +15,7 @@ val Secondary = Color(0xFF9DCEFF)
 val TextColor = Color(0xFF1D1617)
 val Red = Color(0xFFC52E0C)
 
-val GreyBG = Color(0xFFF0F0F0)
+val GreyBG = Color(0xFFE6EDFF)
 
 
 val md_theme_light_primary = Color(0xFF476810)
@@ -28,7 +28,8 @@ val md_theme_dark_primaryContainer = Color(0xFF324F00)
 
 
 val tmsPrimary = Color(0xFF461220)
-val tmsOnPrimary = Color(0xFFfed0bb)
+val tmsOnPrimary1 = Color(0xFFfed0bb)
+val tmsOnPrimary = Color(0xFF20477F)
 val tmsContainer = Color(0xFF8c2f39)
 val tmsOnContainer = Color(0xFFfcb9b2)
 val tmsBG = Color(0xFFeece8d)

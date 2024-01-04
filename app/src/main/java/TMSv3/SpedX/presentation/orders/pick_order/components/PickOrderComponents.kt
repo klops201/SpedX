@@ -1,81 +1,207 @@
 package TMSv3.SpedX.presentation.orders.pick_order.components
 
+import TMSv3.SpedX.R
+import TMSv3.SpedX.presentation.uiTheme.GreyBG
 import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.gestures.transformable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.VerticalAlignmentLine
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.rememberTransformableState
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.*
+
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 
 
 @Composable
-fun TitleOrderBox(orderID: String) {
+fun TitleOrderBox(orderID: String, modifier: Modifier = Modifier) {
 
     Box(
-        modifier = Modifier
-            .height(100.dp)
-            .width(160.dp)
+        modifier = modifier
+            .padding(10.dp)
+//            .height(100.dp)
             .clip(AlertDialogDefaults.shape)
             .background(tmsOnPrimary)
-            .fillMaxSize(), contentAlignment = Alignment.Center
+            .fillMaxWidth()
+            , contentAlignment = Alignment.Center
+
     ) {
         //Text(modifier = Modifier.padding(all = 10.dp), textAlign = TextAlign.Center, text = currentDateAndTime, fontSize = 30.sp)
-        Text(text = orderID)
+//        Text(text = "Sprawdź dane zlecenia ", modifier = Modifier.padding(5.dp).align(Alignment.TopCenter), fontSize = 20.sp)
+        Text(text = "Numer zamówienia: $orderID", modifier = Modifier
+            .padding(5.dp)
+            .align(Alignment.Center), fontSize = 20.sp)
 
     }
 
 }
 
+@Composable
+private fun TransformableSample() {
+    // Ustaw wszystkie stany transformacji
+    var scale by remember { mutableStateOf(1f) }
+    var rotation by remember { mutableStateOf(0f) }
+    var offset by remember { mutableStateOf(Offset.Zero) }
+    val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
+        scale *= zoomChange
+        rotation += rotationChange
+        offset += offsetChange
+    }}
+
+
 
 @Composable
 fun OrderLocationsBox(startLoc: String, finalLoc: String) {
 
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .clip(AlertDialogDefaults.shape)
-            .background(tmsOnPrimary), verticalAlignment = Alignment.CenterVertically
-    ) {
-        Box(
-                    modifier = Modifier
-                        .weight(1f)
-        ) {
-            Text(
-                modifier = Modifier
-                    .align(Alignment.Center),
-                textAlign = TextAlign.Center,
-                text = "z $startLoc",
-                fontSize = 20.sp
-            )
-        }
-        Spacer(modifier = Modifier.width(8.dp))
 
         Box(
                     modifier = Modifier
-                        .weight(1f)
+                        .padding(10.dp)
+                        .clip(AlertDialogDefaults.shape)
+                        .background(GreyBG)
+                        .fillMaxWidth(),
         ) {
-            Text(
-                modifier = Modifier
-                    .align(Alignment.Center),
-                textAlign = TextAlign.Center,
-                text = "do $finalLoc",
-                fontSize = 20.sp
-            )
+            Row (modifier = Modifier
+                .padding(10.dp)
+                .height(IntrinsicSize.Min)) {
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxHeight()) {
+                    Box (modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.BottomEnd) {
+                        Icon(
+                            modifier = Modifier,
+                            painter = painterResource(id = R.drawable.dot1),
+                            contentDescription = null, // Możesz dostosować opis dostępności
+                        )
+                    }
+                    Divider(
+                        color = Color.LightGray,
+                        modifier = Modifier
+                            .weight(2f)
+                            .width(2.dp)
+                    )
+                    Box (modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.TopCenter) {
+                        Icon(
+                            modifier = Modifier,
+                            painter = painterResource(id = R.drawable.dot1),
+                            contentDescription = null,
+                            tint = colorResource(id = R.color.colorTest)
+                        )
+                    }
+
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+
+
+                Column (verticalArrangement = Arrangement.Center){
+                    Text(
+                        modifier = Modifier
+                            .padding(5.dp)
+                            ,
+                        textAlign = TextAlign.Start,
+                        text = "Miejsce załadunku",
+                        fontSize = 20.sp,
+                        color = colorResource(id = R.color.colorText)
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .fillMaxWidth()
+                            ,
+                        textAlign = TextAlign.Center,
+                        text = "$startLoc",
+                        fontSize = 20.sp
+                    )
+                    Divider(color = Color.Black, thickness = 1.dp)
+                    Text(
+                        modifier = Modifier
+                            .padding(5.dp)
+                        ,
+                        textAlign = TextAlign.Start,
+                        text = "Miejsce rozładunku",
+                        fontSize = 20.sp,
+                        color = colorResource(id = R.color.colorText)
+                    )
+                    Text(
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .fillMaxWidth()
+                        ,
+                        textAlign = TextAlign.Center,
+                        text = "$finalLoc",
+                        fontSize = 20.sp
+                    )
+                }
+            }
+
+
         }
-    }
+        Spacer(modifier = Modifier.width(8.dp))
+
+//        Box(
+//            modifier = Modifier
+//                .padding(10.dp)
+//                .weight(1f)
+//                .clip(AlertDialogDefaults.shape)
+//                .background(tmsOnPrimary)
+//                .alignByBaseline(),
+//        ) {
+//            Column (verticalArrangement = Arrangement.Center,
+//                horizontalAlignment = Alignment.CenterHorizontally){
+//                Text(
+//                    modifier = Modifier.padding(5.dp).fillMaxWidth(),
+//                    textAlign = TextAlign.Center,
+//                    text = "Miejsce docelowe",
+//                    fontSize = 20.sp
+//                )
+//                Text(
+//                    modifier = Modifier.padding(5.dp).fillMaxWidth(),
+//                    textAlign = TextAlign.Center,
+//                    text = "$finalLoc",
+//                    fontSize = 20.sp
+//                )
+//            }
+//
+//        }
+
 
 }
 
@@ -122,8 +248,10 @@ fun OrderCargoBox(cargoName: String, cargoWeight: Int) {
 
 
 
-@Preview
+@Preview(
+    showBackground = true,
+)
 @Composable
 fun CheckFunctPrev(){
-    OrderCargoBox(cargoName = "test", cargoWeight = 100)
+    OrderLocationsBox("Suwałki", "Augustów")
 }

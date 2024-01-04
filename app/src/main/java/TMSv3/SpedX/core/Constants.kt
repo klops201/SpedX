@@ -5,9 +5,9 @@ object Constants {
     const val TAG = "AppTag"
 
     //Buttons
-    const val SIGN_IN_BUTTON = "Zaloguj si"
+    const val SIGN_IN_BUTTON = "Zaloguj się"
     const val RESET_PASSWORD_BUTTON = "Reset"
-    const val SIGN_UP_BUTTON = "Zrejetruj sie"
+    const val SIGN_UP_BUTTON = "Zarejestruj się"
 
     //Menu Items
     const val SIGN_OUT_ITEM = "Wyloguj się"
@@ -30,11 +30,11 @@ object Constants {
 
 
     //Screens
-    const val SIGN_IN_SCREEN = "Sign in"
+    const val SIGN_IN_SCREEN = "Zaloguj się"
     const val FORGOT_PASSWORD_SCREEN = "Forgot password"
-    const val SIGN_UP_SCREEN = "Sign up"
-    const val VERIFY_EMAIL_SCREEN = "Verify email"
-    const val PROFILE_SCREEN = "Profile"
+    const val SIGN_UP_SCREEN = "Zarejestruj się"
+    const val VERIFY_EMAIL_SCREEN = "Zweryfikuj email"
+    const val PROFILE_SCREEN = "Ekran główny"
     const val ORDERS_SCREEN = "Zlecenia"
     const val PICK_ORDER_SCREEN = "Zlecenie "
     const val ADD_ORDER_SCREEN = "Dodaj zlecenie"

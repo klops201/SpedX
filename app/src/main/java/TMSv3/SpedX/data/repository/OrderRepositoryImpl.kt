@@ -23,7 +23,6 @@ class OrderRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val db: FirebaseFirestore,
 ) : OrderRepository {
-    //val currentUser get() = auth.currentUser
     private val uid = auth.currentUser?.uid ?: ""
     private val userRef = db.collection("users").document(uid)
 
@@ -52,13 +51,7 @@ class OrderRepositoryImpl @Inject constructor(
 
         return try {
             val orderDetailRef = userRef.collection("orders").document(orderID)
-//            Log.d(Constants.TAG, "przed snapshot--------------pobranie konkretnego orderu:: $orderID")
             val snapshot = orderDetailRef.get().await()
-//            Log.d(Constants.TAG, "po snapshot--------------snapshot rozmiar:: ${snapshot.documents.size}")
-//            val ordersList = snapshot.documents.map { doc ->
-//                doc.toObject(Order::class.java)
-//            }
-//            val order = ordersList.first()
             val order = snapshot.toObject(Order::class.java)
             Success(order)
         } catch (e: Exception) {

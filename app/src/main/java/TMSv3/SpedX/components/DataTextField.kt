@@ -25,10 +25,12 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun DataTextField(labelValue: String,
     data: TextFieldValue,
-    onDataValueChange: (newValue: TextFieldValue) -> Unit){ // okna do wpisywania danych
+    onDataValueChange: (newValue: TextFieldValue) -> Unit,
+                  modifier: Modifier = Modifier){ // okna do wpisywania danych
 
 
     OutlinedTextField(
+        modifier = modifier,
         label = {
                 Text(text = labelValue)
         },
