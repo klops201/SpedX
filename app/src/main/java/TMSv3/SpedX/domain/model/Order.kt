@@ -13,4 +13,5 @@ data class Order(
     val driverId: String? = null,
     val cmrId: String? = null,
     val createAt: String? = null,
+    val done: Boolean = false,
 )

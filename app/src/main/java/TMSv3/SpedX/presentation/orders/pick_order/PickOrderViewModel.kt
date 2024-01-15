@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import TMSv3.SpedX.domain.model.Response.Loading
 import TMSv3.SpedX.domain.repository.CmrRepository
 import TMSv3.SpedX.domain.repository.getCmrFromOrderResponse
+import TMSv3.SpedX.domain.repository.markDoneResponse
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,6 +34,8 @@ class PickOrderViewModel @Inject constructor(
     var getCmrOrderResponse by mutableStateOf<getCmrFromOrderResponse>(Success(null))
         private set
 
+    var markDoneResponse by mutableStateOf<markDoneResponse>(Success(false))
+        private set
 
 
 
@@ -46,6 +49,15 @@ class PickOrderViewModel @Inject constructor(
         getCmrOrderResponse = Loading
         getCmrOrderResponse = repoCmr.getCmrFromOrder(orderID)
     }
+
+
+    fun checkDoneFB(orderID: String) = viewModelScope.launch {
+        markDoneResponse = Loading
+        markDoneResponse = repoOrder.markDone(orderID)
+    }
+
+
+
 
 
 

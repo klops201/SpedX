@@ -1,5 +1,7 @@
 package TMSv3.SpedX.presentation.profile
 
+import TMSv3.SpedX.domain.model.Order
+import TMSv3.SpedX.domain.model.Response
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,6 +16,7 @@ import TMSv3.SpedX.domain.repository.MainRepository
 import TMSv3.SpedX.domain.repository.ReloadUserResponse
 import TMSv3.SpedX.domain.repository.RevokeAccessResponse
 import TMSv3.SpedX.domain.repository.CreateUserResponse
+import TMSv3.SpedX.domain.repository.OrderRepository
 import TMSv3.SpedX.domain.repository.UserNameResponse
 import androidx.compose.runtime.State
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val repo: AuthRepository,
-    private val repoM: MainRepository
+    private val repoM: MainRepository,
+    private val repoOrder: OrderRepository
 ): ViewModel() {
     var revokeAccessResponse by mutableStateOf<RevokeAccessResponse>(Success(false))
         private set
@@ -30,6 +34,9 @@ class ProfileViewModel @Inject constructor(
         private set
     var createUserAppResponse by mutableStateOf<UserNameResponse>(Loading)
         private set
+
+
+    var ordersListResponse by mutableStateOf<Response<List<Order>>>(Success(emptyList()))
 
     val _nameFirebase = mutableStateOf("")
     val nameFirebase: State<String> = _nameFirebase
@@ -56,6 +63,12 @@ class ProfileViewModel @Inject constructor(
         createUserAppResponse = repoM.getUserName()
     }
 
+
+
+    fun getUndoneOrdersList() = viewModelScope.launch {
+        ordersListResponse = Loading
+        ordersListResponse = repoOrder.getUndoneOrders()
+    }
 
 
 

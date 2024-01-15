@@ -27,7 +27,6 @@ import dagger.hilt.components.SingletonComponent
 
 
 @Module
-//@InstallIn(ViewModelComponent::class)
 @InstallIn(SingletonComponent::class)
 object AppModule {
 

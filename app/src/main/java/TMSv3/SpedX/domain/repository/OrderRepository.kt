@@ -7,10 +7,12 @@ import kotlinx.coroutines.flow.Flow
 
 
 typealias getOrdersResponse = Response<List<Order>>
+typealias getUDOrdersResponse = Response<List<Order>>
 typealias getOrderDetailsResponse = Response<Order?>
 typealias addOrderResponse = Response<Boolean>
 typealias editOrderResponse = Response<Boolean>
 typealias deleteOrderResponse = Response<Boolean>
+typealias markDoneResponse = Response<Boolean>
 
 
 interface OrderRepository {
@@ -28,5 +30,11 @@ interface OrderRepository {
 
 
     suspend fun deleteOrder(firestoreID: String): deleteOrderResponse
+
+    suspend fun markDone(orderID: String): markDoneResponse
+
+    suspend fun getUndoneOrders(): getUDOrdersResponse
+
+
 
 }

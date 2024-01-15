@@ -43,6 +43,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.runtime.*
 
 import androidx.compose.ui.graphics.graphicsLayer
@@ -242,6 +243,35 @@ fun OrderCargoBox(cargoName: String, cargoWeight: Int) {
         }
     }
 
+}
+
+
+
+@Composable
+fun doneCheckbox(done: Boolean, change: () -> Unit ){
+    var doneState = remember { mutableStateOf(done) }
+    Row(modifier = Modifier.fillMaxWidth()) {
+        if(doneState.value == false){
+        Button(modifier =Modifier.weight(1f),
+            onClick = { change()
+                doneState.value = !doneState.value}) {
+            Text(text = "Oznacz zlecenia jako wykonane") }
+            Column(modifier = Modifier.weight(1f).background(Color.White).fillMaxSize(), verticalArrangement = Arrangement.SpaceAround
+                , horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "Status zlecenia:")
+                        Text(text = "W trakcie")
+
+            }
+        }else {
+            Column(modifier = Modifier.background(Color.White).fillMaxSize(), verticalArrangement = Arrangement.SpaceAround
+                , horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "Status zlecenia:")
+                Text(text = "Zakończone")
+
+            }
+        }
+
+    }
 }
 
 

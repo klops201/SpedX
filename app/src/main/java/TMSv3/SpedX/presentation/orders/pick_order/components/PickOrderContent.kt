@@ -75,6 +75,7 @@ fun PickOrderContent(
         viewModel.getCmrFromOrder(orderID)
     }
 
+
     var imageFullScreen by remember { mutableStateOf(false)}
 
     Box {
@@ -111,6 +112,7 @@ fun PickOrderContent(
                             .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         val safeID = item.orderId ?: ""
+                        val safeIDFB = item.firestoreID ?: ""
                         val safeFrom = item.startdestination ?: ""
                         val safeTo = item.finaldestination ?: ""
                         val safeCType = item.cargoName ?: ""
@@ -129,6 +131,8 @@ fun PickOrderContent(
                         Spacer(modifier = Modifier.height(35.dp))
                         OrderCargoBox(safeCType, safeCWeight)
                         Spacer(modifier = Modifier.height(35.dp))
+                        doneCheckbox(done = item.done, change = {viewModel.checkDoneFB(safeIDFB)} )
+                        Spacer(modifier = Modifier.height(35.dp))
                         ShowCmr { imageUri ->
                             Box(
                                 modifier = Modifier
@@ -140,7 +144,9 @@ fun PickOrderContent(
 
                                     Text(
                                         text = "Sprawdź swój list przewozowy",
-                                        modifier = Modifier.padding(5.dp).weight(1f),
+                                        modifier = Modifier
+                                            .padding(5.dp)
+                                            .weight(1f),
                                         fontSize = 20.sp,
                                         color = Color.White
                                     )
@@ -150,7 +156,7 @@ fun PickOrderContent(
                                             .weight(1f)
                                             .fillMaxHeight()
                                             .clickable {
-                                              imageFullScreen = true
+                                                imageFullScreen = true
                                             },
                                         model = ImageRequest.Builder(LocalContext.current)
                                             .data(imageUri)
@@ -165,7 +171,9 @@ fun PickOrderContent(
                                                 modifier = Modifier.fillMaxSize(),
                                             ) {
                                                 Column(
-                                                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                                                    modifier = Modifier
+                                                        .padding(16.dp)
+                                                        .fillMaxWidth(),
                                                     horizontalAlignment = Alignment.CenterHorizontally
                                                 ) {
                                                     var scale by remember { mutableStateOf(1f) }
@@ -177,7 +185,8 @@ fun PickOrderContent(
                                                         offset += offsetChange
                                                     }
                                                     AsyncImage(
-                                                        modifier = Modifier.fillMaxSize()
+                                                        modifier = Modifier
+                                                            .fillMaxSize()
                                                             .graphicsLayer(
                                                                 scaleX = scale,
                                                                 scaleY = scale,

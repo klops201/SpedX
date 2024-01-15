@@ -9,6 +9,8 @@ import TMSv3.SpedX.domain.repository.deleteOrderResponse
 import TMSv3.SpedX.domain.repository.editOrderResponse
 import TMSv3.SpedX.domain.repository.getOrderDetailsResponse
 import TMSv3.SpedX.domain.repository.getOrdersResponse
+import TMSv3.SpedX.domain.repository.getUDOrdersResponse
+import TMSv3.SpedX.domain.repository.markDoneResponse
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -152,6 +154,38 @@ class OrderRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Failure(e)
 
+        }
+    }
+
+    override suspend fun markDone(orderID: String): markDoneResponse {
+        return try {
+            userRef.collection("orders").document(orderID)
+                .update("done", true)
+                .await()
+            Success(true)
+        } catch (e: Exception) {
+            Failure(e)
+        }
+    }
+
+    override suspend fun getUndoneOrders(): getUDOrdersResponse {
+        return try {
+            val ordersRef = userRef.collection("orders").orderBy("createAt",
+                Query.Direction.DESCENDING
+            )
+//                .whereEqualTo("done", false)
+            Log.d(Constants.TAG, "przed snapshot niedokonczone zamowienia--------------uid:: $uid")
+            val snapshot = ordersRef.get().await()
+            Log.d(Constants.TAG, "po snapshot-niedokonczone zamowienia-------------snapshot rozmiar:: ${snapshot.documents.size}")
+            val ordersList = snapshot.documents.map { doc ->
+                val order = doc.toObject(Order::class.java)
+                Log.d(Constants.TAG, "Dokument: $doc, Zamówienie: $order")
+                order
+            }.filterNotNull()
+            Log.d(Constants.TAG, "Order: $ordersList")
+            Success(ordersList)
+        } catch (e: Exception) {
+            Failure(e)
         }
     }
 }

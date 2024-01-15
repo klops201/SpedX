@@ -82,7 +82,10 @@ import TMSv3.SpedX.presentation.uiTheme.tmsContainer
 import TMSv3.SpedX.presentation.uiTheme.tmsOnContainer
 import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
 import TMSv3.SpedX.R
+import TMSv3.SpedX.core.Constants
+import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.presentation.profile.ProfileViewModel
+import android.util.Log
 import androidx.compose.material.icons.filled.Add
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
@@ -233,6 +236,33 @@ fun OrderList(onClick: () -> Unit) {
     }
 
 }
+
+@Composable
+fun ShowUndoneOrder(order: Order) {
+    Row(
+        modifier = Modifier
+//            .background(androidx.compose.material.MaterialTheme.colors.primary)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.dot),
+            contentDescription = null, // Możesz dostosować opis dostępności
+        )
+        Spacer(Modifier.width(10.dp))
+        androidx.compose.material.Text(
+            text = "${order.orderTitle}",
+            style = androidx.compose.material.MaterialTheme.typography.subtitle1,
+            color = androidx.compose.ui.graphics.Color.White
+        )
+        Spacer(Modifier.width(10.dp))
+        Log.d(Constants.TAG, "exe function ShowOrder----------------------------------: $order")
+    }
+
+}
+
+
+
 
 @Composable
 fun ImageBoxMap(openMap: () -> Unit){
