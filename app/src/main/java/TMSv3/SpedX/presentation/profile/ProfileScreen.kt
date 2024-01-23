@@ -24,6 +24,7 @@ fun ProfileScreen(
     navController: NavController,
     navigateToOrdersScreen: () -> Unit,
     navigateToMapScreen: () -> Unit,
+    navigateToTicketScreen: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
@@ -49,7 +50,8 @@ fun ProfileScreen(
                 padding = padding,
                 userName = viewModel._nameFirebase.value,
                 navigateToOrdersScreen = navigateToOrdersScreen,
-                openMap = navigateToMapScreen
+                openMap = navigateToMapScreen,
+                goBuyTickets = navigateToTicketScreen,
             )
         },
         scaffoldState = scaffoldState

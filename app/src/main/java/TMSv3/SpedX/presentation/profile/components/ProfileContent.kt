@@ -55,6 +55,7 @@ fun ProfileContent(
     userName: String,
     navigateToOrdersScreen: () -> Unit,
     openMap: () -> Unit,
+    goBuyTickets: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     var goOrders: Boolean = false
@@ -197,7 +198,7 @@ fun ProfileContent(
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
 
-                WinietBox()
+                WinietBox(buyTicket = {goBuyTickets()})
                 Spacer(modifier = Modifier.width(17.dp))
                 AutoSatNetBox()
             }

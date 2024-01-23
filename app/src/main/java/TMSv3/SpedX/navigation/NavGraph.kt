@@ -17,10 +17,12 @@ import TMSv3.SpedX.navigation.Screen.PickOrderScreen
 import TMSv3.SpedX.navigation.Screen.VerifyEmailScreen
 import TMSv3.SpedX.navigation.Screen.AddOrderScreen
 import TMSv3.SpedX.navigation.Screen.EditOrderScreen
+import TMSv3.SpedX.navigation.Screen.TicketScreen
 import TMSv3.SpedX.navigation.Screen.MapScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
 import TMSv3.SpedX.presentation.sign_in.SignInScreen
+import TMSv3.SpedX.presentation.ticket.TicketScreen
 import TMSv3.SpedX.presentation.sign_up.SignUpScreen
 import TMSv3.SpedX.presentation.verify_email.VerifyEmailScreen
 import TMSv3.SpedX.presentation.orders.orders_list.OrdersScreen
@@ -72,6 +74,15 @@ fun NavGraph(
             )
         }
         composable(
+            route = TicketScreen.route
+        ) {
+            TicketScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+        composable(
             route = MapScreen.route
         ) {
             MapScreen(
@@ -100,7 +111,9 @@ fun NavGraph(
                 navigateToOrdersScreen = {
                     navController.navigate(OrdersScreen.route)
                 },
-                navigateToMapScreen = {navController.navigate(MapScreen.route)})
+                navigateToMapScreen = {navController.navigate(MapScreen.route)},
+                navigateToTicketScreen = {navController.navigate(TicketScreen.route)}
+            )
         }
         composable(
             route = AddOrderScreen.route

@@ -10,6 +10,7 @@ import TMSv3.SpedX.core.Constants.SIGN_IN_SCREEN
 import TMSv3.SpedX.core.Constants.VERIFY_EMAIL_SCREEN
 import TMSv3.SpedX.core.Constants.SIGN_UP_SCREEN
 import TMSv3.SpedX.core.Constants.MAP_SCREEN
+import TMSv3.SpedX.core.Constants.TICKET_SCREEN
 
 sealed class Screen(val route: String) {
     object SignInScreen: Screen(SIGN_IN_SCREEN)
@@ -22,4 +23,5 @@ sealed class Screen(val route: String) {
     object AddOrderScreen: Screen(ADD_ORDER_SCREEN)
     object EditOrderScreen: Screen(EDIT_ORDER_SCREEN)
     object MapScreen: Screen(MAP_SCREEN)
+    object TicketScreen: Screen(TICKET_SCREEN)
 }

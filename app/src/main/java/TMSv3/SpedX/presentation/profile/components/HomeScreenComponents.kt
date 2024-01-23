@@ -334,14 +334,14 @@ fun SettingsBox(){
 
 
 @Composable
-fun WinietBox(){
+fun WinietBox(buyTicket: () -> Unit){
     Box(modifier = Modifier
         .height(100.dp)
         .width(100.dp)
         .clip(AlertDialogDefaults.shape)
         .fillMaxSize()
         .background(tmsOnContainer)
-        .clickable { println("Button Clicked!") }, contentAlignment = Alignment.Center){
+        .clickable { buyTicket() }, contentAlignment = Alignment.Center){
         Image(painter = painterResource(id = R.drawable.winiet), contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

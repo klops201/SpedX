@@ -31,7 +31,7 @@ object Constants {
 
     //Screens
     const val SIGN_IN_SCREEN = "Zaloguj się"
-    const val FORGOT_PASSWORD_SCREEN = "Forgot password"
+    const val FORGOT_PASSWORD_SCREEN = "Zapomniałem hasło"
     const val SIGN_UP_SCREEN = "Zarejestruj się"
     const val VERIFY_EMAIL_SCREEN = "Zweryfikuj email"
     const val PROFILE_SCREEN = "Ekran główny"
@@ -40,6 +40,7 @@ object Constants {
     const val ADD_ORDER_SCREEN = "Dodaj zlecenie"
     const val EDIT_ORDER_SCREEN = "Edytuj zlecenie"
     const val MAP_SCREEN = "Podgląd pojazdu"
+    const val TICKET_SCREEN = "Kupno winiety"
 
     //Labels
     const val EMAIL_LABEL = "Email"
@@ -53,7 +54,7 @@ object Constants {
     //Texts
     const val FORGOT_PASSWORD = "Zapomniałeś hasła?"
     const val NO_ACCOUNT = "Nie masz konta? Zarejestruj się."
-    const val ALREADY_USER = "Masz już konto. Zaloguj się"
+    const val ALREADY_USER = "Masz już konto?. Zaloguj się"
     const val WELCOME_MESSAGE = "Witaj!."
     const val ALREADY_VERIFIED = "Zweryfikowałem mail"
     const val SPAM_EMAIL = "Jeśli nie, sprawdź folder spam."
