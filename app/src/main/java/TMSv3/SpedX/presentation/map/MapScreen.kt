@@ -33,6 +33,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.maps.android.compose.MarkerInfoWindow
 
@@ -86,7 +87,7 @@ fun MapScreen(
                         .fillMaxSize(), contentAlignment = Alignment.Center
                 ) {
                     //Text(modifier = Modifier.padding(all = 10.dp), textAlign = TextAlign.Center, text = currentDateAndTime, fontSize = 30.sp)
-                    Text(text = "aktualna prędkość: $speed")
+                    Text(text = "aktualna prędkość:\n $speed km/h", color = Color.White)
 
                 }
 

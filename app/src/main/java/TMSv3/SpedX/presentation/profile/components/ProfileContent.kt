@@ -43,6 +43,8 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -64,6 +66,7 @@ fun ProfileContent(
         viewModel.getUndoneOrdersList()
     }
 
+    val context = LocalContext.current
 
     val scrollState = rememberScrollState()
     Box(
@@ -71,11 +74,12 @@ fun ProfileContent(
             .fillMaxSize()
             .clip(componentShapes.small)
             .background(Color.White)// wazna kolejnosc
-            .padding(28.dp)
+            .padding(horizontal = 15.dp)
             .verticalScroll(state = scrollState)
     ) {
         Column (modifier = Modifier
             .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally){
+            Spacer(modifier = Modifier.height(35.dp))
             Greeting(userName = userName)
 
             Spacer(modifier = Modifier.height(35.dp))
@@ -93,7 +97,7 @@ fun ProfileContent(
 
                 ImageBoxMap(openMap = openMap)
                 Spacer(modifier = Modifier.width(17.dp))
-                BoxSent()
+                BoxSent(context)
             }
 
             Spacer(modifier = Modifier.height(17.dp))
@@ -106,7 +110,7 @@ fun ProfileContent(
                         //.width(210.dp)
                         .clip(AlertDialogDefaults.shape)
                         .clickable {navigateToOrdersScreen()}
-                        .background(GreyBG)
+                        .background(colorResource(id = R.color.colorTest))
                         .padding(15.dp)
                         .fillMaxWidth()
                 )

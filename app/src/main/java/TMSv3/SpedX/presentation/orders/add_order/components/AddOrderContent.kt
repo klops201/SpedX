@@ -1,6 +1,7 @@
 package TMSv3.SpedX.presentation.orders.add_order.components
 
 
+import TMSv3.SpedX.R
 import TMSv3.SpedX.components.SmallSpacer
 import TMSv3.SpedX.core.Constants
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +27,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 
 
@@ -230,6 +234,9 @@ fun AddOrderContent(
         )
         SmallSpacer()
         Button(shape = CircleShape,
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.colorTest),
+                contentColor = Color.White),
             onClick = {
                 if (areFieldsFilled(orderTitle, orderID, finalDest,
                         startDest, cargoName, cargoWeight, driverID,

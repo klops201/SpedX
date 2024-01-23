@@ -1,5 +1,6 @@
 package TMSv3.SpedX.presentation.orders.orders_list
 
+import TMSv3.SpedX.R
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -11,10 +12,14 @@ import TMSv3.SpedX.core.Constants.ORDERS_SCREEN
 import TMSv3.SpedX.presentation.orders.orders_list.components.OrdersContent
 import TMSv3.SpedX.presentation.profile.components.RevokeAccess
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavController
 
 @Composable
@@ -49,8 +54,9 @@ fun OrdersScreen(
         floatingActionButton ={
             FloatingActionButton(
                 onClick = { navigateToAddOrder()},
+                backgroundColor = colorResource(id = R.color.colorTest)
             ) {
-                Icon(Icons.Filled.Add, "Floating action button.")
+                Icon(Icons.Filled.Add, "Floating action button.", tint = Color.White)
             }
         }
     )

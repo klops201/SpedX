@@ -85,14 +85,22 @@ import TMSv3.SpedX.R
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.presentation.profile.ProfileViewModel
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.core.content.ContextCompat.startActivity
 
 @Composable
 fun Greeting(userName: String){
@@ -107,7 +115,7 @@ fun Greeting(userName: String){
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal),
 
-        color = MaterialTheme.colorScheme.primary,
+        color = colorResource(id = R.color.colorTest),
         textAlign = TextAlign.Center
 
     )
@@ -146,10 +154,10 @@ fun BoxDate(){
         .height(100.dp)
         .width(160.dp)
         .clip(AlertDialogDefaults.shape)
-        .background(tmsOnPrimary)
+        .background(colorResource(id = R.color.colorTest))
         .fillMaxSize(), contentAlignment = Alignment.Center){
         //Text(modifier = Modifier.padding(all = 10.dp), textAlign = TextAlign.Center, text = currentDateAndTime, fontSize = 30.sp)
-        Text(text = GetDayDate(), fontSize = 25.sp)
+        Text(text = GetDayDate(), fontSize = 25.sp, color= androidx.compose.ui.graphics.Color.White)
 
     }
 
@@ -247,7 +255,9 @@ fun ShowUndoneOrder(order: Order) {
     ) {
         Icon(
             painter = painterResource(id = R.drawable.dot),
-            contentDescription = null, // Możesz dostosować opis dostępności
+            contentDescription = null,
+            tint = androidx.compose.ui.graphics.Color.Red
+            // Możesz dostosować opis dostępności
         )
         Spacer(Modifier.width(10.dp))
         androidx.compose.material.Text(
@@ -279,12 +289,15 @@ fun ImageBoxMap(openMap: () -> Unit){
 
 
 @Composable
-fun BoxSent(){
+fun BoxSent(ctx: Context){
+//    val intent by remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"))}
     Box(modifier = Modifier
         .height(100.dp)
         //.width(210.dp)
         //.fillMaxSize()
-        .clickable { println("Button Clicked!") }
+        .clickable { val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse("https://puesc.gov.pl/")
+            startActivity(ctx, openURL, null ) }
         .background(androidx.compose.ui.graphics.Color.White)
         .clip(AlertDialogDefaults.shape)
         .fillMaxWidth()
@@ -323,13 +336,14 @@ fun SettingsBox(){
         .width(100.dp)
         .clip(AlertDialogDefaults.shape)
         .fillMaxSize()
-        .background(tmsOnContainer)
+        .background(colorResource(id = R.color.colorTest))
         .clickable { println("Button Clicked!") }, contentAlignment = Alignment.Center){
         Image(painter = painterResource(id = R.drawable.settings), contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp))
+                .padding(20.dp),
+            colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White))
     }}
 
 
@@ -340,13 +354,14 @@ fun WinietBox(buyTicket: () -> Unit){
         .width(100.dp)
         .clip(AlertDialogDefaults.shape)
         .fillMaxSize()
-        .background(tmsOnContainer)
+        .background(colorResource(id = R.color.colorTest))
         .clickable { buyTicket() }, contentAlignment = Alignment.Center){
         Image(painter = painterResource(id = R.drawable.winiet), contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(12.dp))
+                .padding(12.dp),
+            colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White))
     }}
 
 

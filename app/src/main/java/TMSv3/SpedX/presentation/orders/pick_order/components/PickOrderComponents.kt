@@ -43,7 +43,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.*
 
 import androidx.compose.ui.graphics.graphicsLayer
@@ -250,23 +252,44 @@ fun OrderCargoBox(cargoName: String, cargoWeight: Int) {
 @Composable
 fun doneCheckbox(done: Boolean, change: () -> Unit ){
     var doneState = remember { mutableStateOf(done) }
-    Row(modifier = Modifier.fillMaxWidth()) {
+    Row(modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically) {
         if(doneState.value == false){
-        Button(modifier =Modifier.weight(1f),
-            onClick = { change()
-                doneState.value = !doneState.value}) {
-            Text(text = "Oznacz zlecenia jako wykonane") }
-            Column(modifier = Modifier.weight(1f).background(Color.White).fillMaxSize(), verticalArrangement = Arrangement.SpaceAround
-                , horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Status zlecenia:")
-                        Text(text = "W trakcie")
+            Box (modifier = Modifier
+                .weight(1f)
+                .height(60.dp)
+                .padding(3.dp)){
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = GreyBG),
+                    onClick = {
+                        change()
+                        doneState.value = !doneState.value
+                    }) {
+                    Text(
+                        text = "Oznacz zlecenie jako wykonane",
+                        textAlign = TextAlign.Center,
+                        color = Color.Black
+                    )
+                }
+            }
+            Box(modifier = Modifier
+                .weight(1f)
+                .height(60.dp)
+                .clip(RoundedCornerShape(60.dp))
+                .background(Color.Red)
+                .padding(6.dp), contentAlignment = Alignment.Center) {
+                    Text(text = "Status zlecenia: w trakcie", color = Color.White, textAlign = TextAlign.Center)
+//                        Text(text = "W trakcie", color = Color.White)
 
             }
         }else {
-            Column(modifier = Modifier.background(Color.White).fillMaxSize(), verticalArrangement = Arrangement.SpaceAround
+            Column(modifier = Modifier
+                .clip(RoundedCornerShape(55.dp))
+                .background(colorResource(id = R.color.colorGreenDone))
+                .fillMaxSize(), verticalArrangement = Arrangement.SpaceAround
                 , horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "Status zlecenia:")
-                Text(text = "Zakończone")
+                Text(text = "Status zlecenia:", color = Color.White)
+                Text(text = "Zakończone", color = Color.White)
 
             }
         }
@@ -278,10 +301,8 @@ fun doneCheckbox(done: Boolean, change: () -> Unit ){
 
 
 
-@Preview(
-    showBackground = true,
-)
+@Preview
 @Composable
 fun CheckFunctPrev(){
-    OrderLocationsBox("Suwałki", "Augustów")
+    doneCheckbox(true, {})
 }

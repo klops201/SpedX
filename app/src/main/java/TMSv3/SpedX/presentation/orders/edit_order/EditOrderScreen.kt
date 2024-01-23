@@ -1,5 +1,6 @@
 package TMSv3.SpedX.presentation.orders.edit_order
 
+import TMSv3.SpedX.R
 import TMSv3.SpedX.presentation.orders.edit_order.components.AddCmrOrder
 import TMSv3.SpedX.presentation.orders.edit_order.components.EditOrderContent
 import TMSv3.SpedX.presentation.orders.pick_order.components.PickOrderContent
@@ -11,10 +12,13 @@ import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -58,6 +62,7 @@ fun EditOrderScreen(
         scaffoldState = scaffoldState,
         floatingActionButton ={
             FloatingActionButton(
+                backgroundColor = colorResource(id = R.color.colorTest),
                 onClick = {
                     coroutineScope.launch {
                         val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
@@ -75,7 +80,7 @@ fun EditOrderScreen(
                     }
                 },
             ) {
-                Icon(Icons.Filled.Add, "Floating action button.")
+                Icon(Icons.Filled.Delete, "Floating action button.", tint = Color.White)
             }
         }
     )

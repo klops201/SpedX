@@ -15,17 +15,17 @@ fun TicketScreen(
 ){
     val scaffoldState = rememberScaffoldState()
     Scaffold(
-        topBar = {
-            TopBar(
-                title = Constants.TICKET_SCREEN,
-                signOut = {
-
-                },
-                revokeAccess = {
-
-                }
-            )
-        },
+//        topBar = {
+//            TopBar(
+//                title = Constants.TICKET_SCREEN,
+//                signOut = {
+//
+//                },
+//                revokeAccess = {
+//
+//                }
+//            )
+//        },
         content = {paddingValues ->
         TicketContent(paddingValues = paddingValues)
         },

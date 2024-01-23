@@ -1,5 +1,6 @@
 package TMSv3.SpedX.components
 
+import TMSv3.SpedX.R
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import TMSv3.SpedX.core.Constants.REVOKE_ACCESS_ITEM
 import TMSv3.SpedX.core.Constants.SIGN_OUT_ITEM
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopBar(
@@ -20,14 +27,16 @@ fun TopBar(
 ) {
     var openMenu by remember { mutableStateOf(false) }
 
-    TopAppBar (
+    TopAppBar (modifier = Modifier.clip(shape = RoundedCornerShape(0.dp, 0.dp, 25.dp, 25.dp)),
+        backgroundColor = colorResource(id = R.color.colorTest),
         title = {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .height(50.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = title
+                    text = title, color = Color.White
                 )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -41,6 +50,7 @@ fun TopBar(
                         Icon(
                             imageVector = Icons.Outlined.MoreVert,
                             contentDescription = null,
+                            tint = Color.White
                         )
                     }
                 }

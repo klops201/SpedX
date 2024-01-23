@@ -1,5 +1,6 @@
 package TMSv3.SpedX.presentation.orders.orders_list.components
 
+import TMSv3.SpedX.R
 import TMSv3.SpedX.core.Constants
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -21,10 +22,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import TMSv3.SpedX.domain.model.Order
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun OrdersContent(padding: PaddingValues,
@@ -43,6 +49,7 @@ fun OrdersContent(padding: PaddingValues,
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight(),
+                verticalArrangement = Arrangement.spacedBy(5.dp),
                 contentPadding = PaddingValues(8.dp)
             ) {
                 items(orders) { order ->
@@ -63,7 +70,8 @@ fun OrdersContent(padding: PaddingValues,
 fun ShowOrder(order: Order, onClick: (String?) -> Unit) {
     Row(
         modifier = Modifier
-            .background(MaterialTheme.colors.primary)
+            .clip(RoundedCornerShape(25.dp))
+            .background(colorResource(id = R.color.colorTest))
             .fillMaxWidth()
             .clickable { onClick(order.firestoreID) }
             .padding(vertical = 20.dp, horizontal = 24.dp),
@@ -83,4 +91,13 @@ fun ShowOrder(order: Order, onClick: (String?) -> Unit) {
         Spacer(Modifier.width(10.dp))
         Log.d(Constants.TAG, "exe function ShowOrder----------------------------------: $order")
     }
+}
+
+
+
+
+@Preview
+@Composable
+fun showMEEE(){
+    ShowOrder(order = Order(), onClick = {})
 }
