@@ -22,6 +22,7 @@ object Constants {
 
     //Navi
     const val ORDER_ID = "clickedOrderID"
+    const val DRIVER_ID = "clickedDriverID"
 
 
     //Empty Value
@@ -41,6 +42,8 @@ object Constants {
     const val EDIT_ORDER_SCREEN = "Edytuj zlecenie"
     const val MAP_SCREEN = "Podgląd pojazdu"
     const val TICKET_SCREEN = "Kupno winiety"
+    const val DRIVERS_MAIN_SCREEN = "Kierowcy"
+    const val EDIT_DRIVER_SCREEN = "Edytuj informacje o kierowcy"
 
     //Labels
     const val EMAIL_LABEL = "Email"

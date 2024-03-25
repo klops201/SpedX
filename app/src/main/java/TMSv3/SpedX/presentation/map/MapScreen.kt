@@ -17,12 +17,22 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,10 +41,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.google.maps.android.compose.MarkerInfoWindow
 
 @Composable
@@ -47,16 +61,56 @@ fun MapScreen(
     LaunchedEffect(viewModel) {
         viewModel.fetchPosition()
     }
-
+    var openDialog by remember { mutableStateOf(false) }
 
     val fetchGPS by viewModel.position.observeAsState<Position>()
     Log.d(Constants.TAG, "wczytanie pozycji do screen----------: $fetchGPS")
 
     fetchGPS?.let { positionCar ->
         Log.d(Constants.TAG, "stworzenie latlng----------: $positionCar")
-
+        val safelat = positionCar.latitude ?: 0.00
+        val safelng = positionCar.longitude ?: 0.00
         // Użyj position w swoim kodzie Compose
-        val positionGPS = LatLng(positionCar.latitude, positionCar.longitude)
+        if(safelat == 0.00 || safelng == 0.00){
+            openDialog = true
+        }
+        if(openDialog) {
+            Dialog(onDismissRequest = {openDialog = !openDialog}) {
+                // Draw a rectangle shape with rounded corners inside the dialog
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(350.dp)
+                        .padding(16.dp),
+                    shape = RoundedCornerShape(16.dp),
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = "Wczytywanie danych się nie powiodło. Sprawdź połączenie z internetem." ,
+                            modifier = Modifier.padding(16.dp),
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                        ) {
+                            TextButton(
+                                onClick = { openDialog = false},
+                                modifier = Modifier.padding(8.dp),
+                            ) {
+                                Text("Zamknij")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        val positionGPS = LatLng(safelat, safelng)
         // ... reszta kodu MapScreen
 
         val speed = positionCar.speed
@@ -92,11 +146,7 @@ fun MapScreen(
                 }
 
                 Log.d(Constants.TAG, "wczytanie markera-----------------------------------")
-//            Marker(
-//                state = MarkerState(positionGPS),
-//                title = "Aktualna lokalizacja",
-//                snippet = "Znacznik pojazdu"
-//            )
+
             }
         }
 

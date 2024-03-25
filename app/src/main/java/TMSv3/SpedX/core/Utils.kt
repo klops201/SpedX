@@ -60,8 +60,16 @@ class Utils {
             context.startActivity(intent)
         }
 
+        fun openBrowser(url: String, context: Context) {
+            val openURL = Intent(Intent.ACTION_VIEW)
+            openURL.data = Uri.parse(url)
+            startActivity(context, openURL, null)
+        }
 
-
+        fun TimeStampUnixConverter(timestamp: Int):Date {
+            val convert = timestamp.toLong()
+            return Date(convert * 1000)
+        }
 
 
 

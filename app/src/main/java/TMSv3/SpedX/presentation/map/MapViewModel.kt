@@ -35,7 +35,7 @@ class MapViewModel @Inject constructor(
             try {
                 Log.d(Constants.TAG, "przed pobraniem pozycji ----------: ")
 
-                _position.value = ASNApi.autoSatNetService.getActualPosition()
+                _position.value = ASNApi.autoSatNetService.getActualPosition("v1566")
                 Log.d(Constants.TAG, "po pobraniu pozycji ----------: ${_position.value}")
 
             }  catch (e: Exception) {

@@ -25,6 +25,7 @@ fun ProfileScreen(
     navigateToOrdersScreen: () -> Unit,
     navigateToMapScreen: () -> Unit,
     navigateToTicketScreen: () -> Unit,
+    navigateToDriversScreen: () -> Unit,
 ) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
@@ -52,6 +53,7 @@ fun ProfileScreen(
                 navigateToOrdersScreen = navigateToOrdersScreen,
                 openMap = navigateToMapScreen,
                 goBuyTickets = navigateToTicketScreen,
+                openDriversList = navigateToDriversScreen
             )
         },
         scaffoldState = scaffoldState

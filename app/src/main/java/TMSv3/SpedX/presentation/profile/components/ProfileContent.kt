@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import TMSv3.SpedX.core.Constants.WELCOME_MESSAGE
+import TMSv3.SpedX.core.Utils
 import TMSv3.SpedX.presentation.orders.orders_list.OrdersViewModel
 import TMSv3.SpedX.presentation.orders.orders_list.components.ShowOrder
 import TMSv3.SpedX.presentation.orders.orders_list.components.getOrders
@@ -58,6 +59,7 @@ fun ProfileContent(
     navigateToOrdersScreen: () -> Unit,
     openMap: () -> Unit,
     goBuyTickets: () -> Unit,
+    openDriversList: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
     var goOrders: Boolean = false
@@ -87,7 +89,8 @@ fun ProfileContent(
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
 
                 BoxDate()
-
+                Spacer(modifier = Modifier.width(17.dp))
+                checkDrivers(onClick = {openDriversList()})
             }
 
 
@@ -97,7 +100,7 @@ fun ProfileContent(
 
                 ImageBoxMap(openMap = openMap)
                 Spacer(modifier = Modifier.width(17.dp))
-                BoxSent(context)
+                BoxSent(openBrowser = {Utils.openBrowser("https://puesc.gov.pl/", context)})
             }
 
             Spacer(modifier = Modifier.height(17.dp))
@@ -109,7 +112,7 @@ fun ProfileContent(
                         .height(210.dp)
                         //.width(210.dp)
                         .clip(AlertDialogDefaults.shape)
-                        .clickable {navigateToOrdersScreen()}
+                        .clickable { navigateToOrdersScreen() }
                         .background(colorResource(id = R.color.colorTest))
                         .padding(15.dp)
                         .fillMaxWidth()
@@ -193,7 +196,7 @@ fun ProfileContent(
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
 
-                EtollBox()
+                EtollBox(openBrowser = {Utils.openBrowser("https://shorturl.at/dgDMT", context)})
                 Spacer(modifier = Modifier.width(17.dp))
                 SettingsBox()
             }
@@ -204,7 +207,7 @@ fun ProfileContent(
 
                 WinietBox(buyTicket = {goBuyTickets()})
                 Spacer(modifier = Modifier.width(17.dp))
-                AutoSatNetBox()
+                AutoSatNetBox(openBrowser = {Utils.openBrowser("https://www.autosatnet.eu/monit/", context)})
             }
 
 

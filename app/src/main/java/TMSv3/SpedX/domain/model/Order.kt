@@ -14,4 +14,5 @@ data class Order(
     val cmrId: String? = null,
     val createAt: String? = null,
     val done: Boolean = false,
+//    val notes: String? = null,
 )

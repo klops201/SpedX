@@ -5,4 +5,6 @@ data class Driver(
     val driverName: String? = null,
     val driverPhoneNr: Int? = null,
     val firebaseID: String? = null,
+    val vehicleId: String? = null,
+
 )

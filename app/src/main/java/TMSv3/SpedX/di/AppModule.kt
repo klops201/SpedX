@@ -7,13 +7,17 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import TMSv3.SpedX.data.repository.AuthRepositoryImpl
 import TMSv3.SpedX.data.repository.CmrRepositoryImpl
+import TMSv3.SpedX.data.repository.DriverRepositoryImpl
 import TMSv3.SpedX.data.repository.MainRepositoryImpl
 import TMSv3.SpedX.data.repository.OrderRepositoryImpl
+import TMSv3.SpedX.data.repository.PositionRepositoryImpl
 import TMSv3.SpedX.domain.repository.AuthRepository
 import TMSv3.SpedX.domain.repository.AutoSatNetService
 import TMSv3.SpedX.domain.repository.CmrRepository
+import TMSv3.SpedX.domain.repository.DriverRepository
 import TMSv3.SpedX.domain.repository.MainRepository
 import TMSv3.SpedX.domain.repository.OrderRepository
+import TMSv3.SpedX.domain.repository.PositionRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -52,6 +56,19 @@ object AppModule {
     @Provides
     fun provideMainRepository(auth: FirebaseAuth, db: FirebaseFirestore,
     ): MainRepository = MainRepositoryImpl(
+        auth = auth,
+        db = db
+    )
+
+    @Provides
+    fun provideDriverRepository(auth: FirebaseAuth, db: FirebaseFirestore): DriverRepository = DriverRepositoryImpl(
+        auth = auth,
+        db = db
+    )
+
+
+    @Provides
+    fun providePositionRepository(auth: FirebaseAuth, db: FirebaseFirestore): PositionRepository = PositionRepositoryImpl(
         auth = auth,
         db = db
     )

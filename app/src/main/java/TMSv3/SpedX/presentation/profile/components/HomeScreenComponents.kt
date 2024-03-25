@@ -85,6 +85,7 @@ import TMSv3.SpedX.R
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.presentation.profile.ProfileViewModel
+import TMSv3.SpedX.presentation.uiTheme.Redetoll
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -100,6 +101,7 @@ import java.util.Date
 import java.util.concurrent.TimeUnit
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat.startActivity
 
 @Composable
@@ -111,7 +113,7 @@ fun Greeting(userName: String){
             .heightIn(min = 40.dp),
 
         style = androidx.compose.ui.text.TextStyle(
-            fontSize = 25.sp,
+            fontSize = 30.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal),
 
@@ -132,17 +134,17 @@ fun GetDayDate():String{
 }
 
 
-
-
-@Composable
-fun Example(onClick: () -> Unit) {
-    FloatingActionButton(
-        onClick = { onClick() },
-    ) {
-        Icon(Icons.Filled.Add, "Floating action button.")
-    }
-}
-
+//
+//
+//@Composable
+//fun Example(onClick: () -> Unit) {
+//    FloatingActionButton(
+//        onClick = { onClick() },
+//    ) {
+//        Icon(Icons.Filled.Add, "Floating action button.")
+//    }
+//}
+//
 
 
 
@@ -166,13 +168,50 @@ fun BoxDate(){
 
 
 @Composable
+fun checkDrivers(onClick: () -> Unit){
+    Box(modifier = Modifier
+        .clip(AlertDialogDefaults.shape)
+        .height(100.dp)
+        .fillMaxWidth()
+        .background(Redetoll)
+        .clickable { onClick() }
+    ){
+        Row (modifier = Modifier.padding(15.dp),
+            horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+            Box (modifier = Modifier
+                .weight(2f)
+                .fillMaxSize(), contentAlignment = Alignment.Center){
+                Text(
+                    modifier = Modifier,
+                    fontSize = 20.sp,
+                    text = "KIEROWCY",
+                    color = androidx.compose.ui.graphics.Color.White
+                )
+            }
+
+            Image(painter = painterResource(id = R.drawable.driver), contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize(),
+                colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White))
+        }
+    }
+}
+
+
+
+
+
+
+@Composable
 fun OrderList(onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .height(210.dp)
             //.width(210.dp)
             .clip(AlertDialogDefaults.shape)
-            .clickable {onClick()}
+            .clickable { onClick() }
             .background(GreyBG)
             .padding(15.dp)
             .fillMaxWidth()
@@ -281,7 +320,7 @@ fun ImageBoxMap(openMap: () -> Unit){
         .width(100.dp)
         .clip(AlertDialogDefaults.shape)
         .fillMaxSize()
-        .clickable{openMap()}, contentAlignment = Alignment.Center){
+        .clickable { openMap() }, contentAlignment = Alignment.Center){
         Image(painter = painterResource(id = R.drawable.map), contentDescription = null,
             contentScale = ContentScale.Crop)
 }}
@@ -289,15 +328,13 @@ fun ImageBoxMap(openMap: () -> Unit){
 
 
 @Composable
-fun BoxSent(ctx: Context){
+fun BoxSent(openBrowser: () -> Unit){
 //    val intent by remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"))}
     Box(modifier = Modifier
         .height(100.dp)
         //.width(210.dp)
         //.fillMaxSize()
-        .clickable { val openURL = Intent(Intent.ACTION_VIEW)
-            openURL.data = Uri.parse("https://puesc.gov.pl/")
-            startActivity(ctx, openURL, null ) }
+        .clickable { openBrowser() }
         .background(androidx.compose.ui.graphics.Color.White)
         .clip(AlertDialogDefaults.shape)
         .fillMaxWidth()
@@ -309,22 +346,33 @@ fun BoxSent(ctx: Context){
         , contentAlignment = Alignment.Center){
         Image(painter = painterResource(id = R.drawable.puesc2), contentDescription = null,
             modifier = Modifier
-                .fillMaxSize()
-                .clickable { println("Button Clicked!") })
+                .fillMaxSize())
     }}
 
+
+
+
+
+
+
 @Composable
-fun EtollBox(){
+fun ButtonTest(openNet: () -> Unit){
+    Button(onClick = { openNet() }) {
+
+    }
+}
+
+@Composable
+fun EtollBox(openBrowser: () -> Unit){
     Box(modifier = Modifier
         .height(100.dp)
         .width(220.dp)
         .clip(AlertDialogDefaults.shape)
         //.fillMaxSize()
-        .clickable { println("Button Clicked!") }
+        .clickable { openBrowser() }
         .background(tmsContainer), contentAlignment = Alignment.Center){
         Image(painter = painterResource(id = R.drawable.etoll2), contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.clickable { println("Button Clicked!") })
+            contentScale = ContentScale.Crop)
     }
 }
 
@@ -367,26 +415,25 @@ fun WinietBox(buyTicket: () -> Unit){
 
 
 @Composable
-fun AutoSatNetBox(){
+fun AutoSatNetBox(openBrowser: () -> Unit){
     Box(modifier = Modifier
         .height(100.dp)
         //.width(210.dp)
         //.fillMaxSize()
-        .clickable { println("Button Clicked!") }
+        .clickable { openBrowser() }
         .background(androidx.compose.ui.graphics.Color.White)
         .clip(AlertDialogDefaults.shape)
         .fillMaxWidth()
         , contentAlignment = Alignment.Center){
         Image(painter = painterResource(id = R.drawable.autosatnet_logo), contentDescription = null,
             modifier = Modifier
-                .fillMaxSize()
-                .clickable { println("Button Clicked!") })
+                .fillMaxSize())
     }}
 
 
 
-//@Preview
-//@Composable
-//fun PreviewBBB() {
-//AutoSatNetBox()
-//}
+@Preview
+@Composable
+fun PreviewBBB() {
+    checkDrivers(onClick = {})
+}

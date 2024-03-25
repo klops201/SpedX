@@ -2,6 +2,7 @@ package TMSv3.SpedX.presentation.orders.pick_order.components
 
 import TMSv3.SpedX.R
 import TMSv3.SpedX.presentation.uiTheme.GreyBG
+import TMSv3.SpedX.presentation.uiTheme.md_theme_light_onPrimary
 import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,6 +51,10 @@ import androidx.compose.runtime.*
 
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 
 
 @Composable
@@ -57,9 +62,9 @@ fun TitleOrderBox(orderID: String, modifier: Modifier = Modifier) {
 
     Box(
         modifier = modifier
-            .padding(10.dp)
+//            .padding(10.dp)
 //            .height(100.dp)
-            .clip(AlertDialogDefaults.shape)
+            .clip(RoundedCornerShape(18.dp))
             .background(tmsOnPrimary)
             .fillMaxWidth()
             , contentAlignment = Alignment.Center
@@ -69,23 +74,23 @@ fun TitleOrderBox(orderID: String, modifier: Modifier = Modifier) {
 //        Text(text = "Sprawdź dane zlecenia ", modifier = Modifier.padding(5.dp).align(Alignment.TopCenter), fontSize = 20.sp)
         Text(text = "Numer zamówienia: $orderID", modifier = Modifier
             .padding(5.dp)
-            .align(Alignment.Center), fontSize = 20.sp)
+            .align(Alignment.Center), fontSize = 20.sp, color = Color.White)
 
     }
 
 }
 
-@Composable
-private fun TransformableSample() {
-    // Ustaw wszystkie stany transformacji
-    var scale by remember { mutableStateOf(1f) }
-    var rotation by remember { mutableStateOf(0f) }
-    var offset by remember { mutableStateOf(Offset.Zero) }
-    val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
-        scale *= zoomChange
-        rotation += rotationChange
-        offset += offsetChange
-    }}
+//@Composable
+//private fun TransformableSample() {
+//    // Ustaw wszystkie stany transformacji
+//    var scale by remember { mutableStateOf(1f) }
+//    var rotation by remember { mutableStateOf(0f) }
+//    var offset by remember { mutableStateOf(Offset.Zero) }
+//    val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
+//        scale *= zoomChange
+//        rotation += rotationChange
+//        offset += offsetChange
+//    }}
 
 
 
@@ -95,7 +100,7 @@ fun OrderLocationsBox(startLoc: String, finalLoc: String) {
 
         Box(
                     modifier = Modifier
-                        .padding(10.dp)
+//                        .padding(10.dp)
                         .clip(AlertDialogDefaults.shape)
                         .background(GreyBG)
                         .fillMaxWidth(),
@@ -179,31 +184,7 @@ fun OrderLocationsBox(startLoc: String, finalLoc: String) {
         }
         Spacer(modifier = Modifier.width(8.dp))
 
-//        Box(
-//            modifier = Modifier
-//                .padding(10.dp)
-//                .weight(1f)
-//                .clip(AlertDialogDefaults.shape)
-//                .background(tmsOnPrimary)
-//                .alignByBaseline(),
-//        ) {
-//            Column (verticalArrangement = Arrangement.Center,
-//                horizontalAlignment = Alignment.CenterHorizontally){
-//                Text(
-//                    modifier = Modifier.padding(5.dp).fillMaxWidth(),
-//                    textAlign = TextAlign.Center,
-//                    text = "Miejsce docelowe",
-//                    fontSize = 20.sp
-//                )
-//                Text(
-//                    modifier = Modifier.padding(5.dp).fillMaxWidth(),
-//                    textAlign = TextAlign.Center,
-//                    text = "$finalLoc",
-//                    fontSize = 20.sp
-//                )
-//            }
-//
-//        }
+
 
 
 }
@@ -214,8 +195,9 @@ fun OrderCargoBox(cargoName: String, cargoWeight: Int) {
     Row(
         Modifier
             .fillMaxWidth()
-            .clip(AlertDialogDefaults.shape)
-            .background(tmsOnPrimary), verticalAlignment = Alignment.CenterVertically
+            .height(70.dp)
+            .clip(RoundedCornerShape(18.dp))
+            .background(GreyBG), verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
@@ -226,8 +208,8 @@ fun OrderCargoBox(cargoName: String, cargoWeight: Int) {
                     .align(Alignment.Center),
                 textAlign = TextAlign.Center,
                 text = "typ towaru: $cargoName",
-                fontSize = 20.sp
-            )
+                fontSize = 20.sp, color = Color.Black)
+
         }
         Spacer(modifier = Modifier.width(8.dp))
 
@@ -240,7 +222,7 @@ fun OrderCargoBox(cargoName: String, cargoWeight: Int) {
                     .align(Alignment.Center),
                 textAlign = TextAlign.Center,
                 text = "masa: $cargoWeight kg",
-                fontSize = 20.sp
+                fontSize = 20.sp, color = Color.Black
             )
         }
     }
@@ -298,11 +280,62 @@ fun doneCheckbox(done: Boolean, change: () -> Unit ){
 }
 
 
+@Composable
+fun CmrBox(imageUri: String, afterClick: () -> Unit){
+
+
+        Box (modifier = Modifier
+            .clip(RoundedCornerShape(18.dp))
+            .background(GreyBG)){
+            Row(modifier = Modifier.fillMaxWidth()
+                .height(170.dp),verticalAlignment = Alignment.CenterVertically) {
+
+            Text(
+                text = "Sprawdź swój list przewozowy",
+                modifier = Modifier
+                    .padding(5.dp)
+                    .weight(1f),
+                fontSize = 20.sp,
+                color = Color.Black
+            )
+            AsyncImage(
+                modifier = Modifier
+                    .weight(1f)
+                    .clip(RoundedCornerShape(18.dp))
+                    .padding(3.dp)
+                    .fillMaxHeight()
+                    .clickable {
+                        afterClick()
+                    },
+                contentScale = ContentScale.Crop,
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(imageUri)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null
+            )
+
+
+           }
+
+        }
+
+
+
+
+    }
+
+
+
+
+
 
 
 
 @Preview
 @Composable
 fun CheckFunctPrev(){
-    doneCheckbox(true, {})
+    CmrBox(imageUri = "asasas") {
+        
+    }
 }

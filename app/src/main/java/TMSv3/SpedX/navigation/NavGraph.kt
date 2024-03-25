@@ -1,6 +1,7 @@
 package TMSv3.SpedX.navigation
 
 import TMSv3.SpedX.core.Constants
+import TMSv3.SpedX.core.Constants.DRIVER_ID
 import TMSv3.SpedX.core.Constants.NO_VALUE
 import TMSv3.SpedX.core.Constants.ORDER_ID
 import androidx.compose.runtime.Composable
@@ -19,6 +20,8 @@ import TMSv3.SpedX.navigation.Screen.AddOrderScreen
 import TMSv3.SpedX.navigation.Screen.EditOrderScreen
 import TMSv3.SpedX.navigation.Screen.TicketScreen
 import TMSv3.SpedX.navigation.Screen.MapScreen
+import TMSv3.SpedX.navigation.Screen.DriversMainScreen
+import TMSv3.SpedX.navigation.Screen.EditDriverScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
 import TMSv3.SpedX.presentation.sign_in.SignInScreen
@@ -30,6 +33,8 @@ import TMSv3.SpedX.presentation.orders.pick_order.PickOrderScreen
 import TMSv3.SpedX.presentation.orders.add_order.AddOrderScreen
 import TMSv3.SpedX.presentation.orders.edit_order.EditOrderScreen
 import TMSv3.SpedX.presentation.map.MapScreen
+import TMSv3.SpedX.presentation.drivers.driver_edit.EditDriverScreen
+import TMSv3.SpedX.presentation.drivers.drivers_main.DriversMainScreen
 import android.util.Log
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -91,6 +96,26 @@ fun NavGraph(
                 }
             )
         }
+
+
+
+
+        composable(
+            route = DriversMainScreen.route
+        ){ DriversMainScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                },
+            navigateToDriverEditScr ={
+                    clickedDriverID ->
+                Log.d(Constants.TAG, "before -----navController.navigate{PickOrderScreen.route}/clickedOrderID-------------------------------------------------------------------orderId: $clickedDriverID")
+                navController.navigate("${EditDriverScreen.route}/{$DRIVER_ID}")
+                Log.d(Constants.TAG, "after -----navController.navigate{PickOrderScreen.route}/clickedOrderID-------------------------------------------------------------------orderId: $clickedDriverID")
+
+            }
+            )
+
+        }
         composable(
             route = VerifyEmailScreen.route
         ) {
@@ -112,7 +137,8 @@ fun NavGraph(
                     navController.navigate(OrdersScreen.route)
                 },
                 navigateToMapScreen = {navController.navigate(MapScreen.route)},
-                navigateToTicketScreen = {navController.navigate(TicketScreen.route)}
+                navigateToTicketScreen = {navController.navigate(TicketScreen.route)},
+                navigateToDriversScreen = {navController.navigate(DriversMainScreen.route)}
             )
         }
         composable(
@@ -169,6 +195,33 @@ fun NavGraph(
                 }
             )
         }
+
+        composable(
+            route = "${EditDriverScreen.route}/{$DRIVER_ID}",
+            arguments = listOf(
+                navArgument(DRIVER_ID) {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val driverId: String = backStackEntry.arguments?.getString(DRIVER_ID) ?: NO_VALUE
+            EditDriverScreen(
+                driverID = driverId,
+                navigateBack = {
+                    navController.popBackStack()
+                },
+                navigateToDrivers = {
+                    navController.navigate(DriversMainScreen.route)
+                }
+            )
+        }
+
+
+
+
+
+
+
 
 
         composable(

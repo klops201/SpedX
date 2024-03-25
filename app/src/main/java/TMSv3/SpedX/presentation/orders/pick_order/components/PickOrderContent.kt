@@ -1,6 +1,8 @@
 package TMSv3.SpedX.presentation.orders.pick_order.components
 
 import TMSv3.SpedX.R
+import TMSv3.SpedX.domain.repository.CmrRepository
+import TMSv3.SpedX.domain.repository.OrderRepository
 import TMSv3.SpedX.presentation.orders.pick_order.PickOrderViewModel
 import TMSv3.SpedX.presentation.uiTheme.componentShapes
 import androidx.compose.foundation.Image
@@ -57,6 +59,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 
 @Composable
@@ -109,7 +112,8 @@ fun PickOrderContent(
                 ) {
                     Column(
                         modifier = Modifier
-                            .fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
+                            .fillMaxSize()
+                            .padding(15.dp), horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         val safeID = item.orderId ?: ""
                         val safeIDFB = item.firestoreID ?: ""
@@ -136,83 +140,106 @@ fun PickOrderContent(
                         ShowCmr { imageUri ->
                             Box(
                                 modifier = Modifier
-                                    .padding(10.dp)
                                     .fillMaxWidth(),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
+//                                Row(verticalAlignment = Alignment.CenterVertically) {
+//
+//                                    Text(
+//                                        text = "Sprawdź swój list przewozowy",
+//                                        modifier = Modifier
+//                                            .padding(5.dp)
+//                                            .weight(1f),
+//                                        fontSize = 20.sp,
+//                                        color = Color.White
+//                                    )
+//
+//                                    AsyncImage(
+//                                        modifier = Modifier
+//                                            .weight(1f)
+//                                            .fillMaxHeight()
+//                                            .clickable {
+//                                                imageFullScreen = true
+//                                            },
+//                                        contentScale = ContentScale.FillWidth,
+//                                        model = ImageRequest.Builder(LocalContext.current)
+//                                            .data(imageUri)
+//                                            .crossfade(true)
+//                                            .build(),
+//                                        contentDescription = null
+//                                    )
+//
+//
+//
+//                                }
+                                CmrBox(imageUri = imageUri, afterClick = {imageFullScreen = true})
 
-                                    Text(
-                                        text = "Sprawdź swój list przewozowy",
-                                        modifier = Modifier
-                                            .padding(5.dp)
-                                            .weight(1f),
-                                        fontSize = 20.sp,
-                                        color = Color.White
-                                    )
 
-                                    AsyncImage(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .fillMaxHeight()
-                                            .clickable {
-                                                imageFullScreen = true
-                                            },
-                                        model = ImageRequest.Builder(LocalContext.current)
-                                            .data(imageUri)
-                                            .crossfade(true)
-                                            .build(),
-                                        contentDescription = null
-                                    )
-                                    if (imageFullScreen) {
-                                        Dialog(onDismissRequest = {imageFullScreen = false}, properties = DialogProperties(usePlatformDefaultWidth = false)) {
-                                            // Custom layout for the dialog
-                                            Surface(
-                                                modifier = Modifier.fillMaxSize(),
+                                if (imageFullScreen) {
+                                    Dialog(onDismissRequest = {imageFullScreen = false}, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+                                        // Custom layout for the dialog
+                                        Surface(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .background(Color.Black),
+                                        ) {
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .background(Color.Black),
+                                                horizontalAlignment = Alignment.CenterHorizontally
                                             ) {
-                                                Column(
-                                                    modifier = Modifier
-                                                        .padding(16.dp)
-                                                        .fillMaxWidth(),
-                                                    horizontalAlignment = Alignment.CenterHorizontally
-                                                ) {
-                                                    var scale by remember { mutableStateOf(1f) }
-                                                    var rotation by remember { mutableStateOf(0f) }
-                                                    var offset by remember { mutableStateOf(Offset.Zero) }
-                                                    val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
-                                                        scale *= zoomChange
-                                                        rotation += rotationChange
-                                                        offset += offsetChange
-                                                    }
-                                                    AsyncImage(
-                                                        modifier = Modifier
-                                                            .fillMaxSize()
-                                                            .graphicsLayer(
-                                                                scaleX = scale,
-                                                                scaleY = scale,
-                                                                rotationZ = rotation,
-                                                                translationX = offset.x,
-                                                                translationY = offset.y
-                                                            )
-                                                            // add transformable to listen to multitouch transformation events
-                                                            // after offset
-                                                            .transformable(state = state)
-                                                            .fillMaxSize(),
-                                                        model = ImageRequest.Builder(LocalContext.current)
-                                                            .data(imageUri)
-                                                            .crossfade(true)
-                                                            .build(),
-                                                        contentDescription = null
-                                                    )
-
+                                                var scale by remember { mutableStateOf(1f) }
+                                                var rotation by remember { mutableStateOf(0f) }
+                                                var offset by remember { mutableStateOf(Offset.Zero) }
+                                                val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
+                                                    scale *= zoomChange
+                                                    rotation += rotationChange
+                                                    offset += offsetChange
                                                 }
+                                                AsyncImage(
+                                                    modifier = Modifier
+                                                        .fillMaxSize()
+                                                        .graphicsLayer(
+                                                            scaleX = scale,
+                                                            scaleY = scale,
+                                                            rotationZ = rotation,
+                                                            translationX = offset.x,
+                                                            translationY = offset.y
+                                                        )
+                                                        // add transformable to listen to multitouch transformation events
+                                                        // after offset
+                                                        .transformable(state = state)
+                                                        .fillMaxSize(),
+                                                    model = ImageRequest.Builder(LocalContext.current)
+                                                        .data(imageUri)
+                                                        .crossfade(true)
+                                                        .build(),
+                                                    contentDescription = null
+                                                )
+
                                             }
                                         }
                                     }
                                 }
+
+
+
+
+
+
+
                             }
 
                         }
+
+
+
+
+
+
+
+
                     }
                 }
             }
@@ -222,5 +249,4 @@ fun PickOrderContent(
 
 
 }
-
 

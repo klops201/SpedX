@@ -54,7 +54,9 @@ class OrderRepositoryImpl @Inject constructor(
         return try {
             val orderDetailRef = userRef.collection("orders").document(orderID)
             val snapshot = orderDetailRef.get().await()
+            Log.d(Constants.TAG, "snapshot wczytanego zlecenia :: $snapshot")
             val order = snapshot.toObject(Order::class.java)
+            Log.d(Constants.TAG, "zlecenie po serializacji :: $order")
             Success(order)
         } catch (e: Exception) {
             Failure(e)

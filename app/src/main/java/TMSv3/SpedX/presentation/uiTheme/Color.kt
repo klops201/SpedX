@@ -16,6 +16,7 @@ val TextColor = Color(0xFF1D1617)
 val Red = Color(0xFFC52E0C)
 
 val GreyBG = Color(0xFFE6EDFF)
+val Redetoll = Color(0xFFDB0933)
 
 
 val md_theme_light_primary = Color(0xFF476810)
