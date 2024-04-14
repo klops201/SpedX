@@ -5,11 +5,11 @@ import TMSv3.SpedX.domain.model.Driver
 import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.domain.model.Position
 import TMSv3.SpedX.domain.model.Response.*
-import TMSv3.SpedX.domain.repository.DeleteDriverResponse
 import TMSv3.SpedX.domain.repository.DriverRepository
-import TMSv3.SpedX.domain.repository.EditDriverResponse
-import TMSv3.SpedX.domain.repository.GetDriverInfoResponse
-import TMSv3.SpedX.domain.repository.GetDriverTruckResponse
+import TMSv3.SpedX.domain.repository.deleteDriverResponse
+import TMSv3.SpedX.domain.repository.editDriverResponse
+import TMSv3.SpedX.domain.repository.getDriverInfoResponse
+import TMSv3.SpedX.domain.repository.getDriverTruckResponse
 import TMSv3.SpedX.domain.repository.getDriversListResponse
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
@@ -26,11 +26,13 @@ class DriverRepositoryImpl @Inject constructor(
     private val userRef = db.collection("users").document(uid)
 
 
-    override suspend fun getDriverInfo(firebaseID: String): GetDriverInfoResponse {
+    override suspend fun getDriverInfo(firebaseID: String): getDriverInfoResponse {
         return try {
             val driverDetailRef = userRef.collection("drivers").document(firebaseID)
             val snapshot = driverDetailRef.get().await()
+            Log.d(Constants.TAG, "snapshot wczytanego kierowcy(INFO) :: $snapshot")
             val driver = snapshot.toObject(Driver::class.java)
+            Log.d(Constants.TAG, "driver po serializacji :: $driver")
             Success(driver)
         } catch (e: Exception) {
             Failure(e)
@@ -38,8 +40,10 @@ class DriverRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun deleteDriver(firebaseID: String): DeleteDriverResponse {
+    override suspend fun deleteDriver(firebaseID: String): deleteDriverResponse {
         return try {
+            Log.d(Constants.TAG, "%%%%% usuwanie kierowcy :: $firebaseID")
+
             userRef.collection("drivers").document(firebaseID).delete().await()
             Success(true)
         } catch (e: Exception) {
@@ -49,27 +53,33 @@ class DriverRepositoryImpl @Inject constructor(
     }
 
     override suspend fun editDriver(
-        driverId: String,
+        firebaseID: String,
         driverName: String,
         driverPhoneNr: Int,
-        firebaseID: String,
+        driverId: String,
         vehicleId: String
-    ): EditDriverResponse {
+    ): editDriverResponse {
         return try {
+            Log.d(Constants.TAG, "???? szukanie kierowcy::FB =  $firebaseID,$driverName,$driverPhoneNr,$driverId,$vehicleId")
+
             val driverRef = userRef.collection("drivers").document(firebaseID)
             driverRef
                 .update(
                     mapOf(
-                        "driverId" to driverId,
                         "driverName" to driverName,
                         "driverPhoneNr" to driverPhoneNr,
-                        "firebaseID" to firebaseID, /// pozniej zakomentowac i sprawdzic
+                        "driverId" to driverId,
                         "vehicleId" to vehicleId
 
                         ),
                 )
+            Log.d(Constants.TAG, "po zapisaniu kierowy po edycie:: $firebaseID")
+            Log.d(Constants.TAG, "PO EDICIE::FB =  $firebaseID,$driverName,$driverPhoneNr,$driverId,$vehicleId")
+
+
             Success(true)
         } catch (e: Exception) {
+            Log.e(Constants.TAG, "Błąd podczas aktualizacji danych kierowcy: ${e.message}", e)
             Failure(e)
         }
     }
@@ -89,7 +99,7 @@ class DriverRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getDriverTruck(vehicleId: String): GetDriverTruckResponse {
+    override suspend fun getDriverTruck(vehicleId: String): getDriverTruckResponse {
         return try {
             val vehicleDetailRef = userRef.collection("vehicles").document(vehicleId)
             val snapshot = vehicleDetailRef.get().await()

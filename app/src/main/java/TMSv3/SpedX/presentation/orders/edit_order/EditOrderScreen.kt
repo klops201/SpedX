@@ -66,8 +66,8 @@ fun EditOrderScreen(
                 onClick = {
                     coroutineScope.launch {
                         val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
-                            message = "Usuwanie zlecenia",
-                            duration = SnackbarDuration.Short,
+                            message = "Usuwanie zlecenia...",
+                            duration = SnackbarDuration.Long,
                             actionLabel = "Anuluj"
                         )
                         when (snackbarResult) {

@@ -62,6 +62,13 @@ fun ProfileContent(
     openDriversList: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
 ) {
+
+
+
+
+
+
+
     var goOrders: Boolean = false
 
     LaunchedEffect(viewModel) {
@@ -88,7 +95,7 @@ fun ProfileContent(
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
 
-                BoxDate()
+                BoxDate(openCalendar = {Utils.openCalendar(context)})
                 Spacer(modifier = Modifier.width(17.dp))
                 checkDrivers(onClick = {openDriversList()})
             }

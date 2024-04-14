@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun EditDriverScreen(
-    driverID: String,
+    driverIDFB: String,
     navigateBack: () -> Unit,
     navigateToDrivers: () -> Unit,
     viewModel: EditDriverViewModel = hiltViewModel()
@@ -32,7 +32,11 @@ fun EditDriverScreen(
     Scaffold(
         content = { padding ->
             EditDriverContent(padding = padding,
-                goBack = { navigateBack() })
+                goBack = { navigateBack() },
+                driverID = driverIDFB,
+                editDriver = {driverName, driverPhoneNr, driverID, vehicleID -> viewModel.editDriverDetails(driverIDFB, driverName, driverPhoneNr, driverID, vehicleID)},
+                navigateToDrivers = navigateToDrivers,
+                scaffoldST = scaffoldState)
         },
         scaffoldState = scaffoldState
     )

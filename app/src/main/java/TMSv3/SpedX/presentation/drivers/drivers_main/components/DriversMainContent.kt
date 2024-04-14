@@ -109,13 +109,24 @@ fun DriversMainContent(
                 ) {
                     items(drivers) { driver ->
                         Spacer(modifier = Modifier.height(5.dp))
-                        ShowDrivers(driver = driver, vehicles = fetchedVehicles, counter, navigateToEditDriver = {navigateEditDriverScreen(driver.firebaseID)} )
+                        ShowDrivers(
+                            driver = driver,
+                            vehicles = fetchedVehicles,
+                            counter,
+                            navigateToEditDriver = { navigateEditDriverScreen(driver.firebaseID) })
 
+                    }
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(Color.White)
+                                .height(75.dp)
+                        )
                     }
                 }
 
             }
-
 
         }
 
@@ -130,9 +141,9 @@ fun ShowDrivers(
     driver: Driver, vehicles: List<Vehicle>,
     counterRef: Int?,
     viewModel: DriverMainViewModel = hiltViewModel(),
-    navigateToEditDriver: (String?) -> Unit
+    navigateToEditDriver: (String?) -> Unit,
 ) {
-
+    Log.d(Constants.TAG, "pokazta ciezarowki -----------MAIn $vehicles")
     val safeID: String = driver.vehicleId ?: ""
     val safeFBID: String = driver.firebaseID ?: ""
     val checkID = vehicles.any { it.vehicleId == safeID }
@@ -195,7 +206,7 @@ fun ShowDrivers(
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier.fillMaxWidth()
     ) {
-        DriverCard(driver = driver,navigateEditDriver = {navigateToEditDriver(safeFBID)})
+        DriverCard(driver = driver, navigateEditDriver = { navigateToEditDriver(safeFBID) })
         if (checkID) {
             GetPosition { position ->
                 VehicleCard(position = position)

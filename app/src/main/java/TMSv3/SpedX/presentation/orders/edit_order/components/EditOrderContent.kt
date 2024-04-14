@@ -6,6 +6,7 @@ import TMSv3.SpedX.components.NumberField
 import TMSv3.SpedX.components.SmallSpacer
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.presentation.orders.edit_order.EditOrderViewModel
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -50,6 +51,7 @@ fun EditOrderContent(
 
 
     LaunchedEffect(orderID) {
+        Log.d(Constants.TAG, "SZUKANIE ORDERA $orderID")
         viewModel.getOrderDetails(orderID)
     }
 

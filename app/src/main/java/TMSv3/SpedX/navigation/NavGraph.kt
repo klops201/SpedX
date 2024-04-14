@@ -108,9 +108,9 @@ fun NavGraph(
                 },
             navigateToDriverEditScr ={
                     clickedDriverID ->
-                Log.d(Constants.TAG, "before -----navController.navigate{PickOrderScreen.route}/clickedOrderID-------------------------------------------------------------------orderId: $clickedDriverID")
-                navController.navigate("${EditDriverScreen.route}/{$DRIVER_ID}")
-                Log.d(Constants.TAG, "after -----navController.navigate{PickOrderScreen.route}/clickedOrderID-------------------------------------------------------------------orderId: $clickedDriverID")
+                Log.d(Constants.TAG, "before -----navController.navigate{EditDriverScreen.route}/clickedDriver-------------------------------------------------------------------clickedDriver: $clickedDriverID")
+                navController.navigate("${EditDriverScreen.route}/$clickedDriverID")
+                Log.d(Constants.TAG, "after -----navController.navigate{EditDriverScreen.route}/clickedDriver-------------------------------------------------------------------clickedDriver: $clickedDriverID")
 
             }
             )
@@ -206,21 +206,19 @@ fun NavGraph(
         ) { backStackEntry ->
             val driverId: String = backStackEntry.arguments?.getString(DRIVER_ID) ?: NO_VALUE
             EditDriverScreen(
-                driverID = driverId,
+                driverIDFB = driverId,
                 navigateBack = {
                     navController.popBackStack()
                 },
                 navigateToDrivers = {
-                    navController.navigate(DriversMainScreen.route)
+                    navController.navigate(DriversMainScreen.route){
+                        popUpTo(DriversMainScreen.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
-
-
-
-
-
-
 
 
 

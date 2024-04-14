@@ -39,6 +39,7 @@ object Constants {
     const val ORDERS_SCREEN = "Zlecenia"
     const val PICK_ORDER_SCREEN = "Zlecenie "
     const val ADD_ORDER_SCREEN = "Dodaj zlecenie"
+    const val ADD_DRIVER_SCREEN = "Dodaj kierowcę"
     const val EDIT_ORDER_SCREEN = "Edytuj zlecenie"
     const val MAP_SCREEN = "Podgląd pojazdu"
     const val TICKET_SCREEN = "Kupno winiety"

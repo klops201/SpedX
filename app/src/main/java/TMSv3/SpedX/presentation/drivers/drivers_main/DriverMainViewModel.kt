@@ -8,10 +8,10 @@ import TMSv3.SpedX.domain.model.Response
 import TMSv3.SpedX.domain.model.Response.*
 import TMSv3.SpedX.domain.model.Vehicle
 import TMSv3.SpedX.domain.repository.ASNApi
-import TMSv3.SpedX.domain.repository.DeleteDriverResponse
 import TMSv3.SpedX.domain.repository.DriverRepository
 import TMSv3.SpedX.domain.repository.PositionRepository
 import TMSv3.SpedX.domain.repository.SavePositionResponse
+import TMSv3.SpedX.domain.repository.deleteDriverResponse
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -38,11 +38,6 @@ class DriverMainViewModel @Inject constructor(
 
     var savePositionResponse by mutableStateOf<SavePositionResponse>(Success(false))
         private set
-
-
-    var DeleteDriverResponse by mutableStateOf<DeleteDriverResponse>(Success(false))
-        private set
-
 
 
 
@@ -119,12 +114,6 @@ class DriverMainViewModel @Inject constructor(
             val position = fetchPosition(vehicleID)
             callback(position)
         }
-    }
-
-
-    fun deleteDriver(firebaseID: String) = viewModelScope.launch {
-        DeleteDriverResponse = Loading
-        DeleteDriverResponse = driverRepo.deleteDriver(firebaseID)
     }
 
 

@@ -7,6 +7,7 @@ import android.widget.Toast.makeText
 import TMSv3.SpedX.core.Constants.TAG
 import android.content.Intent
 import android.net.Uri
+import android.provider.CalendarContract
 import androidx.core.content.ContextCompat.startActivity
 import java.security.MessageDigest
 import java.text.SimpleDateFormat
@@ -71,6 +72,12 @@ class Utils {
             return Date(convert * 1000)
         }
 
+
+        fun openCalendar(context: Context){
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_APP_CALENDAR)
+            context.startActivity(intent)
+        }
 
 
 

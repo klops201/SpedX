@@ -105,7 +105,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat.startActivity
 
 @Composable
-fun Greeting(userName: String){
+fun Greeting(userName: String) {
     Text(
         text = "Cześć $userName",
         modifier = Modifier
@@ -115,7 +115,8 @@ fun Greeting(userName: String){
         style = androidx.compose.ui.text.TextStyle(
             fontSize = 30.sp,
             fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal),
+            fontStyle = FontStyle.Normal
+        ),
 
         color = colorResource(id = R.color.colorTest),
         textAlign = TextAlign.Center
@@ -124,9 +125,8 @@ fun Greeting(userName: String){
 }
 
 
-
 @Composable
-fun GetDayDate():String{
+fun GetDayDate(): String {
 //    val sdf = SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z")
     val sdf = SimpleDateFormat(" dd-MM-yyyy ")
     val currentDateAndTime = sdf.format(Date())
@@ -147,40 +147,47 @@ fun GetDayDate():String{
 //
 
 
-
-
 @Composable
-fun BoxDate(){
+fun BoxDate(openCalendar: () -> Unit) {
 
     Box(modifier = Modifier
         .height(100.dp)
         .width(160.dp)
         .clip(AlertDialogDefaults.shape)
         .background(colorResource(id = R.color.colorTest))
-        .fillMaxSize(), contentAlignment = Alignment.Center){
+        .clickable { openCalendar() }
+        .fillMaxSize(), contentAlignment = Alignment.Center) {
         //Text(modifier = Modifier.padding(all = 10.dp), textAlign = TextAlign.Center, text = currentDateAndTime, fontSize = 30.sp)
-        Text(text = GetDayDate(), fontSize = 25.sp, color= androidx.compose.ui.graphics.Color.White)
+        Text(
+            text = GetDayDate(),
+            fontSize = 25.sp,
+            color = androidx.compose.ui.graphics.Color.White
+        )
 
     }
 
 }
 
 
-
 @Composable
-fun checkDrivers(onClick: () -> Unit){
+fun checkDrivers(onClick: () -> Unit) {
     Box(modifier = Modifier
         .clip(AlertDialogDefaults.shape)
         .height(100.dp)
         .fillMaxWidth()
         .background(Redetoll)
         .clickable { onClick() }
-    ){
-        Row (modifier = Modifier.padding(15.dp),
-            horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
-            Box (modifier = Modifier
-                .weight(2f)
-                .fillMaxSize(), contentAlignment = Alignment.Center){
+    ) {
+        Row(
+            modifier = Modifier.padding(15.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(2f)
+                    .fillMaxSize(), contentAlignment = Alignment.Center
+            ) {
                 Text(
                     modifier = Modifier,
                     fontSize = 20.sp,
@@ -189,19 +196,17 @@ fun checkDrivers(onClick: () -> Unit){
                 )
             }
 
-            Image(painter = painterResource(id = R.drawable.driver), contentDescription = null,
+            Image(
+                painter = painterResource(id = R.drawable.driver), contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxSize(),
-                colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White))
+                colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White)
+            )
         }
     }
 }
-
-
-
-
 
 
 @Composable
@@ -219,10 +224,12 @@ fun OrderList(onClick: () -> Unit) {
     {
 
         Column(verticalArrangement = Arrangement.Center) {
-            Box(                    modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .fillMaxHeight()) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+            ) {
                 Text(
                     modifier = Modifier
                         .align(Alignment.Center),
@@ -234,7 +241,8 @@ fun OrderList(onClick: () -> Unit) {
             Row(
                 Modifier
                     .weight(1f)
-                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.dot),
                     contentDescription = null, // Możesz dostosować opis dostępności
@@ -248,7 +256,8 @@ fun OrderList(onClick: () -> Unit) {
             Row(
                 Modifier
                     .weight(1f)
-                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically ) {
+                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     modifier = Modifier.clickable { println("Button Clicked!") },
                     painter = painterResource(id = R.drawable.dot),
@@ -263,7 +272,8 @@ fun OrderList(onClick: () -> Unit) {
             Row(
                 Modifier
                     .weight(1f)
-                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     modifier = Modifier.clickable { println("Button Clicked!") },
                     painter = painterResource(id = R.drawable.dot),
@@ -275,7 +285,6 @@ fun OrderList(onClick: () -> Unit) {
                 // Tekst zadania
                 Text(text = "zlecenie nr 3", fontSize = 20.sp)
             }
-
 
 
         }
@@ -311,24 +320,25 @@ fun ShowUndoneOrder(order: Order) {
 }
 
 
-
-
 @Composable
-fun ImageBoxMap(openMap: () -> Unit){
+fun ImageBoxMap(openMap: () -> Unit) {
     Box(modifier = Modifier
         .height(100.dp)
         .width(100.dp)
         .clip(AlertDialogDefaults.shape)
         .fillMaxSize()
-        .clickable { openMap() }, contentAlignment = Alignment.Center){
-        Image(painter = painterResource(id = R.drawable.map), contentDescription = null,
-            contentScale = ContentScale.Crop)
-}}
-
+        .clickable { openMap() }, contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.map), contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
+    }
+}
 
 
 @Composable
-fun BoxSent(openBrowser: () -> Unit){
+fun BoxSent(openBrowser: () -> Unit) {
 //    val intent by remember { Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"))}
     Box(modifier = Modifier
         .height(100.dp)
@@ -342,80 +352,86 @@ fun BoxSent(openBrowser: () -> Unit){
             width = 0.8.dp,
             color = colorResource(id = R.color.colorTextGray),
             shape = RoundedCornerShape(32.dp)
-        )
-        , contentAlignment = Alignment.Center){
-        Image(painter = painterResource(id = R.drawable.puesc2), contentDescription = null,
+        ), contentAlignment = Alignment.Center) {
+        Image(
+            painter = painterResource(id = R.drawable.puesc2), contentDescription = null,
             modifier = Modifier
-                .fillMaxSize())
-    }}
-
-
-
-
-
+                .fillMaxSize()
+        )
+    }
+}
 
 
 @Composable
-fun ButtonTest(openNet: () -> Unit){
+fun ButtonTest(openNet: () -> Unit) {
     Button(onClick = { openNet() }) {
 
     }
 }
 
 @Composable
-fun EtollBox(openBrowser: () -> Unit){
+fun EtollBox(openBrowser: () -> Unit) {
     Box(modifier = Modifier
         .height(100.dp)
         .width(220.dp)
         .clip(AlertDialogDefaults.shape)
         //.fillMaxSize()
         .clickable { openBrowser() }
-        .background(tmsContainer), contentAlignment = Alignment.Center){
-        Image(painter = painterResource(id = R.drawable.etoll2), contentDescription = null,
-            contentScale = ContentScale.Crop)
+        .background(tmsContainer), contentAlignment = Alignment.Center) {
+        Image(
+            painter = painterResource(id = R.drawable.etoll2), contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
     }
 }
 
 
 @Composable
-fun SettingsBox(){
+fun SettingsBox() {
     Box(modifier = Modifier
         .height(100.dp)
         .width(100.dp)
         .clip(AlertDialogDefaults.shape)
         .fillMaxSize()
         .background(colorResource(id = R.color.colorTest))
-        .clickable { println("Button Clicked!") }, contentAlignment = Alignment.Center){
-        Image(painter = painterResource(id = R.drawable.settings), contentDescription = null,
+        .clickable { println("Button Clicked!") }, contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.settings), contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(20.dp),
-            colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White))
-    }}
+            colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White)
+        )
+    }
+}
 
 
 @Composable
-fun WinietBox(buyTicket: () -> Unit){
+fun WinietBox(buyTicket: () -> Unit) {
     Box(modifier = Modifier
         .height(100.dp)
         .width(100.dp)
         .clip(AlertDialogDefaults.shape)
         .fillMaxSize()
         .background(colorResource(id = R.color.colorTest))
-        .clickable { buyTicket() }, contentAlignment = Alignment.Center){
-        Image(painter = painterResource(id = R.drawable.winiet), contentDescription = null,
+        .clickable { buyTicket() }, contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.winiet), contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(12.dp),
-            colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White))
-    }}
-
+            colorFilter = ColorFilter.tint(androidx.compose.ui.graphics.Color.White)
+        )
+    }
+}
 
 
 @Composable
-fun AutoSatNetBox(openBrowser: () -> Unit){
+fun AutoSatNetBox(openBrowser: () -> Unit) {
     Box(modifier = Modifier
         .height(100.dp)
         //.width(210.dp)
@@ -423,13 +439,14 @@ fun AutoSatNetBox(openBrowser: () -> Unit){
         .clickable { openBrowser() }
         .background(androidx.compose.ui.graphics.Color.White)
         .clip(AlertDialogDefaults.shape)
-        .fillMaxWidth()
-        , contentAlignment = Alignment.Center){
-        Image(painter = painterResource(id = R.drawable.autosatnet_logo), contentDescription = null,
+        .fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Image(
+            painter = painterResource(id = R.drawable.autosatnet_logo), contentDescription = null,
             modifier = Modifier
-                .fillMaxSize())
-    }}
-
+                .fillMaxSize()
+        )
+    }
+}
 
 
 @Preview

@@ -1,5 +1,6 @@
 package TMSv3.SpedX.navigation
 
+import TMSv3.SpedX.core.Constants.ADD_DRIVER_SCREEN
 import TMSv3.SpedX.core.Constants.ADD_ORDER_SCREEN
 import TMSv3.SpedX.core.Constants.DRIVERS_MAIN_SCREEN
 import TMSv3.SpedX.core.Constants.EDIT_DRIVER_SCREEN
@@ -28,4 +29,6 @@ sealed class Screen(val route: String) {
     object TicketScreen: Screen(TICKET_SCREEN)
     object DriversMainScreen: Screen(DRIVERS_MAIN_SCREEN)
     object EditDriverScreen: Screen(EDIT_DRIVER_SCREEN)
+    object AddDriverScreen: Screen(ADD_DRIVER_SCREEN)
+
 }
