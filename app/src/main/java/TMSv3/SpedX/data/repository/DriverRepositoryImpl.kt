@@ -6,6 +6,7 @@ import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.domain.model.Position
 import TMSv3.SpedX.domain.model.Response.*
 import TMSv3.SpedX.domain.repository.DriverRepository
+import TMSv3.SpedX.domain.repository.addDriverResponse
 import TMSv3.SpedX.domain.repository.deleteDriverResponse
 import TMSv3.SpedX.domain.repository.editDriverResponse
 import TMSv3.SpedX.domain.repository.getDriverInfoResponse
@@ -60,7 +61,10 @@ class DriverRepositoryImpl @Inject constructor(
         vehicleId: String
     ): editDriverResponse {
         return try {
-            Log.d(Constants.TAG, "???? szukanie kierowcy::FB =  $firebaseID,$driverName,$driverPhoneNr,$driverId,$vehicleId")
+            Log.d(
+                Constants.TAG,
+                "???? szukanie kierowcy::FB =  $firebaseID,$driverName,$driverPhoneNr,$driverId,$vehicleId"
+            )
 
             val driverRef = userRef.collection("drivers").document(firebaseID)
             driverRef
@@ -71,15 +75,43 @@ class DriverRepositoryImpl @Inject constructor(
                         "driverId" to driverId,
                         "vehicleId" to vehicleId
 
-                        ),
+                    ),
                 )
             Log.d(Constants.TAG, "po zapisaniu kierowy po edycie:: $firebaseID")
-            Log.d(Constants.TAG, "PO EDICIE::FB =  $firebaseID,$driverName,$driverPhoneNr,$driverId,$vehicleId")
+            Log.d(
+                Constants.TAG,
+                "PO EDICIE::FB =  $firebaseID,$driverName,$driverPhoneNr,$driverId,$vehicleId"
+            )
 
 
             Success(true)
         } catch (e: Exception) {
             Log.e(Constants.TAG, "Błąd podczas aktualizacji danych kierowcy: ${e.message}", e)
+            Failure(e)
+        }
+    }
+
+    override suspend fun addDriver(
+        driverName: String,
+        driverPhoneNr: Int,
+        driverId: String,
+        vehicleId: String
+    ): addDriverResponse {
+        return try {
+            val docId: String = userRef.collection("drivers").document().getId()
+
+            val driver = Driver(
+                docId,
+                driverName,
+                driverPhoneNr,
+                driverId,
+                vehicleId
+            )
+            userRef.collection("drivers").document(docId).set(driver).await()
+            Success(true)
+
+
+        } catch (e: Exception) {
             Failure(e)
         }
     }

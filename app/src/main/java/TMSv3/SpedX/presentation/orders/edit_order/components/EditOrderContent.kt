@@ -329,10 +329,10 @@ fun EditOrderContent(
                 }
             )
             Spacer(modifier = Modifier.height(17.dp))
-            NumberField(
+            DataTextField(
                 labelValue = "Waga ładunku:",
-                value = cargoWeight,
-                onValueChange = { newValue ->
+                data = cargoWeight,
+                onDataValueChange = { newValue ->
                     cargoWeight = newValue
                 }
             )

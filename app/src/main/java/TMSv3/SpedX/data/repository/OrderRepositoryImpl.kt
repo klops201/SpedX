@@ -31,12 +31,16 @@ class OrderRepositoryImpl @Inject constructor(
 
     override suspend fun getOrdersList(): getOrdersResponse {
         return try {
-            val ordersRef = userRef.collection("orders").orderBy("createAt",
+            val ordersRef = userRef.collection("orders").orderBy(
+                "createAt",
                 Query.Direction.DESCENDING
             )
             Log.d(Constants.TAG, "przed snapshot--------------uid:: $uid")
             val snapshot = ordersRef.get().await()
-            Log.d(Constants.TAG, "po snapshot--------------snapshot rozmiar:: ${snapshot.documents.size}")
+            Log.d(
+                Constants.TAG,
+                "po snapshot--------------snapshot rozmiar:: ${snapshot.documents.size}"
+            )
             val ordersList = snapshot.documents.map { doc ->
                 val order = doc.toObject(Order::class.java)
                 Log.d(Constants.TAG, "Dokument: $doc, Zamówienie: $order")
@@ -101,7 +105,8 @@ class OrderRepositoryImpl @Inject constructor(
         } catch (e: Exception) {
             Failure(e)
 
-        }    }
+        }
+    }
 
     override suspend fun editOrder(
         firestoreID: String,
@@ -118,7 +123,10 @@ class OrderRepositoryImpl @Inject constructor(
     ): editOrderResponse {
         return try {
             val orderDetailRef = userRef.collection("orders").document(firestoreID)
-            Log.d(Constants.TAG, "przed snapshot--------------pobranie konkretnego orderu EDYCJA:: $firestoreID")
+            Log.d(
+                Constants.TAG,
+                "przed snapshot--------------pobranie konkretnego orderu EDYCJA:: $firestoreID"
+            )
             orderDetailRef
                 .update(
                     mapOf(
@@ -133,21 +141,21 @@ class OrderRepositoryImpl @Inject constructor(
                         "cmrId" to cmrID,
                         "createAt" to createAt,
 
-                    ),
+                        ),
                 )
 
 
 
 
 
-        Success(true)
-    } catch (e: Exception) {
+            Success(true)
+        } catch (e: Exception) {
             Failure(e)
 
         }
 
 
-}
+    }
 
     override suspend fun deleteOrder(firestoreID: String): deleteOrderResponse {
         return try {
@@ -172,13 +180,17 @@ class OrderRepositoryImpl @Inject constructor(
 
     override suspend fun getUndoneOrders(): getUDOrdersResponse {
         return try {
-            val ordersRef = userRef.collection("orders").orderBy("createAt",
+            val ordersRef = userRef.collection("orders").orderBy(
+                "createAt",
                 Query.Direction.DESCENDING
             )
 //                .whereEqualTo("done", false)
             Log.d(Constants.TAG, "przed snapshot niedokonczone zamowienia--------------uid:: $uid")
             val snapshot = ordersRef.get().await()
-            Log.d(Constants.TAG, "po snapshot-niedokonczone zamowienia-------------snapshot rozmiar:: ${snapshot.documents.size}")
+            Log.d(
+                Constants.TAG,
+                "po snapshot-niedokonczone zamowienia-------------snapshot rozmiar:: ${snapshot.documents.size}"
+            )
             val ordersList = snapshot.documents.map { doc ->
                 val order = doc.toObject(Order::class.java)
                 Log.d(Constants.TAG, "Dokument: $doc, Zamówienie: $order")

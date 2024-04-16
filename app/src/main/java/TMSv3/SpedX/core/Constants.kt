@@ -16,6 +16,7 @@ object Constants {
     //Order
     const val ORDER_DETAILS = "Informacje o zleceniu"
     const val ADD_ORDER = "Dodaj zlecenie"
+    const val ADD_DRIVER = "Dodaj kierowcę"
     const val EDIT_ORDER = "Edytuj zlecenie"
 
 

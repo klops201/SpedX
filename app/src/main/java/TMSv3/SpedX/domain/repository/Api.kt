@@ -1,5 +1,7 @@
 package TMSv3.SpedX.domain.repository
 
+import TMSv3.SpedX.domain.model.Driver
+import TMSv3.SpedX.domain.model.DriverASN
 import TMSv3.SpedX.domain.model.Position
 import TMSv3.SpedX.domain.model.Vehicle
 import retrofit2.Retrofit
@@ -35,6 +37,15 @@ interface Api {
     suspend fun getVehiclesList(
         @Query("token") token: String = generateToken("administrator", "Uslugi1!")
     ): List<Vehicle>
+
+
+
+    @GET("drivers")
+    suspend fun getDriversList(
+        @Query("token") token: String = generateToken("administrator", "Uslugi1!")
+    ): List<DriverASN>
+
+
 
 
 

@@ -55,7 +55,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun DriversMainScreen(
     navigateBack: () -> Boolean,
     viewModel: DriverMainViewModel = hiltViewModel(),
-    navigateToDriverEditScr: (String?) -> Unit
+    navigateToDriverEditScr: (String?) -> Unit,
+    naviagteAddDriver: () -> Unit
 ) {
 
 
@@ -91,7 +92,7 @@ fun DriversMainScreen(
 //                    ),
                 exit = scaleOut(),
 
-            ) {
+                ) {
                 Column {
                     FloatingActionButton(
                         onClick = {
@@ -111,7 +112,7 @@ fun DriversMainScreen(
                     }
                     Spacer(modifier = Modifier.height(2.dp))
                     FloatingActionButton(
-                        onClick = { },
+                        onClick = { naviagteAddDriver() },
                         backgroundColor = colorResource(id = R.color.colorTest)
                     ) {
                         Icon(Icons.Filled.Add, "", tint = Color.White)
@@ -139,42 +140,8 @@ fun DriversMainScreen(
                 }
             }
 
-
-//            Column {
-//                FloatingActionButton(
-//                    onClick = { viewModel.incrementCounter() },
-//                    backgroundColor = colorResource(id = R.color.colorTest)
-//                ) {
-//                    Icon(Icons.Filled.ExpandLess, "", tint = Color.White)
-//                }
-//                FloatingActionButton(
-//                    onClick = { viewModel.incrementCounter() },
-//                    backgroundColor = colorResource(id = R.color.colorTest)
-//                ) {
-//                    Icon(Icons.Filled.Refresh, "", tint = Color.White)
-//                }
-//
-//
-//            }
         }
     )
-
-//    Row (horizontalArrangement = Arrangement.SpaceBetween) {
-//        FloatingActionButton(
-//            onClick = { viewModel.incrementCounter() },
-//            backgroundColor = colorResource(id = R.color.colorTest)
-//        ) {
-//            Icon(Icons.Filled.Add, "", tint = Color.White)
-//        }
-//        FloatingActionButton(
-//            onClick = { viewModel.incrementCounter() },
-//            backgroundColor = colorResource(id = R.color.colorTest)
-//        ) {
-//            Icon(Icons.Filled.Refresh, "", tint = Color.White)
-//        }
-//
-//
-//    }
 
 
 }

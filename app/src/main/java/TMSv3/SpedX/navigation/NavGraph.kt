@@ -22,6 +22,7 @@ import TMSv3.SpedX.navigation.Screen.TicketScreen
 import TMSv3.SpedX.navigation.Screen.MapScreen
 import TMSv3.SpedX.navigation.Screen.DriversMainScreen
 import TMSv3.SpedX.navigation.Screen.EditDriverScreen
+import TMSv3.SpedX.navigation.Screen.AddDriverScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
 import TMSv3.SpedX.presentation.sign_in.SignInScreen
@@ -35,6 +36,7 @@ import TMSv3.SpedX.presentation.orders.edit_order.EditOrderScreen
 import TMSv3.SpedX.presentation.map.MapScreen
 import TMSv3.SpedX.presentation.drivers.driver_edit.EditDriverScreen
 import TMSv3.SpedX.presentation.drivers.drivers_main.DriversMainScreen
+import TMSv3.SpedX.presentation.drivers.driver_add.AddDriverScreen
 import android.util.Log
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -102,17 +104,26 @@ fun NavGraph(
 
         composable(
             route = DriversMainScreen.route
-        ){ DriversMainScreen(
+        ) {
+            DriversMainScreen(
                 navigateBack = {
                     navController.popBackStack()
                 },
-            navigateToDriverEditScr ={
-                    clickedDriverID ->
-                Log.d(Constants.TAG, "before -----navController.navigate{EditDriverScreen.route}/clickedDriver-------------------------------------------------------------------clickedDriver: $clickedDriverID")
-                navController.navigate("${EditDriverScreen.route}/$clickedDriverID")
-                Log.d(Constants.TAG, "after -----navController.navigate{EditDriverScreen.route}/clickedDriver-------------------------------------------------------------------clickedDriver: $clickedDriverID")
+                navigateToDriverEditScr = { clickedDriverID ->
+                    Log.d(
+                        Constants.TAG,
+                        "before -----navController.navigate{EditDriverScreen.route}/clickedDriver-------------------------------------------------------------------clickedDriver: $clickedDriverID"
+                    )
+                    navController.navigate("${EditDriverScreen.route}/$clickedDriverID")
+                    Log.d(
+                        Constants.TAG,
+                        "after -----navController.navigate{EditDriverScreen.route}/clickedDriver-------------------------------------------------------------------clickedDriver: $clickedDriverID"
+                    )
 
-            }
+                },
+                naviagteAddDriver = {
+                    navController.navigate(AddDriverScreen.route)
+                }
             )
 
         }
@@ -136,9 +147,9 @@ fun NavGraph(
                 navigateToOrdersScreen = {
                     navController.navigate(OrdersScreen.route)
                 },
-                navigateToMapScreen = {navController.navigate(MapScreen.route)},
-                navigateToTicketScreen = {navController.navigate(TicketScreen.route)},
-                navigateToDriversScreen = {navController.navigate(DriversMainScreen.route)}
+                navigateToMapScreen = { navController.navigate(MapScreen.route) },
+                navigateToTicketScreen = { navController.navigate(TicketScreen.route) },
+                navigateToDriversScreen = { navController.navigate(DriversMainScreen.route) }
             )
         }
         composable(
@@ -147,12 +158,14 @@ fun NavGraph(
             AddOrderScreen(
                 navigateBack = {
                     navController.popBackStack()
-                }, navigateToOrders = { navController.navigate(OrdersScreen.route){
-                    popUpTo(OrdersScreen.route) {
-                        inclusive = true
+                }, navigateToOrders = {
+                    navController.navigate(OrdersScreen.route) {
+                        popUpTo(OrdersScreen.route) {
+                            inclusive = true
+                        }
                     }
-                }}
-                )
+                }
+            )
         }
         composable(
             route = OrdersScreen.route
@@ -165,11 +178,16 @@ fun NavGraph(
                 navigateToAddOrder = {
                     navController.navigate(AddOrderScreen.route)
                 },
-                navigateToOrderDetails = {
-                        clickedOrderID ->
-                    Log.d(Constants.TAG, "before -----navController.navigate{PickOrderScreen.route}/clickedOrderID-------------------------------------------------------------------orderId: $clickedOrderID")
+                navigateToOrderDetails = { clickedOrderID ->
+                    Log.d(
+                        Constants.TAG,
+                        "before -----navController.navigate{PickOrderScreen.route}/clickedOrderID-------------------------------------------------------------------orderId: $clickedOrderID"
+                    )
                     navController.navigate("${PickOrderScreen.route}/$clickedOrderID")
-                    Log.d(Constants.TAG, "after -----navController.navigate{PickOrderScreen.route}/clickedOrderID-------------------------------------------------------------------orderId: $clickedOrderID")
+                    Log.d(
+                        Constants.TAG,
+                        "after -----navController.navigate{PickOrderScreen.route}/clickedOrderID-------------------------------------------------------------------orderId: $clickedOrderID"
+                    )
 
                 }
             )
@@ -190,7 +208,7 @@ fun NavGraph(
                     navController.popBackStack()
                 },
                 navController = navController,
-                navigateToEditOrder = {orderId ->
+                navigateToEditOrder = { orderId ->
                     navController.navigate("${EditOrderScreen.route}/$orderId")
                 }
             )
@@ -211,7 +229,7 @@ fun NavGraph(
                     navController.popBackStack()
                 },
                 navigateToDrivers = {
-                    navController.navigate(DriversMainScreen.route){
+                    navController.navigate(DriversMainScreen.route) {
                         popUpTo(DriversMainScreen.route) {
                             inclusive = true
                         }
@@ -237,16 +255,33 @@ fun NavGraph(
                     navController.popBackStack()
                 },
                 navController = navController,
-                navigateToOrderDetails = { navController.navigate("${PickOrderScreen.route}/$orderId")},
-                navigateToOrders = { navController.navigate(OrdersScreen.route){
-                    popUpTo(OrdersScreen.route) {
-                        inclusive = true
+                navigateToOrderDetails = { navController.navigate("${PickOrderScreen.route}/$orderId") },
+                navigateToOrders = {
+                    navController.navigate(OrdersScreen.route) {
+                        popUpTo(OrdersScreen.route) {
+                            inclusive = true
+                        }
                     }
-                }}
+                }
             )
         }
 
 
+        composable(
+            route = AddDriverScreen.route
+        ) {
+            AddDriverScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                }, navigateToDrivers = {
+                    navController.navigate(DriversMainScreen.route) {
+                        popUpTo(DriversMainScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
 
 
     }

@@ -20,14 +20,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import TMSv3.SpedX.components.DataTextField
 import TMSv3.SpedX.components.NumberField
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,12 +43,14 @@ import androidx.compose.ui.tooling.preview.Preview
 @Composable
 fun AddOrderContent(
     padding: PaddingValues,
-    addOrder: (orderTitle: String, orderID: String, position: String?, finalDest: String,
-            startDest: String, cargoName: String, cargoWeight: Int,
-            driverID: String, cmrID: String?, createAt: String) -> Unit,
-            navigateToOrdersScr: () -> Unit,
+    addOrder: (
+        orderTitle: String, orderID: String, position: String?, finalDest: String,
+        startDest: String, cargoName: String, cargoWeight: Int,
+        driverID: String, cmrID: String?, createAt: String
+    ) -> Unit,
+    navigateToOrdersScr: () -> Unit,
     showSnackBar: () -> Unit,
-){
+) {
 
 
     val scrollState = rememberScrollState()
@@ -146,124 +155,157 @@ fun AddOrderContent(
         }
     )
 
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(state = scrollState),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(20.dp)
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
+            .clip(RoundedCornerShape(18.dp))
+            .background(colorResource(id = R.color.colorTest))
     ) {
-        DataTextField(
-            labelValue = "Tytuł zlecenia",
-            data = orderTitle,
-            onDataValueChange = { newValue ->
-                orderTitle = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        DataTextField(
-            labelValue = "Numer zlecenia",
-            data = orderID,
-            onDataValueChange = { newValue ->
-                orderID = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        DataTextField(
-            labelValue = "Aktualna pozycja",
-            data = position,
-            onDataValueChange = { newValue ->
-                position = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        DataTextField(
-            labelValue = "Miejsce załadowania",
-            data = startDest,
-            onDataValueChange = { newValue ->
-                startDest = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        DataTextField(
-            labelValue = "Miejsce przeznaczenia",
-            data = finalDest,
-            onDataValueChange = { newValue ->
-                finalDest = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        DataTextField(
-            labelValue = "Rodzaj ładunku",
-            data = cargoName,
-            onDataValueChange = { newValue ->
-                cargoName = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        NumberField(
-            labelValue = "Waga ładunku",
-            value = cargoWeight,
-            onValueChange = { newValue ->
-                cargoWeight = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        DataTextField(
-            labelValue = "Identyfikator kierowcy",
-            data = driverID,
-            onDataValueChange = { newValue ->
-                driverID = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        DataTextField(
-            labelValue = "Identyfikator CMR",
-            data = cmrID,
-            onDataValueChange = { newValue ->
-                cmrID = newValue
-            }
-        )
-        Spacer(modifier = Modifier.height(17.dp))
-        DataTextField(
-            labelValue = "Data utworzenia dd-mm-rrrr",
-            data = createAt,
-            onDataValueChange = { newValue ->
-                createAt = newValue
-            }
-        )
-        SmallSpacer()
-        Button(shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(id = R.color.colorTest),
-                contentColor = Color.White),
-            onClick = {
-                if (areFieldsFilled(orderTitle, orderID, finalDest,
-                        startDest, cargoName, cargoWeight, driverID,
-                        createAt))
-                {
-                    addOrder(
-                        orderTitle.text,
-                        orderID.text,
-                        position.text,
-                        finalDest.text,
-                        startDest.text,
-                        cargoName.text,
-                        cargoWeight.text.toInt(),
-                        driverID.text,
-                        cmrID.text,
-                        createAt.text
-                    )
-                    navigateToOrdersScr()
-                }else{
-                    showSnackBar()
-                }
-            }
+        Column(
+            modifier = Modifier
+                .padding(vertical = 20.dp)
+                .fillMaxSize()
+                .verticalScroll(state = scrollState),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            androidx.compose.material.Text(
-                text = Constants.ADD_ORDER,
-                fontSize = 15.sp
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Tytuł zlecenia",
+                data = orderTitle,
+                onDataValueChange = { newValue ->
+                    orderTitle = newValue
+                }
             )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Numer zlecenia",
+                data = orderID,
+                onDataValueChange = { newValue ->
+                    orderID = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Aktualna pozycja",
+                data = position,
+                onDataValueChange = { newValue ->
+                    position = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Miejsce załadowania",
+                data = startDest,
+                onDataValueChange = { newValue ->
+                    startDest = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Miejsce przeznaczenia",
+                data = finalDest,
+                onDataValueChange = { newValue ->
+                    finalDest = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Rodzaj ładunku",
+                data = cargoName,
+                onDataValueChange = { newValue ->
+                    cargoName = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Waga ładunku",
+                data = cargoWeight,
+                onDataValueChange = { newValue ->
+                    cargoWeight = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Identyfikator kierowcy",
+                data = driverID,
+                onDataValueChange = { newValue ->
+                    driverID = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Identyfikator CMR",
+                data = cmrID,
+                onDataValueChange = { newValue ->
+                    cmrID = newValue
+                }
+            )
+            Spacer(modifier = Modifier.height(17.dp))
+            DataTextField(modifier = Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(color = colorResource(id = R.color.colorBg)),
+                labelValue = "Data utworzenia dd-mm-rrrr",
+                data = createAt,
+                onDataValueChange = { newValue ->
+                    createAt = newValue
+                }
+            )
+            SmallSpacer()
+            Button(shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(id = R.color.colorBg),
+                    contentColor = colorResource(id = R.color.colorTest)
+                ),
+                onClick = {
+                    if (areFieldsFilled(
+                            orderTitle, orderID, finalDest,
+                            startDest, cargoName, cargoWeight, driverID,
+                            createAt
+                        )
+                    ) {
+                        addOrder(
+                            orderTitle.text,
+                            orderID.text,
+                            position.text,
+                            finalDest.text,
+                            startDest.text,
+                            cargoName.text,
+                            cargoWeight.text.toInt(),
+                            driverID.text,
+                            cmrID.text,
+                            createAt.text
+                        )
+                        navigateToOrdersScr()
+                    } else {
+                        showSnackBar()
+                    }
+                }
+            ) {
+                Text(
+                    text = Constants.ADD_ORDER,
+                    fontSize = 15.sp
+                )
+            }
         }
     }
 
@@ -282,10 +324,11 @@ fun PreviewAddOrderContent() {
 }
 
 
-
-private fun areFieldsFilled(orderTitle: TextFieldValue, orderID: TextFieldValue, finalDest: TextFieldValue,
-                               startDest: TextFieldValue, cargoName: TextFieldValue, cargoWeight: TextFieldValue,
-                               driverID: TextFieldValue, createAt: TextFieldValue): Boolean {
+private fun areFieldsFilled(
+    orderTitle: TextFieldValue, orderID: TextFieldValue, finalDest: TextFieldValue,
+    startDest: TextFieldValue, cargoName: TextFieldValue, cargoWeight: TextFieldValue,
+    driverID: TextFieldValue, createAt: TextFieldValue
+): Boolean {
     return orderTitle.text.isNotEmpty() &&
             orderID.text.isNotEmpty() &&
             startDest.text.isNotEmpty() &&
