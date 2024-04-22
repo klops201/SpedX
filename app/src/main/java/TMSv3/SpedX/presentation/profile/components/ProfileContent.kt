@@ -61,9 +61,12 @@ fun ProfileContent(
     goBuyTickets: () -> Unit,
     openDriversList: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
+    openWeb: (Int) -> Unit
 ) {
 
-
+    LaunchedEffect(viewModel) {
+        viewModel.fetchVehicles()
+    }
 
 
 
@@ -107,7 +110,8 @@ fun ProfileContent(
 
                 ImageBoxMap(openMap = openMap)
                 Spacer(modifier = Modifier.width(17.dp))
-                BoxSent(openBrowser = {Utils.openBrowser("https://puesc.gov.pl/", context)})
+                BoxSent(openBrowser = {openWeb(0)}
+                )
             }
 
             Spacer(modifier = Modifier.height(17.dp))
@@ -214,7 +218,7 @@ fun ProfileContent(
 
                 WinietBox(buyTicket = {goBuyTickets()})
                 Spacer(modifier = Modifier.width(17.dp))
-                AutoSatNetBox(openBrowser = {Utils.openBrowser("https://www.autosatnet.eu/monit/", context)})
+                AutoSatNetBox(openBrowser = {openWeb(1)})
             }
 
 

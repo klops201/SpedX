@@ -2,7 +2,6 @@ package TMSv3.SpedX.components
 
 import TMSv3.SpedX.R
 import TMSv3.SpedX.domain.model.Driver
-import TMSv3.SpedX.presentation.uiTheme.GreyBG
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -51,6 +50,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.compose.md_theme_light_primaryContainer
 
 @Composable
 fun DriverCard(driver: Driver, navigateEditDriver: () -> Unit) {
@@ -58,7 +58,7 @@ fun DriverCard(driver: Driver, navigateEditDriver: () -> Unit) {
     Card(
         modifier = Modifier
             .clip(RoundedCornerShape(18.dp))
-            .background(GreyBG)
+            .background(md_theme_light_primaryContainer)
             .height(250.dp)
             .width(186.dp)
     ) {
@@ -253,7 +253,7 @@ fun cardd() {
             Card(
                 modifier = Modifier
                     .clip(RoundedCornerShape(18.dp))
-                    .background(GreyBG)
+                    .background(md_theme_light_primaryContainer)
                     .height(250.dp)
                     .width(230.dp)
 //                    .weight(1f)

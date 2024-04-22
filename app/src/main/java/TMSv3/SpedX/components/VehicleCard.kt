@@ -2,7 +2,6 @@ package TMSv3.SpedX.components
 
 import TMSv3.SpedX.R
 import TMSv3.SpedX.domain.model.Position
-import TMSv3.SpedX.presentation.uiTheme.GreyBG
 import TMSv3.SpedX.core.Utils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,13 +47,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.compose.md_theme_light_primaryContainer
 
 @Composable
 fun VehicleCard(position: Position) {
     Card(
         modifier = Modifier
             .clip(RoundedCornerShape(18.dp))
-            .background(GreyBG)
+            .background(md_theme_light_primaryContainer)
             .height(250.dp)
             .width(186.dp)
     ) {
@@ -252,7 +252,7 @@ fun vehCard() {
     Card(
         modifier = Modifier
             .clip(RoundedCornerShape(18.dp))
-            .background(GreyBG)
+            .background(md_theme_light_primaryContainer)
             .height(250.dp)
             .width(250.dp)
     ) {

@@ -1,6 +1,7 @@
 package TMSv3.SpedX.navigation
 
 import TMSv3.SpedX.core.Constants
+import TMSv3.SpedX.core.Constants.APP_ID
 import TMSv3.SpedX.core.Constants.DRIVER_ID
 import TMSv3.SpedX.core.Constants.NO_VALUE
 import TMSv3.SpedX.core.Constants.ORDER_ID
@@ -23,8 +24,10 @@ import TMSv3.SpedX.navigation.Screen.MapScreen
 import TMSv3.SpedX.navigation.Screen.DriversMainScreen
 import TMSv3.SpedX.navigation.Screen.EditDriverScreen
 import TMSv3.SpedX.navigation.Screen.AddDriverScreen
+import TMSv3.SpedX.navigation.Screen.WebScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
+import TMSv3.SpedX.presentation.profile.WebScreenView
 import TMSv3.SpedX.presentation.sign_in.SignInScreen
 import TMSv3.SpedX.presentation.ticket.TicketScreen
 import TMSv3.SpedX.presentation.sign_up.SignUpScreen
@@ -149,7 +152,13 @@ fun NavGraph(
                 },
                 navigateToMapScreen = { navController.navigate(MapScreen.route) },
                 navigateToTicketScreen = { navController.navigate(TicketScreen.route) },
-                navigateToDriversScreen = { navController.navigate(DriversMainScreen.route) }
+                navigateToDriversScreen = { navController.navigate(DriversMainScreen.route) },
+                openWeb = { appNr -> navController.navigate("${WebScreen.route}/$appNr")
+                    Log.d(
+                        Constants.TAG,
+                        "NAVGRAPH WHICH APP------------------------------appNr: $appNr"
+                    )
+                }
             )
         }
         composable(
@@ -280,6 +289,29 @@ fun NavGraph(
                         }
                     }
                 }
+            )
+        }
+
+
+        composable(
+            route = "${WebScreen.route}/{appNr}",
+            arguments = listOf(
+                navArgument("appNr") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            val appId: Int = backStackEntry.arguments?.getInt("appNr") ?: 0
+            Log.d(
+                Constants.TAG,
+                "ODEBRANE APP NUMBER W WebSCR-------------------------------------------------------------------appId: $appId"
+            )
+
+            WebScreenView(
+                navigateBack = {
+                    navController.popBackStack()
+                },
+                app = appId
             )
         }
 

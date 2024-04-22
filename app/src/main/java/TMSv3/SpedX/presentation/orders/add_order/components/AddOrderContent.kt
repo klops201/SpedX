@@ -20,10 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import TMSv3.SpedX.components.DataTextField
 import TMSv3.SpedX.components.NumberField
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,6 +36,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -44,116 +47,85 @@ import androidx.compose.ui.tooling.preview.Preview
 fun AddOrderContent(
     padding: PaddingValues,
     addOrder: (
-        orderTitle: String, orderID: String, position: String?, finalDest: String,
-        startDest: String, cargoName: String, cargoWeight: Int,
-        driverID: String, cmrID: String?, createAt: String
+        orderTitle: String, orderID: String, position: String?, finalDest: String, startDest: String, cargoName: String, cargoWeight: Int, driverID: String, cmrID: String?, createAt: String
     ) -> Unit,
     navigateToOrdersScr: () -> Unit,
     showSnackBar: () -> Unit,
+    goBack: () -> Unit
 ) {
 
 
     val scrollState = rememberScrollState()
-    var orderTitle by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+    var orderTitle by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var orderID by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var orderID by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var position by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var position by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var finalDest by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var finalDest by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var startDest by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var startDest by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var cargoName by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var cargoName by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var cargoWeight by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var cargoWeight by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var driverID by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var driverID by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var cmrID by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var cmrID by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
-    var createAt by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
+        )
+    })
+    var createAt by rememberSaveable(stateSaver = TextFieldValue.Saver, init = {
+        mutableStateOf(
+            value = TextFieldValue(
+                text = Constants.EMPTY_STRING
             )
-        }
-    )
+        )
+    })
 
     Box(
         modifier = Modifier
@@ -178,8 +150,7 @@ fun AddOrderContent(
                 data = orderTitle,
                 onDataValueChange = { newValue ->
                     orderTitle = newValue
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
@@ -188,8 +159,7 @@ fun AddOrderContent(
                 data = orderID,
                 onDataValueChange = { newValue ->
                     orderID = newValue
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
@@ -198,8 +168,7 @@ fun AddOrderContent(
                 data = position,
                 onDataValueChange = { newValue ->
                     position = newValue
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
@@ -208,8 +177,7 @@ fun AddOrderContent(
                 data = startDest,
                 onDataValueChange = { newValue ->
                     startDest = newValue
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
@@ -218,8 +186,7 @@ fun AddOrderContent(
                 data = finalDest,
                 onDataValueChange = { newValue ->
                     finalDest = newValue
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
@@ -228,8 +195,7 @@ fun AddOrderContent(
                 data = cargoName,
                 onDataValueChange = { newValue ->
                     cargoName = newValue
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
@@ -238,8 +204,7 @@ fun AddOrderContent(
                 data = cargoWeight,
                 onDataValueChange = { newValue ->
                     cargoWeight = newValue
-                }
-            )
+                })
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
@@ -248,18 +213,17 @@ fun AddOrderContent(
                 data = driverID,
                 onDataValueChange = { newValue ->
                     driverID = newValue
-                }
-            )
-            Spacer(modifier = Modifier.height(17.dp))
-            DataTextField(modifier = Modifier
-                .clip(RoundedCornerShape(18.dp))
-                .background(color = colorResource(id = R.color.colorBg)),
-                labelValue = "Identyfikator CMR",
-                data = cmrID,
-                onDataValueChange = { newValue ->
-                    cmrID = newValue
-                }
-            )
+                })
+//            Spacer(modifier = Modifier.height(17.dp))
+//            DataTextField(modifier = Modifier
+//                .clip(RoundedCornerShape(18.dp))
+//                .background(color = colorResource(id = R.color.colorBg)),
+//                labelValue = "Identyfikator CMR",
+//                data = cmrID,
+//                onDataValueChange = { newValue ->
+//                    cmrID = newValue
+//                }
+//            )
             Spacer(modifier = Modifier.height(17.dp))
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
@@ -268,18 +232,44 @@ fun AddOrderContent(
                 data = createAt,
                 onDataValueChange = { newValue ->
                     createAt = newValue
-                }
-            )
+                })
             SmallSpacer()
-            Button(shape = CircleShape,
-                colors = ButtonDefaults.buttonColors(
+            Row(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(shape = CircleShape, colors = ButtonDefaults.buttonColors(
                     backgroundColor = colorResource(id = R.color.colorBg),
                     contentColor = colorResource(id = R.color.colorTest)
                 ),
-                onClick = {
+
+                    onClick = {
+                        goBack()
+                        Log.d(Constants.TAG, "KLIIIIIK w anuluj ")
+                    }
+                ) {
+                    Text(
+                        fontSize = 15.sp,
+                        text = "Anuluj"
+                    )
+                }
+
+
+                Button(shape = CircleShape, colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colorResource(id = R.color.colorBg),
+                    contentColor = colorResource(id = R.color.colorTest)
+                ), onClick = {
                     if (areFieldsFilled(
-                            orderTitle, orderID, finalDest,
-                            startDest, cargoName, cargoWeight, driverID,
+                            orderTitle,
+                            orderID,
+                            finalDest,
+                            startDest,
+                            cargoName,
+                            cargoWeight,
+                            driverID,
                             createAt
                         )
                     ) {
@@ -299,12 +289,11 @@ fun AddOrderContent(
                     } else {
                         showSnackBar()
                     }
+                }) {
+                    Text(
+                        text = Constants.ADD_ORDER, fontSize = 15.sp
+                    )
                 }
-            ) {
-                Text(
-                    text = Constants.ADD_ORDER,
-                    fontSize = 15.sp
-                )
             }
         }
     }
@@ -312,29 +301,25 @@ fun AddOrderContent(
 }
 
 
-@Preview
-@Composable
-fun PreviewAddOrderContent() {
-    AddOrderContent(
-        padding = PaddingValues(0.dp),
-        addOrder = { _, _, _, _, _, _, _, _, _, _ -> },
-        navigateToOrdersScr = {},
-        showSnackBar = {}
-    )
-}
+//@Preview
+//@Composable
+//fun PreviewAddOrderContent() {
+//    AddOrderContent(padding = PaddingValues(0.dp),
+//        addOrder = { _, _, _, _, _, _, _, _, _, _ -> },
+//        navigateToOrdersScr = {},
+//        showSnackBar = {})
+//}
 
 
 private fun areFieldsFilled(
-    orderTitle: TextFieldValue, orderID: TextFieldValue, finalDest: TextFieldValue,
-    startDest: TextFieldValue, cargoName: TextFieldValue, cargoWeight: TextFieldValue,
-    driverID: TextFieldValue, createAt: TextFieldValue
+    orderTitle: TextFieldValue,
+    orderID: TextFieldValue,
+    finalDest: TextFieldValue,
+    startDest: TextFieldValue,
+    cargoName: TextFieldValue,
+    cargoWeight: TextFieldValue,
+    driverID: TextFieldValue,
+    createAt: TextFieldValue
 ): Boolean {
-    return orderTitle.text.isNotEmpty() &&
-            orderID.text.isNotEmpty() &&
-            startDest.text.isNotEmpty() &&
-            finalDest.text.isNotEmpty() &&
-            cargoName.text.isNotEmpty() &&
-            cargoWeight.text.isNotEmpty() &&
-            driverID.text.isNotEmpty() &&
-            createAt.text.isNotEmpty()
+    return orderTitle.text.isNotEmpty() && orderID.text.isNotEmpty() && startDest.text.isNotEmpty() && finalDest.text.isNotEmpty() && cargoName.text.isNotEmpty() && cargoWeight.text.isNotEmpty() && driverID.text.isNotEmpty() && createAt.text.isNotEmpty()
 }

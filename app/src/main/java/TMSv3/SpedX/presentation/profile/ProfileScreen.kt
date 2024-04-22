@@ -6,11 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import TMSv3.SpedX.components.TopBar
+import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.core.Constants.PROFILE_SCREEN
 import TMSv3.SpedX.navigation.Screen
 import TMSv3.SpedX.presentation.profile.components.LoadUserName
 import TMSv3.SpedX.presentation.profile.components.ProfileContent
 import TMSv3.SpedX.presentation.profile.components.RevokeAccess
+import android.util.Log
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -26,6 +28,7 @@ fun ProfileScreen(
     navigateToMapScreen: () -> Unit,
     navigateToTicketScreen: () -> Unit,
     navigateToDriversScreen: () -> Unit,
+    openWeb: (Int) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
@@ -53,7 +56,10 @@ fun ProfileScreen(
                 navigateToOrdersScreen = navigateToOrdersScreen,
                 openMap = navigateToMapScreen,
                 goBuyTickets = navigateToTicketScreen,
-                openDriversList = navigateToDriversScreen
+                openDriversList = navigateToDriversScreen,
+                openWeb = { appNr -> openWeb(appNr)
+                    Log.d(Constants.TAG, "kliknięto app nr:     $appNr")
+                }
             )
         },
         scaffoldState = scaffoldState

@@ -3,6 +3,7 @@ package TMSv3.SpedX.presentation.map
 import TMSv3.SpedX.R
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.domain.model.Position
+import TMSv3.SpedX.presentation.profile.ProfileViewModel
 import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
 import androidx.compose.foundation.layout.fillMaxSize
 
@@ -30,7 +31,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.IconButton
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.LaunchedEffect
@@ -48,18 +57,44 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.google.maps.android.compose.MarkerInfoWindow
 
 @Composable
 fun MapScreen(
     navigateBack: () -> Boolean,
-    viewModel: MapViewModel = hiltViewModel()
+    viewModel: MapViewModel = hiltViewModel(),
+    viewModel1: ProfileViewModel = hiltViewModel()
 ) {
 
+    var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(viewModel) {
-        viewModel.fetchPosition()
+        viewModel1.fetchVehicles()
+    }
+
+    val fetchedVehicles by viewModel1.vehicles.observeAsState(emptyList())
+    Log.d(Constants.TAG, "!!!!    WCZYTANE FURKI $fetchedVehicles ")
+
+    val vehicleNames: List<String> = fetchedVehicles.map { vehicle ->
+        Log.d(Constants.TAG, "zmapowane fury----------: $vehicle ")
+        vehicle.vehicleName ?: "brak danych"// Pobierz nazwę pojazdu
+    }
+
+    val vehicleNames1 = listOf("v1566", "v1566", "v1565")
+
+
+    var currentVehicle by remember { mutableStateOf<String>("brak pojazdu") }
+    Log.d(Constants.TAG, "11111111 first furka1----------: $currentVehicle ")
+
+    LaunchedEffect(fetchedVehicles) {
+        currentVehicle = vehicleNames.firstOrNull() ?: "brak pojazdu"
+        Log.d(Constants.TAG, "11111111 first furka2----------: $currentVehicle ")
+        // W tym miejscu możesz umieścić inne logiki lub wywołania, które mają zależeć od wartości currentVehicle
+    }
+    LaunchedEffect(currentVehicle) {
+        viewModel.fetchPosition(currentVehicle)
     }
     var openDialog by remember { mutableStateOf(false) }
 
@@ -71,11 +106,11 @@ fun MapScreen(
         val safelat = positionCar.latitude ?: 0.00
         val safelng = positionCar.longitude ?: 0.00
         // Użyj position w swoim kodzie Compose
-        if(safelat == 0.00 || safelng == 0.00){
+        if (safelat == 0.00 || safelng == 0.00) {
             openDialog = true
         }
-        if(openDialog) {
-            Dialog(onDismissRequest = {openDialog = !openDialog}) {
+        if (openDialog) {
+            Dialog(onDismissRequest = { openDialog = !openDialog }) {
                 // Draw a rectangle shape with rounded corners inside the dialog
                 Card(
                     modifier = Modifier
@@ -91,7 +126,7 @@ fun MapScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         Text(
-                            text = "Wczytywanie danych się nie powiodło. Sprawdź połączenie z internetem." ,
+                            text = "Wczytywanie danych się nie powiodło. Sprawdź połączenie z internetem.",
                             modifier = Modifier.padding(16.dp),
                         )
                         Row(
@@ -100,7 +135,7 @@ fun MapScreen(
                             horizontalArrangement = Arrangement.End,
                         ) {
                             TextButton(
-                                onClick = { openDialog = false},
+                                onClick = { openDialog = false },
                                 modifier = Modifier.padding(8.dp),
                             ) {
                                 Text("Zamknij")
@@ -115,40 +150,83 @@ fun MapScreen(
 
         val speed = positionCar.speed
         Log.d(Constants.TAG, "wczytanie pozycji")
-        Log.d(Constants.TAG, "przed wczytaniem zmiennych singapore")
-        val singapore = LatLng(51.90675735473633, 22.7077693939209)
         val cameraPositionState = rememberCameraPositionState {
-            Log.d(Constants.TAG, "wczytanie cameraPositionState-----------------------------------")
+            Log.d(
+                Constants.TAG,
+                "wczytanie cameraPositionState-----------------------------------"
+            )
 
             position = CameraPosition.fromLatLngZoom(positionGPS, 17f)
         }
         Log.d(Constants.TAG, "przed uruchomieniem mapy-----------------------------------")
-        GoogleMap(
-            modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState
-        ) {
-            MarkerInfoWindow(
-                state = MarkerState(position = positionGPS),
-            ) { marker ->
+        Box (modifier = Modifier.fillMaxSize()){
+            GoogleMap(
+                modifier = Modifier.fillMaxSize(),
+                cameraPositionState = cameraPositionState
+            ) {
+                MarkerInfoWindow(
+                    state = MarkerState(position = positionGPS),
+                ) { marker ->
 
 
-                Box(
-                    modifier = Modifier
-                        .height(100.dp)
-                        .width(160.dp)
-                        .clip(AlertDialogDefaults.shape)
-                        .background(tmsOnPrimary)
-                        .fillMaxSize(), contentAlignment = Alignment.Center
-                ) {
-                    //Text(modifier = Modifier.padding(all = 10.dp), textAlign = TextAlign.Center, text = currentDateAndTime, fontSize = 30.sp)
-                    Text(text = "aktualna prędkość:\n $speed km/h", color = Color.White)
+                    Box(
+                        modifier = Modifier
+                            .height(100.dp)
+                            .width(160.dp)
+                            .clip(AlertDialogDefaults.shape)
+                            .background(tmsOnPrimary)
+                            .fillMaxSize(), contentAlignment = Alignment.Center
+                    ) {
+                        //Text(modifier = Modifier.padding(all = 10.dp), textAlign = TextAlign.Center, text = currentDateAndTime, fontSize = 30.sp)
+                        Text(text = "aktualna prędkość:\n $speed km/h", color = Color.White)
+
+                    }
+
+                    Log.d(Constants.TAG, "wczytanie markera-----------------------------------")
 
                 }
+            }
+            Row {
+                TextField(modifier = Modifier
+                    .clip(AlertDialogDefaults.shape),
+                    value = currentVehicle,
+                    onValueChange = {},
+                    label = { Text(fontSize = 10.sp, text = "Wybierz pojazd") },
+                    readOnly = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
+                    trailingIcon = {
+                        IconButton(onClick = { expanded = !expanded }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowDropDown,
+                                contentDescription = null
+                            )
 
-                Log.d(Constants.TAG, "wczytanie markera-----------------------------------")
+                        }
+                    })
+
+
+                DropdownMenu(modifier = Modifier
+                    .background(color = Color.White),
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }) {
+                    vehicleNames.forEach {
+                        DropdownMenuItem(onClick = {
+                            currentVehicle = it
+                            expanded = false
+                        }) {
+                            Text(text = it)
+                        }
+                    }
+                }
 
             }
         }
 
     }
+
 }

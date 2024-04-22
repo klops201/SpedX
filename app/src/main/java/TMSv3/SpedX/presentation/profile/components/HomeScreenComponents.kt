@@ -100,6 +100,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat.startActivity
@@ -113,8 +114,8 @@ fun Greeting(userName: String) {
             .heightIn(min = 40.dp),
 
         style = androidx.compose.ui.text.TextStyle(
-            fontSize = 30.sp,
-            fontWeight = FontWeight.Normal,
+            fontSize = 32.sp,
+            fontWeight = FontWeight.ExtraBold,
             fontStyle = FontStyle.Normal
         ),
 
@@ -322,12 +323,13 @@ fun ShowUndoneOrder(order: Order) {
 
 @Composable
 fun ImageBoxMap(openMap: () -> Unit) {
-    Box(modifier = Modifier
-        .height(100.dp)
-        .width(100.dp)
-        .clip(AlertDialogDefaults.shape)
-        .fillMaxSize()
-        .clickable { openMap() }, contentAlignment = Alignment.Center
+    Box(
+        modifier = Modifier
+            .height(100.dp)
+            .width(100.dp)
+            .clip(AlertDialogDefaults.shape)
+            .fillMaxSize()
+            .clickable { openMap() }, contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.map), contentDescription = null,
@@ -388,13 +390,14 @@ fun EtollBox(openBrowser: () -> Unit) {
 
 @Composable
 fun SettingsBox() {
-    Box(modifier = Modifier
-        .height(100.dp)
-        .width(100.dp)
-        .clip(AlertDialogDefaults.shape)
-        .fillMaxSize()
-        .background(colorResource(id = R.color.colorTest))
-        .clickable { println("Button Clicked!") }, contentAlignment = Alignment.Center
+    Box(
+        modifier = Modifier
+            .height(100.dp)
+            .width(100.dp)
+            .clip(AlertDialogDefaults.shape)
+            .fillMaxSize()
+            .background(colorResource(id = R.color.colorTest))
+            .clickable { println("Button Clicked!") }, contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.settings), contentDescription = null,
@@ -410,13 +413,14 @@ fun SettingsBox() {
 
 @Composable
 fun WinietBox(buyTicket: () -> Unit) {
-    Box(modifier = Modifier
-        .height(100.dp)
-        .width(100.dp)
-        .clip(AlertDialogDefaults.shape)
-        .fillMaxSize()
-        .background(colorResource(id = R.color.colorTest))
-        .clickable { buyTicket() }, contentAlignment = Alignment.Center
+    Box(
+        modifier = Modifier
+            .height(100.dp)
+            .width(100.dp)
+            .clip(AlertDialogDefaults.shape)
+            .fillMaxSize()
+            .background(colorResource(id = R.color.colorTest))
+            .clickable { buyTicket() }, contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.winiet), contentDescription = null,
@@ -447,6 +451,37 @@ fun AutoSatNetBox(openBrowser: () -> Unit) {
         )
     }
 }
+//@Composable
+//fun AutoSatNetBox() {
+//    var openBrowser by remember {
+//        mutableStateOf(false)
+//    }
+//
+//
+//
+//
+//    Box(modifier = Modifier
+//        .height(100.dp)
+////        .width(210.dp)
+//        //.fillMaxSize()
+//        .clip(AlertDialogDefaults.shape)
+//        .clickable { openBrowser = true }
+//        .background(androidx.compose.ui.graphics.Color.White)
+//        .fillMaxWidth(), contentAlignment = Alignment.Center) {
+//        if (openBrowser) {
+//            // Wywołanie GoASN po kliknięciu w AutoSatNetBox
+//            goASN(url = "https://www.autosatnet.eu/monit/",
+//                onGoBack = { openBrowser = false })
+//        } else {
+//            Image(
+//                painter = painterResource(id = R.drawable.autosatnet_logo),
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .fillMaxSize()
+//            )
+//        }
+//    }
+//}
 
 
 @Preview

@@ -30,5 +30,6 @@ sealed class Screen(val route: String) {
     object DriversMainScreen: Screen(DRIVERS_MAIN_SCREEN)
     object EditDriverScreen: Screen(EDIT_DRIVER_SCREEN)
     object AddDriverScreen: Screen(ADD_DRIVER_SCREEN)
+    object WebScreen: Screen(ADD_DRIVER_SCREEN)
 
 }

@@ -34,7 +34,8 @@ fun AddOrderScreen(
                             duration = SnackbarDuration.Short
                         )
                     }
-                })
+                },
+                goBack = {navigateBack()})
         },
         scaffoldState = scaffoldState,
     )

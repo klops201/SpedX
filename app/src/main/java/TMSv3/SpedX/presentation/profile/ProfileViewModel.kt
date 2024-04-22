@@ -1,5 +1,6 @@
 package TMSv3.SpedX.presentation.profile
 
+import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.domain.model.Response
 import androidx.compose.runtime.getValue
@@ -11,6 +12,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import TMSv3.SpedX.domain.model.Response.Loading
 import TMSv3.SpedX.domain.model.Response.Success
+import TMSv3.SpedX.domain.model.Vehicle
+import TMSv3.SpedX.domain.repository.ASNApi
 import TMSv3.SpedX.domain.repository.AuthRepository
 import TMSv3.SpedX.domain.repository.MainRepository
 import TMSv3.SpedX.domain.repository.ReloadUserResponse
@@ -18,7 +21,10 @@ import TMSv3.SpedX.domain.repository.RevokeAccessResponse
 import TMSv3.SpedX.domain.repository.CreateUserResponse
 import TMSv3.SpedX.domain.repository.OrderRepository
 import TMSv3.SpedX.domain.repository.UserNameResponse
+import android.util.Log
 import androidx.compose.runtime.State
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
@@ -40,6 +46,32 @@ class ProfileViewModel @Inject constructor(
 
     val _nameFirebase = mutableStateOf("")
     val nameFirebase: State<String> = _nameFirebase
+
+
+
+    private val _vehicles = MutableLiveData<List<Vehicle>>()
+    val vehicles: LiveData<List<Vehicle>> = _vehicles
+
+
+    fun fetchVehicles() {
+        viewModelScope.launch {
+            try {
+                _vehicles.value = ASNApi.autoSatNetService.getVehiclesList()
+                Log.d(
+                    Constants.TAG,
+                    "po pobraniu listy fur viewModel ${_vehicles.value}----------: "
+                )
+
+            } catch (e: Exception) {
+
+                Log.d(Constants.TAG, "BŁĄD pobrania fur---------- :${_vehicles.value} ")
+            }
+        }
+    }
+
+
+
+
 
 
     fun reloadUser() = viewModelScope.launch {
@@ -69,7 +101,6 @@ class ProfileViewModel @Inject constructor(
         ordersListResponse = Loading
         ordersListResponse = repoOrder.getUndoneOrders()
     }
-
 
 
 }

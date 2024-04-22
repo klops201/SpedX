@@ -62,7 +62,7 @@ fun EditOrderScreen(
         scaffoldState = scaffoldState,
         floatingActionButton ={
             FloatingActionButton(
-                backgroundColor = colorResource(id = R.color.colorTest),
+                backgroundColor = Color.Red,
                 onClick = {
                     coroutineScope.launch {
                         val snackbarResult = scaffoldState.snackbarHostState.showSnackbar(
