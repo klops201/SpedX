@@ -140,10 +140,6 @@ fun EditDriverContent(
     GetDriver { driver ->
 
 
-//        LaunchedEffect(viewModel) {
-//            viewModel1.fetchVehicles(user.lowercase(), customer.lowercase(), pass)
-//        }
-
         val safeDriverId = driver.driverId ?: ""
         val safeFBId = driver.firebaseID ?: ""
         val safeDriverName = driver.driverName ?: ""
@@ -464,21 +460,6 @@ fun EditDriverContent(
                     .height(500.dp),
                 shape = RoundedCornerShape(16.dp),
             ) {
-//                Column(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .padding(5.dp),
-//                    verticalArrangement = Arrangement.Center,
-//                    horizontalAlignment = Alignment.CenterHorizontally,
-//                ) {
-//                    Image(
-//                        painter = painterResource(id = R.drawable.guide1),
-//                        contentDescription = "imageDescription",
-//                        contentScale = ContentScale.Crop,
-//                        modifier = Modifier
-//                            .fillMaxSize()
-//                            .clip(RoundedCornerShape(16.dp))
-//                    )
 
                 Column(
                     modifier = Modifier
