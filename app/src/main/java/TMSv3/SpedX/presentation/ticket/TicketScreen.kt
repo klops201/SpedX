@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun TicketScreen(
     navigateBack: () -> Boolean,
+    openWeb: (Int) -> Unit
 ){
     val scaffoldState = rememberScaffoldState()
     Scaffold(
@@ -27,7 +28,8 @@ fun TicketScreen(
 //            )
 //        },
         content = {paddingValues ->
-        TicketContent(paddingValues = paddingValues)
+        TicketContent(paddingValues = paddingValues,
+            openWeb = {nr -> openWeb(nr)})
         },
         scaffoldState = scaffoldState
     )

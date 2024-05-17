@@ -31,6 +31,7 @@ class Utils {
 
 
         fun generateSMS(country: String, date: Long, hour: Int, minute: Int,  ):  String {
+            Log.d(Constants.TAG, "DAATA!!!!!!:     $date")
             val dateSMS = Date(date)
             val format = SimpleDateFormat("MM.dd")
             val selectedLocalDate: LocalDate? = date?.let {
@@ -45,7 +46,7 @@ class Utils {
                 else -> dataSMS = "Wybierz kraj"
             }
             if (isToday == true) {
-                dataSMS = dataSMS + " " + hour+1 + ":" + minute+2
+                dataSMS = dataSMS + " " + (hour+1) + ":" + (minute+2)
             }else{
                 dataSMS = dataSMS + " " + format.format(dateSMS) + " " + (hour+1) + ":" + (minute+2)
             }

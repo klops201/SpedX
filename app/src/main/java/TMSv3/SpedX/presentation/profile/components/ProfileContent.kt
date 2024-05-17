@@ -18,7 +18,6 @@ import TMSv3.SpedX.presentation.orders.orders_list.OrdersViewModel
 import TMSv3.SpedX.presentation.orders.orders_list.components.ShowOrder
 import TMSv3.SpedX.presentation.orders.orders_list.components.getOrders
 import TMSv3.SpedX.presentation.profile.ProfileViewModel
-import TMSv3.SpedX.presentation.uiTheme.GreyBG
 import TMSv3.SpedX.presentation.uiTheme.componentShapes
 import android.util.Log
 import androidx.compose.foundation.Image
@@ -59,14 +58,13 @@ fun ProfileContent(
     navigateToOrdersScreen: () -> Unit,
     openMap: () -> Unit,
     goBuyTickets: () -> Unit,
+    goSettings: () -> Unit,
     openDriversList: () -> Unit,
     viewModel: ProfileViewModel = hiltViewModel(),
     openWeb: (Int) -> Unit
 ) {
 
-    LaunchedEffect(viewModel) {
-        viewModel.fetchVehicles()
-    }
+
 
 
 
@@ -206,10 +204,11 @@ fun ProfileContent(
             Spacer(modifier = Modifier.height(17.dp))
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+//                openBrowser = {Utils.openBrowser("https://shorturl.at/dgDMT", context)}
 
                 EtollBox(openBrowser = {Utils.openBrowser("https://shorturl.at/dgDMT", context)})
                 Spacer(modifier = Modifier.width(17.dp))
-                SettingsBox()
+                SettingsBox(openSettings = {goSettings()})
             }
 
             Spacer(modifier = Modifier.height(17.dp))
@@ -218,7 +217,7 @@ fun ProfileContent(
 
                 WinietBox(buyTicket = {goBuyTickets()})
                 Spacer(modifier = Modifier.width(17.dp))
-                AutoSatNetBox(openBrowser = {openWeb(1)})
+                AutoSatNetBox(openBrowser = {Utils.openBrowser("https://www.autosatnet.eu/", context)})
             }
 
 

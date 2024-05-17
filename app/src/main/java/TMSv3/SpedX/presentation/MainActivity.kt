@@ -16,6 +16,7 @@ import TMSv3.SpedX.navigation.Screen.ProfileScreen
 import TMSv3.SpedX.navigation.Screen.SignInScreen
 import TMSv3.SpedX.navigation.Screen.VerifyEmailScreen
 import TMSv3.SpedX.navigation.Screen.OrdersScreen
+import TMSv3.SpedX.presentation.uiTheme.AppTheme
 
 @AndroidEntryPoint
 @ExperimentalComposeUiApi
@@ -26,11 +27,13 @@ class MainActivity : ComponentActivity() {//// cala logika odsyłania do ekranó
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            navController = rememberNavController()
-            NavGraph(
-                navController = navController
-            )
-            AuthState()
+            AppTheme {
+                navController = rememberNavController()
+                NavGraph(
+                    navController = navController
+                )
+                AuthState()
+            }
         }
     }
 

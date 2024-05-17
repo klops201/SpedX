@@ -10,7 +10,7 @@ import TMSv3.SpedX.domain.model.Vehicle
 import TMSv3.SpedX.presentation.drivers.drivers_main.DriverMainViewModel
 import TMSv3.SpedX.presentation.orders.orders_list.OrdersViewModel
 import TMSv3.SpedX.presentation.orders.orders_list.components.ShowOrder
-import TMSv3.SpedX.presentation.uiTheme.GreyBG
+import TMSv3.SpedX.presentation.uiTheme.md_theme_light_primaryContainer
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -87,7 +87,7 @@ fun DriversMainContent(
                     .height(80.dp)
                     .fillMaxWidth()
                     .background(colorResource(id = R.color.colorTest)),
-                contentAlignment = Alignment.BottomCenter
+                contentAlignment = Alignment.Center
             ) {
                 Text(
                     modifier = Modifier
@@ -221,7 +221,7 @@ fun ShowDrivers(
                 Box(
                     modifier = Modifier
                         .fillMaxSize() // Aby tekst wypełniał całą kartę
-                        .background(GreyBG), // Dodaj tło do Box
+                        .background(md_theme_light_primaryContainer), // Dodaj tło do Box
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -253,7 +253,7 @@ fun checkkk() {
         Box(
             modifier = Modifier
                 .fillMaxSize() // Aby tekst wypełniał całą kartę
-                .background(GreyBG), // Dodaj tło do Box
+                .background(md_theme_light_primaryContainer), // Dodaj tło do Box
             contentAlignment = Alignment.Center
         ) {
             Text(

@@ -49,27 +49,6 @@ class ProfileViewModel @Inject constructor(
 
 
 
-    private val _vehicles = MutableLiveData<List<Vehicle>>()
-    val vehicles: LiveData<List<Vehicle>> = _vehicles
-
-
-    fun fetchVehicles() {
-        viewModelScope.launch {
-            try {
-                _vehicles.value = ASNApi.autoSatNetService.getVehiclesList()
-                Log.d(
-                    Constants.TAG,
-                    "po pobraniu listy fur viewModel ${_vehicles.value}----------: "
-                )
-
-            } catch (e: Exception) {
-
-                Log.d(Constants.TAG, "BŁĄD pobrania fur---------- :${_vehicles.value} ")
-            }
-        }
-    }
-
-
 
 
 

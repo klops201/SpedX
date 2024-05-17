@@ -1,5 +1,6 @@
 package TMSv3.SpedX.di
 
+import TMSv3.SpedX.data.repository.AuthDataRepositoryImpl
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
@@ -11,6 +12,7 @@ import TMSv3.SpedX.data.repository.DriverRepositoryImpl
 import TMSv3.SpedX.data.repository.MainRepositoryImpl
 import TMSv3.SpedX.data.repository.OrderRepositoryImpl
 import TMSv3.SpedX.data.repository.PositionRepositoryImpl
+import TMSv3.SpedX.domain.repository.AuthDataRepository
 import TMSv3.SpedX.domain.repository.AuthRepository
 import TMSv3.SpedX.domain.repository.AutoSatNetService
 import TMSv3.SpedX.domain.repository.CmrRepository
@@ -89,6 +91,28 @@ object AppModule {
         db = db,
         storage = storage,
     )
+
+
+
+
+    @Provides
+    fun provideAuthDataRepository(auth: FirebaseAuth, db: FirebaseFirestore, storage: FirebaseStorage
+    ): AuthDataRepository = AuthDataRepositoryImpl(
+        auth = auth,
+        db = db
+    )
+
+
+
+
+
+
+
+
+
+
+
+
 
 //
 //    @Provides

@@ -3,8 +3,9 @@ package TMSv3.SpedX.presentation.map
 import TMSv3.SpedX.R
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.domain.model.Position
+import TMSv3.SpedX.domain.model.Vehicle
 import TMSv3.SpedX.presentation.profile.ProfileViewModel
-import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
+import TMSv3.SpedX.presentation.uiTheme.md_theme_light_onPrimaryContainer
 import androidx.compose.foundation.layout.fillMaxSize
 
 import androidx.compose.runtime.Composable
@@ -71,10 +72,10 @@ fun MapScreen(
     var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(viewModel) {
-        viewModel1.fetchVehicles()
+        viewModel.fetchVehicles()
     }
 
-    val fetchedVehicles by viewModel1.vehicles.observeAsState(emptyList())
+    val fetchedVehicles by viewModel.vehicles.observeAsState(emptyList())
     Log.d(Constants.TAG, "!!!!    WCZYTANE FURKI $fetchedVehicles ")
 
     val vehicleNames: List<String> = fetchedVehicles.map { vehicle ->
@@ -82,19 +83,17 @@ fun MapScreen(
         vehicle.vehicleName ?: "brak danych"// Pobierz nazwę pojazdu
     }
 
-    val vehicleNames1 = listOf("v1566", "v1566", "v1565")
 
-
-    var currentVehicle by remember { mutableStateOf<String>("brak pojazdu") }
+    var currentVehicle by remember { mutableStateOf<Vehicle>(Vehicle(vehicleId = null)) }
     Log.d(Constants.TAG, "11111111 first furka1----------: $currentVehicle ")
 
     LaunchedEffect(fetchedVehicles) {
-        currentVehicle = vehicleNames.firstOrNull() ?: "brak pojazdu"
+        currentVehicle = fetchedVehicles.firstOrNull() ?: currentVehicle
         Log.d(Constants.TAG, "11111111 first furka2----------: $currentVehicle ")
         // W tym miejscu możesz umieścić inne logiki lub wywołania, które mają zależeć od wartości currentVehicle
     }
     LaunchedEffect(currentVehicle) {
-        viewModel.fetchPosition(currentVehicle)
+        viewModel.fetchPosition(currentVehicle.vehicleId ?: "")
     }
     var openDialog by remember { mutableStateOf(false) }
 
@@ -174,7 +173,7 @@ fun MapScreen(
                             .height(100.dp)
                             .width(160.dp)
                             .clip(AlertDialogDefaults.shape)
-                            .background(tmsOnPrimary)
+                            .background(md_theme_light_onPrimaryContainer)
                             .fillMaxSize(), contentAlignment = Alignment.Center
                     ) {
                         //Text(modifier = Modifier.padding(all = 10.dp), textAlign = TextAlign.Center, text = currentDateAndTime, fontSize = 30.sp)
@@ -189,7 +188,7 @@ fun MapScreen(
             Row {
                 TextField(modifier = Modifier
                     .clip(AlertDialogDefaults.shape),
-                    value = currentVehicle,
+                    value = " ${currentVehicle.vehicleName.toString()} - ${currentVehicle.vehicleId.toString()}",
                     onValueChange = {},
                     label = { Text(fontSize = 10.sp, text = "Wybierz pojazd") },
                     readOnly = true,
@@ -214,12 +213,12 @@ fun MapScreen(
                     .background(color = Color.White),
                     expanded = expanded,
                     onDismissRequest = { expanded = false }) {
-                    vehicleNames.forEach {
+                    vehicleNames.forEach {vehicleName ->
                         DropdownMenuItem(onClick = {
-                            currentVehicle = it
+                            currentVehicle = fetchedVehicles.find { it.vehicleName == vehicleName } ?: Vehicle(vehicleName = "brak pojazdu", vehicleId = "0")
                             expanded = false
                         }) {
-                            Text(text = it)
+                            Text(text = vehicleName ?: "brak danych")
                         }
                     }
                 }

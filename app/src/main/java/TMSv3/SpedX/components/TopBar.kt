@@ -73,16 +73,16 @@ fun TopBar(
                         text = SIGN_OUT_ITEM
                     )
                 }
-                DropdownMenuItem(
-                    onClick = {
-                        revokeAccess()
-                        openMenu = !openMenu
-                    }
-                ) {
-                    Text(
-                        text = REVOKE_ACCESS_ITEM
-                    )
-                }
+//                DropdownMenuItem(
+//                    onClick = {
+//                        revokeAccess()
+//                        openMenu = !openMenu
+//                    }
+//                ) {
+//                    Text(
+//                        text = REVOKE_ACCESS_ITEM
+//                    )
+//                }
             }
         }
     )

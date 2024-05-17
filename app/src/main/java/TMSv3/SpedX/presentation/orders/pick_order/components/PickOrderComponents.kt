@@ -1,9 +1,9 @@
 package TMSv3.SpedX.presentation.orders.pick_order.components
 
 import TMSv3.SpedX.R
-import TMSv3.SpedX.presentation.uiTheme.GreyBG
-import TMSv3.SpedX.presentation.uiTheme.md_theme_light_onPrimary
-import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
+import TMSv3.SpedX.presentation.uiTheme.md_theme_light_primary
+import TMSv3.SpedX.presentation.uiTheme.md_theme_light_primaryContainer
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.rememberTransformableState
@@ -57,6 +57,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 
+
 @Composable
 fun TitleOrderBox(orderID: String, modifier: Modifier = Modifier) {
 
@@ -65,7 +66,7 @@ fun TitleOrderBox(orderID: String, modifier: Modifier = Modifier) {
 //            .padding(10.dp)
 //            .height(100.dp)
             .clip(RoundedCornerShape(18.dp))
-            .background(tmsOnPrimary)
+            .background(md_theme_light_primary)
             .fillMaxWidth()
             , contentAlignment = Alignment.Center
 
@@ -102,7 +103,7 @@ fun OrderLocationsBox(startLoc: String, finalLoc: String) {
                     modifier = Modifier
 //                        .padding(10.dp)
                         .clip(AlertDialogDefaults.shape)
-                        .background(GreyBG)
+                        .background(md_theme_light_primaryContainer)
                         .fillMaxWidth(),
         ) {
             Row (modifier = Modifier
@@ -197,7 +198,7 @@ fun OrderCargoBox(cargoName: String, cargoWeight: Int) {
             .fillMaxWidth()
             .height(70.dp)
             .clip(RoundedCornerShape(18.dp))
-            .background(GreyBG), verticalAlignment = Alignment.CenterVertically
+            .background(md_theme_light_primaryContainer), verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
@@ -242,7 +243,7 @@ fun doneCheckbox(done: Boolean, change: () -> Unit ){
                 .height(60.dp)
                 .padding(3.dp)){
                 Button(
-                    colors = ButtonDefaults.buttonColors(containerColor = GreyBG),
+                    colors = ButtonDefaults.buttonColors(containerColor = md_theme_light_primaryContainer),
                     onClick = {
                         change()
                         doneState.value = !doneState.value
@@ -286,7 +287,7 @@ fun CmrBox(imageUri: String, afterClick: () -> Unit){
 
         Box (modifier = Modifier
             .clip(RoundedCornerShape(18.dp))
-            .background(GreyBG)){
+            .background(md_theme_light_primaryContainer)){
             Row(modifier = Modifier.fillMaxWidth()
                 .height(170.dp),verticalAlignment = Alignment.CenterVertically) {
 
@@ -302,7 +303,7 @@ fun CmrBox(imageUri: String, afterClick: () -> Unit){
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(18.dp))
-                    .padding(3.dp)
+                    .padding(6.dp)
                     .fillMaxHeight()
                     .clickable {
                         afterClick()

@@ -200,7 +200,7 @@ fun AddOrderContent(
             DataTextField(modifier = Modifier
                 .clip(RoundedCornerShape(18.dp))
                 .background(color = colorResource(id = R.color.colorBg)),
-                labelValue = "Waga ładunku",
+                labelValue = "Waga ładunku [kg]",
                 data = cargoWeight,
                 onDataValueChange = { newValue ->
                     cargoWeight = newValue

@@ -25,6 +25,11 @@ import TMSv3.SpedX.navigation.Screen.DriversMainScreen
 import TMSv3.SpedX.navigation.Screen.EditDriverScreen
 import TMSv3.SpedX.navigation.Screen.AddDriverScreen
 import TMSv3.SpedX.navigation.Screen.WebScreen
+import TMSv3.SpedX.navigation.Screen.SettingsScreen
+import TMSv3.SpedX.navigation.Screen.VinietSetScreen
+import TMSv3.SpedX.navigation.Screen.EtollSetScreen
+import TMSv3.SpedX.navigation.Screen.AsnSetScreen
+import TMSv3.SpedX.navigation.Screen.PuescSetScreen
 import TMSv3.SpedX.presentation.forgot_password.ForgotPasswordScreen
 import TMSv3.SpedX.presentation.profile.ProfileScreen
 import TMSv3.SpedX.presentation.profile.WebScreenView
@@ -37,6 +42,11 @@ import TMSv3.SpedX.presentation.orders.pick_order.PickOrderScreen
 import TMSv3.SpedX.presentation.orders.add_order.AddOrderScreen
 import TMSv3.SpedX.presentation.orders.edit_order.EditOrderScreen
 import TMSv3.SpedX.presentation.map.MapScreen
+import TMSv3.SpedX.presentation.settings.SettingsScreen
+import TMSv3.SpedX.presentation.settings.viniet.VinietScreen
+import TMSv3.SpedX.presentation.settings.etoll.EtollScreen
+import TMSv3.SpedX.presentation.settings.asn.AsnScreen
+import TMSv3.SpedX.presentation.settings.puesc.PuescScreen
 import TMSv3.SpedX.presentation.drivers.driver_edit.EditDriverScreen
 import TMSv3.SpedX.presentation.drivers.drivers_main.DriversMainScreen
 import TMSv3.SpedX.presentation.drivers.driver_add.AddDriverScreen
@@ -89,6 +99,13 @@ fun NavGraph(
             TicketScreen(
                 navigateBack = {
                     navController.popBackStack()
+                },
+                openWeb = { appNr ->
+                    navController.navigate("${WebScreen.route}/$appNr")
+                    Log.d(
+                        Constants.TAG,
+                        "NAVGRAPH WHICH APP------------------------------appNr: $appNr"
+                    )
                 }
             )
         }
@@ -153,12 +170,14 @@ fun NavGraph(
                 navigateToMapScreen = { navController.navigate(MapScreen.route) },
                 navigateToTicketScreen = { navController.navigate(TicketScreen.route) },
                 navigateToDriversScreen = { navController.navigate(DriversMainScreen.route) },
-                openWeb = { appNr -> navController.navigate("${WebScreen.route}/$appNr")
+                openWeb = { appNr ->
+                    navController.navigate("${WebScreen.route}/$appNr")
                     Log.d(
                         Constants.TAG,
                         "NAVGRAPH WHICH APP------------------------------appNr: $appNr"
                     )
-                }
+                },
+                navigateToSettingsScreen = { navController.navigate(SettingsScreen.route) }
             )
         }
         composable(
@@ -264,7 +283,13 @@ fun NavGraph(
                     navController.popBackStack()
                 },
                 navController = navController,
-                navigateToOrderDetails = { navController.navigate("${PickOrderScreen.route}/$orderId") },
+                navigateToOrderDetails = {
+                    navController.navigate("${PickOrderScreen.route}/$orderId") {
+                        popUpTo(OrdersScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                },
                 navigateToOrders = {
                     navController.navigate(OrdersScreen.route) {
                         popUpTo(OrdersScreen.route) {
@@ -291,6 +316,94 @@ fun NavGraph(
                 }
             )
         }
+
+
+        composable(
+            route = SettingsScreen.route
+        ) {
+            SettingsScreen(
+                navigateBack = {
+                    navController.popBackStack() 
+                },
+                navigateVinjetes = {
+                    navController.navigate(VinietSetScreen.route) {
+                        popUpTo(VinietSetScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateEtoll = {
+                    navController.navigate(EtollSetScreen.route) {
+                        popUpTo(EtollSetScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigateAsn = {
+                    navController.navigate(AsnSetScreen.route) {
+                        popUpTo(AsnSetScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                },
+                navigatePuesc = {
+                    navController.navigate(PuescSetScreen.route) {
+                        popUpTo(PuescSetScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+
+
+
+        composable(
+            route = VinietSetScreen.route
+        ) {
+            VinietScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                },
+            )
+        }
+
+        composable(
+            route = EtollSetScreen.route
+        ) {
+            EtollScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                },
+            )
+        }
+
+
+        composable(
+            route = AsnSetScreen.route
+        ) {
+            AsnScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                },
+            )
+        }
+
+        composable(
+            route = PuescSetScreen.route
+        ) {
+            PuescScreen(
+                navigateBack = {
+                    navController.popBackStack()
+                },
+            )
+        }
+
+
+
+
+
+
 
 
         composable(

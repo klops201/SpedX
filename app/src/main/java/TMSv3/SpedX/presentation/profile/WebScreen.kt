@@ -3,6 +3,7 @@ package TMSv3.SpedX.presentation.profile
 import TMSv3.SpedX.components.goASN
 import TMSv3.SpedX.components.goEtoll
 import TMSv3.SpedX.components.goPUESC
+import TMSv3.SpedX.components.goVinjet
 import TMSv3.SpedX.navigation.Screen
 import android.webkit.WebView
 import androidx.compose.runtime.Composable
@@ -17,8 +18,8 @@ fun WebScreenView(navigateBack: () -> Unit,
         0 -> goPUESC(navigateBack)
         1 -> goASN(navigateBack)
         3 -> goEtoll(navigateBack)
-        3 -> println("Niedostateczny")
-        4 -> println("Nieznana ocena")
+        4 -> goVinjet(navigateBack)
+        5 -> println("Nieznana ocena")
         else -> println("Nieznana wartość")
     }
 }

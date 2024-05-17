@@ -15,7 +15,7 @@ import java.util.Date
 import java.util.Locale
 
 
-private const val BASE_URL = "https://api.autosatnet.eu/administrator/ostrokolowicz/"
+private const val BASE_URL = "https://api.autosatnet.eu/"
 
 private val retrofit: Retrofit by lazy {
     Retrofit.Builder()
@@ -25,24 +25,24 @@ private val retrofit: Retrofit by lazy {
 }
 
 interface Api {
-    @GET("positions/{version}")
+    @GET("administrator/ostrokolowicz/positions/{version}")
     suspend fun getActualPosition(
         @Path("version") version: String,
-        @Query("token") token: String = generateToken("administrator", "Uslugi1!")
+        @Query("token") token: String = generateToken("xxxxx", "xxxx")
     ): Position
 
 
 
-    @GET("vehicles")
+    @GET("administrator/ostrokolowicz/vehicles")
     suspend fun getVehiclesList(
-        @Query("token") token: String = generateToken("administrator", "Uslugi1!")
+        @Query("token") token: String = generateToken("xxxxxxx", "xxxxxx")
     ): List<Vehicle>
 
 
 
-    @GET("drivers")
+    @GET("administrator/ostrokolowicz/drivers")
     suspend fun getDriversList(
-        @Query("token") token: String = generateToken("administrator", "Uslugi1!")
+        @Query("token") token: String = generateToken("xxxxxxxx", "xxxxxxx")
     ): List<DriverASN>
 
 

@@ -1,12 +1,15 @@
 package TMSv3.SpedX.presentation.ticket.components
 
 import TMSv3.SpedX.R
+import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.core.Utils
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -56,7 +59,9 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.TimePickerColors
 import androidx.compose.material3.rememberTimePickerState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.graphics.Color
@@ -73,34 +78,45 @@ import androidx.compose.ui.window.DialogProperties
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TicketContent(
-    paddingValues: PaddingValues
-){
+    paddingValues: PaddingValues,
+    openWeb: (Int) -> Unit
+) {
     val currentDate = LocalDate.now()
     val getTime = LocalTime.now()
-    val currentTime = getTime.plusHours(1).format(DateTimeFormatter.ofPattern("HH:mm"))
+    val currentTime = getTime.format(DateTimeFormatter.ofPattern("HH:mm"))
     val scrollState = rememberScrollState()
     val scrollStateDialog = rememberScrollState()
     val countries = listOf("Łotwa", "Estonia", "Litwa")
     var expanded by remember { mutableStateOf(false) }
     var currentCountry by remember { mutableStateOf(countries[0]) }
     var dateResult by remember { mutableStateOf(currentDate.toString()) }
+    val sdf = SimpleDateFormat("MM.dd")
+//    var dateResult = sdf.format(Date())
+
     var openCalendar by remember { mutableStateOf(false) }
     var showInfoGMT by remember { mutableStateOf(false) }
     var showGMTdialog by remember { mutableStateOf(false) }
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
 
+    var TimeResult by remember { mutableStateOf(currentTime.toString()) }
+
+    val currentTime1 = LocalTime.now()
+
+
     var selectedHour by remember {
-        mutableIntStateOf(0) // or use  mutableStateOf(0)
+        mutableIntStateOf(currentTime1.hour) // or use  mutableStateOf(0)
     }
 
     var selectedMinute by remember {
-        mutableIntStateOf(0) // or use  mutableStateOf(0)
+        mutableIntStateOf(currentTime1.minute) // or use  mutableStateOf(0)
     }
 
 
@@ -118,13 +134,24 @@ fun TicketContent(
         mutableStateOf(false)
     }
 
+    var checkCalendar by remember {
+        mutableIntStateOf(0) // or use  mutableStateOf(0)
+    }
+
+    var checkException by remember {
+        mutableIntStateOf(0) // or use  mutableStateOf(0)
+    }
+
+
+    val currentDateTime: java.util.Date = java.util.Date()
+
+    val currentTimestamp: Long = currentDateTime.time
 
     val timePickerState = rememberTimePickerState(
         initialHour = selectedHour,
         initialMinute = selectedMinute
     )
 
-    var TimeResult by remember { mutableStateOf(currentTime.toString()) }
 
     var contentSMS by remember { mutableStateOf("Nie dokonano wyboru") }
 
@@ -133,15 +160,19 @@ fun TicketContent(
 
 
 
-    Box (modifier = Modifier){
-        Column (modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.colorViniet))
-            .padding(10.dp)
-            .verticalScroll(scrollState)) {
-            Box (modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(10.dp)) {
+    Box(modifier = Modifier) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(colorResource(id = R.color.colorViniet))
+                .padding(10.dp)
+                .verticalScroll(scrollState)
+        ) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(10.dp)
+            ) {
                 Image(
                     modifier = Modifier,
                     painter = painterResource(id = R.drawable.smsviniet),
@@ -152,103 +183,125 @@ fun TicketContent(
             Row {
 
                 TextField(modifier = Modifier
-                    .clip(AlertDialogDefaults.shape)
-                    , value = currentCountry
-                    , onValueChange = {}, label = { Text(fontSize = 10.sp, text = "Wybierz kraj") }
-                    , readOnly = true
-                    , colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White,
+                    .clip(AlertDialogDefaults.shape),
+                    value = currentCountry,
+                    onValueChange = {},
+                    label = { Text(fontSize = 10.sp, text = "Wybierz kraj") },
+                    readOnly = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent)
-                    , trailingIcon ={
-                        IconButton(onClick = {expanded =!expanded}) {
-                            Icon( imageVector = Icons.Filled.ArrowDropDown,contentDescription = null)
+                        disabledIndicatorColor = Color.Transparent
+                    ),
+                    trailingIcon = {
+                        IconButton(onClick = { expanded = !expanded }) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowDropDown,
+                                contentDescription = null
+                            )
 
                         }
-                    } )
-                
-                    DropdownMenu(modifier = Modifier
-                        .background(color = Color.White),
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }) {
-                        countries.forEach {
-                            DropdownMenuItem(onClick = {
-                                currentCountry = it
-                                expanded = false
-                            }) {
-                                Text(text = it)
-                            }
+                    })
+
+                DropdownMenu(modifier = Modifier
+                    .background(color = Color.White),
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }) {
+                    countries.forEach {
+                        DropdownMenuItem(onClick = {
+                            currentCountry = it
+                            expanded = false
+                        }) {
+                            Text(text = it)
                         }
                     }
+                }
 
             }
             Spacer(modifier = Modifier.height(35.dp))
             TextField(modifier = Modifier
-                .clip(AlertDialogDefaults.shape)
-                , value = dateResult
-                , onValueChange = {}, label = { Text(fontSize = 10.sp, text = "Wybierz datę") }
-                , readOnly = true
-                , colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White,
+                .clip(AlertDialogDefaults.shape),
+                value = dateResult,
+                onValueChange = {},
+                label = { Text(fontSize = 10.sp, text = "Wybierz datę") },
+                readOnly = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent)
-                , trailingIcon ={
-                    IconButton(onClick = {openCalendar =!openCalendar}) {
-                        Icon( imageVector = Icons.Filled.CalendarMonth,contentDescription = null)
+                    disabledIndicatorColor = Color.Transparent
+                ),
+                trailingIcon = {
+                    IconButton(onClick = { openCalendar = !openCalendar }) {
+                        Icon(imageVector = Icons.Filled.CalendarMonth, contentDescription = null)
 
                     }
-                } )
+                })
             val datePickerState = rememberDatePickerState()
-            if(openCalendar){
 
-                val confirmEnabled by remember {derivedStateOf {datePickerState.selectedDateMillis != null}}
+            if (openCalendar) {
+                checkCalendar += 1
+                val confirmEnabled by remember { derivedStateOf { datePickerState.selectedDateMillis != null } }
 
                 DatePickerDialog(
-                    onDismissRequest = { openCalendar = false },
+                    onDismissRequest = {
+                        openCalendar = false
+                        Log.d(
+                            Constants.TAG,
+                            "datepiccck on anuluj  -------------------: $datePickerState"
+                        )
+                    },
                     confirmButton = {
                         TextButton(onClick = {
                             openCalendar = false
                             var date = "Nie wybrano daty"
-                            if(datePickerState.selectedDateMillis!= null){
+                            if (datePickerState.selectedDateMillis != null) {
                                 date = Utils.convertDate(datePickerState.selectedDateMillis!!)
-//                                val selectedLocalDate: LocalDate? = datePickerState.selectedDateMillis?.let {
-//                                    // Konwersja timestamp na LocalDate
-//                                    LocalDate.ofEpochDay(it / (24 * 60 * 60 * 1000))
-//                                }
+                                dateResult = date
                             }
-                            dateResult = date
+//                            dateResult = date
 
-                        }){Text(text = "Zatwierdź")}
+                        }) { Text(text = "Zatwierdź") }
                     },
                     dismissButton = {
                         TextButton(onClick = { openCalendar = false }) {
                             Text(text = "Anuluj")
                         }
                     }) {
-                        DatePicker(state = datePickerState)
+                    Log.d(Constants.TAG, "datepiccck ogolnie -------------------: $datePickerState")
+
+                    DatePicker(state = datePickerState)
 
                 }
 
-
-
-
             }
+
+
+            LaunchedEffect(datePickerState) {
+                checkException = +1
+            }
+/////////////////// warun sprawdzenie dartepicker state czy było anulowane
+
             Spacer(modifier = Modifier.height(35.dp))
             TextField(modifier = Modifier
-                .clip(AlertDialogDefaults.shape)
-                , value = TimeResult
-                , onValueChange = {}, label = { Text(fontSize = 10.sp, text = "Wybierz godzinę") }
-                , readOnly = true
-                , colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White,
+                .clip(AlertDialogDefaults.shape),
+                value = TimeResult,
+                onValueChange = {},
+                label = { Text(fontSize = 10.sp, text = "Wybierz godzinę") },
+                readOnly = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent)
-                , trailingIcon ={
-                    IconButton(onClick = {showDialog =!showDialog}) {
-                        Icon( imageVector = Icons.Filled.AccessTime,contentDescription = null)
+                    disabledIndicatorColor = Color.Transparent
+                ),
+                trailingIcon = {
+                    IconButton(onClick = { showDialog = !showDialog }) {
+                        Icon(imageVector = Icons.Filled.AccessTime, contentDescription = null)
 
                     }
-                } )
+                })
             if (showDialog) {
                 AlertDialog(
                     modifier = Modifier
@@ -291,7 +344,7 @@ fun TicketContent(
                                     showInfoGMT = true
                                     selectedHour = timePickerState.hour
                                     selectedMinute = timePickerState.minute
-                                    TimeResult = "${selectedHour+1}:${selectedMinute+2}"
+                                    TimeResult = "${selectedHour + 1}:${selectedMinute + 2}"
                                 }
                             ) {
                                 Text(text = "Zatwierdź")
@@ -301,7 +354,7 @@ fun TicketContent(
                 }
             }
 
-            if(showInfoGMT) {
+            if (showInfoGMT) {
                 TextButton(onClick = { showGMTdialog = !showGMTdialog }) {
                     Text(
                         text = "---> Dlaczego wybrany czas jest inny? <---",
@@ -311,18 +364,25 @@ fun TicketContent(
                     )
                 }
             }
+
+
             Spacer(modifier = Modifier.height(35.dp))
-            Row (modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
                 Button(
                     modifier = Modifier,
                     colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     onClick = {
                         contentSMS = Utils.generateSMS(
                             currentCountry,
-                            datePickerState.selectedDateMillis!!,
+                            if (checkCalendar >= 1) {
+                                datePickerState.selectedDateMillis!!
+                            } else {
+                                currentTimestamp
+                            },
                             selectedHour,
                             selectedMinute
                         )
+
                         showSMSoptions = true
                     }) {
                     Text(text = "generuj SMS", color = Color.Black)
@@ -338,20 +398,26 @@ fun TicketContent(
                 }
             }
             Spacer(modifier = Modifier.height(15.dp))
-            Box (modifier = Modifier
-                .width(240.dp)
-                .clip(RoundedCornerShape(25.dp))
-                .background(Color.White)
-                .padding(5.dp),) {///tresc sms
-                Row (modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .width(300.dp)
+                    .clip(RoundedCornerShape(25.dp))
+                    .background(Color.White)
+                    .padding(5.dp),
+            ) {///tresc sms
+                Row(modifier = Modifier, verticalAlignment = Alignment.CenterVertically) {
                     Text(text = contentSMS, modifier = Modifier)
                     Column {
-                        Button(onClick = { clipboardManager.setText(AnnotatedString((contentSMS)))},
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.White)) {
+                        Button(
+                            onClick = { clipboardManager.setText(AnnotatedString((contentSMS))) },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+                        ) {
                             Text(text = "Kopiuj", color = Color.Black, fontSize = 15.sp)
                         }
-                        Button(onClick = {Utils.sendSMS(contentSMS,context )},
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.White)) {
+                        Button(
+                            onClick = { Utils.sendSMS(contentSMS, context) },
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+                        ) {
                             Text(text = "Wyślij SMS", color = Color.Black, fontSize = 15.sp)
                         }
                     }
@@ -360,8 +426,11 @@ fun TicketContent(
 
 
 
-            if(showTutorial) {
-                Dialog(onDismissRequest = {showTutorial = !showTutorial}, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+            if (showTutorial) {
+                Dialog(
+                    onDismissRequest = { showTutorial = !showTutorial },
+                    properties = DialogProperties(usePlatformDefaultWidth = false)
+                ) {
                     // Draw a rectangle shape with rounded corners inside the dialog
                     Card(
                         modifier = Modifier
@@ -411,15 +480,15 @@ fun TicketContent(
 
 
 
-            if(showGMTdialog) {
-                Dialog(onDismissRequest = {showGMTdialog = !showGMTdialog}) {
+            if (showGMTdialog) {
+                Dialog(onDismissRequest = { showGMTdialog = !showGMTdialog }) {
                     // Draw a rectangle shape with rounded corners inside the dialog
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(350.dp)
                             .padding(16.dp),
-                            shape = RoundedCornerShape(16.dp),
+                        shape = RoundedCornerShape(16.dp),
                     ) {
                         Column(
                             modifier = Modifier
@@ -440,7 +509,7 @@ fun TicketContent(
                                 text = "Wybrany czas jest zwiększony o 1 godzinę, ponieważ kraje bałtyckie znajdują się w innej strefie czasowej niż Polska. System kupna winiet działa w strefie GMT+2 i jest to szczególnie istotna informacja, " +
                                         "jeśli użytkownik chce mieć aktywną winitę zaraz po zakupie. " +
                                         "Dwie dodatkowe minuty są dla bezpieczeństwa w razie natychmiastowego kupna, aby płatność została zaksięgowana na czas. W przeciwnym wypadku," +
-                                        " zlecenie kupna z nieważnym terminem zostanie odrzucone i kupno winiety nie zostanie sfinalizowane. " ,
+                                        " zlecenie kupna z nieważnym terminem zostanie odrzucone i kupno winiety nie zostanie sfinalizowane. ",
                                 modifier = Modifier.padding(16.dp),
                             )
                             Row(
@@ -459,14 +528,13 @@ fun TicketContent(
                     }
                 }
             }
+            Spacer(modifier = Modifier.height(15.dp))
+            TextButton(modifier = Modifier,
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                onClick = { openWeb(4) }) {
+                Text(text = "Sprawdź saldo", color = Color.Black)
 
-
-
-
-
-
-
-
+            }
 
 
         }
@@ -474,9 +542,8 @@ fun TicketContent(
 }
 
 
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun checkPRevvv(){
-    TicketContent(paddingValues = PaddingValues(0.dp))
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun checkPRevvv() {
+//    TicketContent(paddingValues = PaddingValues(0.dp))
+//}

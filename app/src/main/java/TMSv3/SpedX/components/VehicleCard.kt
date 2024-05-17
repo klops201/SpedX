@@ -3,6 +3,7 @@ package TMSv3.SpedX.components
 import TMSv3.SpedX.R
 import TMSv3.SpedX.domain.model.Position
 import TMSv3.SpedX.core.Utils
+import TMSv3.SpedX.presentation.uiTheme.md_theme_light_primaryContainer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -47,7 +48,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.compose.md_theme_light_primaryContainer
 
 @Composable
 fun VehicleCard(position: Position) {

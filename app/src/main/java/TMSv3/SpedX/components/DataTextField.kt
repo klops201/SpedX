@@ -23,21 +23,23 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DataTextField(labelValue: String,
+fun DataTextField(
+    labelValue: String,
     data: TextFieldValue,
     onDataValueChange: (newValue: TextFieldValue) -> Unit,
-                  modifier: Modifier = Modifier){ // okna do wpisywania danych
+    modifier: Modifier = Modifier
+) {
 
 
     OutlinedTextField(
         modifier = modifier,
         label = {
-                Text(text = labelValue)
+            Text(text = labelValue)
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedBorderColor = colorResource(id = R.color.colorText),
-            focusedBorderColor = colorResource(id = R.color.colorRed), //kolor ramki przy wpisywaniu tekstu
-            focusedLabelColor = colorResource(id = R.color.colorRed), // kolor etykiety przy wpisywaniu
+            focusedBorderColor = colorResource(id = R.color.colorRed),
+            focusedLabelColor = colorResource(id = R.color.colorRed),
             cursorColor = colorResource(id = R.color.colorPrimary),
             unfocusedLabelColor = colorResource(id = R.color.colorTextGray)
         ),

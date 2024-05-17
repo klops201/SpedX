@@ -4,7 +4,5 @@ data class Cmr(
     val cmrId: String? = null,
     val imageUrl: String? = null,
     val firebaseID: String? = null,
-//    val open: String? = null,
-//    val closed: String? = null,
 
 )

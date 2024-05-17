@@ -76,16 +76,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
-import TMSv3.SpedX.presentation.uiTheme.GreyBG
-import TMSv3.SpedX.presentation.uiTheme.tmsBG
-import TMSv3.SpedX.presentation.uiTheme.tmsContainer
-import TMSv3.SpedX.presentation.uiTheme.tmsOnContainer
-import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
+//import TMSv3.SpedX.presentation.uiTheme.GreyBG
+//import TMSv3.SpedX.presentation.uiTheme.tmsBG
+//import TMSv3.SpedX.presentation.uiTheme.tmsContainer
+//import TMSv3.SpedX.presentation.uiTheme.tmsOnContainer
+//import TMSv3.SpedX.presentation.uiTheme.tmsOnPrimary
 import TMSv3.SpedX.R
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.presentation.profile.ProfileViewModel
-import TMSv3.SpedX.presentation.uiTheme.Redetoll
+import TMSv3.SpedX.presentation.uiTheme.md_theme_light_tertiary
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -176,7 +176,7 @@ fun checkDrivers(onClick: () -> Unit) {
         .clip(AlertDialogDefaults.shape)
         .height(100.dp)
         .fillMaxWidth()
-        .background(Redetoll)
+        .background(md_theme_light_tertiary)
         .clickable { onClick() }
     ) {
         Row(
@@ -208,91 +208,91 @@ fun checkDrivers(onClick: () -> Unit) {
         }
     }
 }
-
-
-@Composable
-fun OrderList(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .height(210.dp)
-            //.width(210.dp)
-            .clip(AlertDialogDefaults.shape)
-            .clickable { onClick() }
-            .background(GreyBG)
-            .padding(15.dp)
-            .fillMaxWidth()
-    )
-    {
-
-        Column(verticalArrangement = Arrangement.Center) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-            ) {
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                    text = "Lista zleceń",
-                    fontSize = 20.sp
-                )
-            }
-            Row(
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.dot),
-                    contentDescription = null, // Możesz dostosować opis dostępności
-                )
-                // Separacja między kropką a tekstem
-                Spacer(modifier = Modifier.width(8.dp))
-
-                // Tekst zadania
-                Text(text = "zlecenie nr 1", fontSize = 20.sp)
-            }
-            Row(
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier.clickable { println("Button Clicked!") },
-                    painter = painterResource(id = R.drawable.dot),
-                    contentDescription = null, // Możesz dostosować opis dostępności
-                )
-                // Separacja między kropką a tekstem
-                Spacer(modifier = Modifier.width(8.dp))
-
-                // Tekst zadania
-                Text(text = "zlecenie nr 2", fontSize = 20.sp)
-            }
-            Row(
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    modifier = Modifier.clickable { println("Button Clicked!") },
-                    painter = painterResource(id = R.drawable.dot),
-                    contentDescription = null, // Możesz dostosować opis dostępności
-                )
-                // Separacja między kropką a tekstem
-                Spacer(modifier = Modifier.width(8.dp))
-
-                // Tekst zadania
-                Text(text = "zlecenie nr 3", fontSize = 20.sp)
-            }
-
-
-        }
-
-    }
-
-}
+//
+//
+//@Composable
+//fun OrderList(onClick: () -> Unit) {
+//    Box(
+//        modifier = Modifier
+//            .height(210.dp)
+//            //.width(210.dp)
+//            .clip(AlertDialogDefaults.shape)
+//            .clickable { onClick() }
+//            .background(md_theme_light_primaryContainer)
+//            .padding(15.dp)
+//            .fillMaxWidth()
+//    )
+//    {
+//
+//        Column(verticalArrangement = Arrangement.Center) {
+//            Box(
+//                modifier = Modifier
+//                    .weight(1f)
+//                    .fillMaxWidth()
+//                    .fillMaxHeight()
+//            ) {
+//                Text(
+//                    modifier = Modifier
+//                        .align(Alignment.Center),
+//                    textAlign = TextAlign.Center,
+//                    text = "Lista zleceń",
+//                    fontSize = 20.sp
+//                )
+//            }
+//            Row(
+//                Modifier
+//                    .weight(1f)
+//                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.dot),
+//                    contentDescription = null, // Możesz dostosować opis dostępności
+//                )
+//                // Separacja między kropką a tekstem
+//                Spacer(modifier = Modifier.width(8.dp))
+//
+//                // Tekst zadania
+//                Text(text = "zlecenie nr 1", fontSize = 20.sp)
+//            }
+//            Row(
+//                Modifier
+//                    .weight(1f)
+//                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Icon(
+//                    modifier = Modifier.clickable { println("Button Clicked!") },
+//                    painter = painterResource(id = R.drawable.dot),
+//                    contentDescription = null, // Możesz dostosować opis dostępności
+//                )
+//                // Separacja między kropką a tekstem
+//                Spacer(modifier = Modifier.width(8.dp))
+//
+//                // Tekst zadania
+//                Text(text = "zlecenie nr 2", fontSize = 20.sp)
+//            }
+//            Row(
+//                Modifier
+//                    .weight(1f)
+//                    .fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Icon(
+//                    modifier = Modifier.clickable { println("Button Clicked!") },
+//                    painter = painterResource(id = R.drawable.dot),
+//                    contentDescription = null, // Możesz dostosować opis dostępności
+//                )
+//                // Separacja między kropką a tekstem
+//                Spacer(modifier = Modifier.width(8.dp))
+//
+//                // Tekst zadania
+//                Text(text = "zlecenie nr 3", fontSize = 20.sp)
+//            }
+//
+//
+//        }
+//
+//    }
+//
+//}
 
 @Composable
 fun ShowUndoneOrder(order: Order) {
@@ -379,7 +379,7 @@ fun EtollBox(openBrowser: () -> Unit) {
         .clip(AlertDialogDefaults.shape)
         //.fillMaxSize()
         .clickable { openBrowser() }
-        .background(tmsContainer), contentAlignment = Alignment.Center) {
+        .background(md_theme_light_tertiary), contentAlignment = Alignment.Center) {
         Image(
             painter = painterResource(id = R.drawable.etoll2), contentDescription = null,
             contentScale = ContentScale.Crop
@@ -389,7 +389,7 @@ fun EtollBox(openBrowser: () -> Unit) {
 
 
 @Composable
-fun SettingsBox() {
+fun SettingsBox(openSettings: () -> Unit) {
     Box(
         modifier = Modifier
             .height(100.dp)
@@ -397,7 +397,7 @@ fun SettingsBox() {
             .clip(AlertDialogDefaults.shape)
             .fillMaxSize()
             .background(colorResource(id = R.color.colorTest))
-            .clickable { println("Button Clicked!") }, contentAlignment = Alignment.Center
+            .clickable { openSettings() }, contentAlignment = Alignment.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.settings), contentDescription = null,

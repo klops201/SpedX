@@ -1,7 +1,7 @@
-package com.example.compose
+package TMSv3.SpedX.presentation.uiTheme
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF325CA8)
+val md_theme_light_primary = Color(0xFF10244C)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
 val md_theme_light_primaryContainer = Color(0xFFD8E2FF)
 val md_theme_light_onPrimaryContainer = Color(0xFF001A42)

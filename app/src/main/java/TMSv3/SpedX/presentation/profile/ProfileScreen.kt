@@ -28,6 +28,7 @@ fun ProfileScreen(
     navigateToMapScreen: () -> Unit,
     navigateToTicketScreen: () -> Unit,
     navigateToDriversScreen: () -> Unit,
+    navigateToSettingsScreen: () -> Unit,
     openWeb: (Int) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -45,7 +46,7 @@ fun ProfileScreen(
                     viewModel.signOut()
                 },
                 revokeAccess = {
-                    viewModel.revokeAccess()
+
                 }
             )
         },
@@ -59,7 +60,8 @@ fun ProfileScreen(
                 openDriversList = navigateToDriversScreen,
                 openWeb = { appNr -> openWeb(appNr)
                     Log.d(Constants.TAG, "kliknięto app nr:     $appNr")
-                }
+                },
+                goSettings = navigateToSettingsScreen
             )
         },
         scaffoldState = scaffoldState
