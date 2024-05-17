@@ -4,6 +4,7 @@ import TMSv3.SpedX.R
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.domain.model.Position
 import TMSv3.SpedX.domain.model.Vehicle
+import TMSv3.SpedX.presentation.map.components.GetASNDataMap
 import TMSv3.SpedX.presentation.profile.ProfileViewModel
 import TMSv3.SpedX.presentation.uiTheme.md_theme_light_onPrimaryContainer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -68,11 +69,20 @@ fun MapScreen(
     viewModel: MapViewModel = hiltViewModel(),
     viewModel1: ProfileViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(viewModel) {
+        viewModel.getAsnData()
+    }
+
+    GetASNDataMap{item ->
+
+        val user = item.user ?: "błedne dane"
+        val customer = item.customer ?: "błedne dane"
+        val pass = item.gate ?: "błedne dane"
 
     var expanded by remember { mutableStateOf(false) }
 
     LaunchedEffect(viewModel) {
-        viewModel.fetchVehicles()
+        viewModel.fetchVehicles(user.lowercase(), customer.lowercase(), pass)
     }
 
     val fetchedVehicles by viewModel.vehicles.observeAsState(emptyList())
@@ -93,7 +103,7 @@ fun MapScreen(
         // W tym miejscu możesz umieścić inne logiki lub wywołania, które mają zależeć od wartości currentVehicle
     }
     LaunchedEffect(currentVehicle) {
-        viewModel.fetchPosition(currentVehicle.vehicleId ?: "")
+        viewModel.fetchPosition(user.lowercase(), customer.lowercase(), pass, currentVehicle.vehicleId ?: "")
     }
     var openDialog by remember { mutableStateOf(false) }
 
@@ -158,7 +168,7 @@ fun MapScreen(
             position = CameraPosition.fromLatLngZoom(positionGPS, 17f)
         }
         Log.d(Constants.TAG, "przed uruchomieniem mapy-----------------------------------")
-        Box (modifier = Modifier.fillMaxSize()){
+        Box(modifier = Modifier.fillMaxSize()) {
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraPositionState
@@ -213,9 +223,13 @@ fun MapScreen(
                     .background(color = Color.White),
                     expanded = expanded,
                     onDismissRequest = { expanded = false }) {
-                    vehicleNames.forEach {vehicleName ->
+                    vehicleNames.forEach { vehicleName ->
                         DropdownMenuItem(onClick = {
-                            currentVehicle = fetchedVehicles.find { it.vehicleName == vehicleName } ?: Vehicle(vehicleName = "brak pojazdu", vehicleId = "0")
+                            currentVehicle =
+                                fetchedVehicles.find { it.vehicleName == vehicleName } ?: Vehicle(
+                                    vehicleName = "brak pojazdu",
+                                    vehicleId = "0"
+                                )
                             expanded = false
                         }) {
                             Text(text = vehicleName ?: "brak danych")
@@ -227,5 +241,5 @@ fun MapScreen(
         }
 
     }
-
+}
 }

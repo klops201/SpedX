@@ -1,6 +1,7 @@
 package TMSv3.SpedX.presentation.drivers.drivers_main
 
 import TMSv3.SpedX.core.Constants
+import TMSv3.SpedX.domain.model.ASNdata
 import TMSv3.SpedX.domain.model.Driver
 import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.domain.model.Position
@@ -8,6 +9,8 @@ import TMSv3.SpedX.domain.model.Response
 import TMSv3.SpedX.domain.model.Response.*
 import TMSv3.SpedX.domain.model.Vehicle
 import TMSv3.SpedX.domain.repository.ASNApi
+import TMSv3.SpedX.domain.repository.Api
+import TMSv3.SpedX.domain.repository.AuthDataRepository
 import TMSv3.SpedX.domain.repository.DriverRepository
 import TMSv3.SpedX.domain.repository.PositionRepository
 import TMSv3.SpedX.domain.repository.SavePositionResponse
@@ -30,7 +33,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DriverMainViewModel @Inject constructor(
     private val driverRepo: DriverRepository,
-    private val positionRepo: PositionRepository
+    private val positionRepo: PositionRepository,
+    private val repoData: AuthDataRepository
 ) : ViewModel() {
 
     var driversListResponse by mutableStateOf<Response<List<Driver>>>(Success(emptyList()))
@@ -39,7 +43,7 @@ class DriverMainViewModel @Inject constructor(
     var savePositionResponse by mutableStateOf<SavePositionResponse>(Success(false))
         private set
 
-
+    var asnDataResponse by mutableStateOf<Response<ASNdata?>>(Loading)
 
 
 
@@ -72,10 +76,11 @@ class DriverMainViewModel @Inject constructor(
     }
 
 
-    fun fetchVehicles() {
+    fun fetchVehicles(user: String, customer: String, pass: String,) {
         viewModelScope.launch {
             try {
-                _vehicles.value = ASNApi.autoSatNetService.getVehiclesList()
+                val token = Api.generateToken(user, pass)
+                _vehicles.value = ASNApi.autoSatNetService.getVehiclesList(user, customer, token)
                 Log.d(
                     Constants.TAG,
                     "po pobraniu listy fur viewModel ${_vehicles.value}----------: "
@@ -89,12 +94,13 @@ class DriverMainViewModel @Inject constructor(
     }
 
 
-    suspend fun fetchPosition(vehicleID: String): Position? {
+    suspend fun fetchPosition(user: String, customer: String, pass: String, vehicleID: String): Position? {
 
         try {
+            val token = Api.generateToken(user, pass)
             Log.d(Constants.TAG, "przed pobraniem pozycji viewModel $vehicleID ----------: ")
 
-            _position.value = ASNApi.autoSatNetService.getActualPosition(vehicleID)
+            _position.value = ASNApi.autoSatNetService.getActualPosition(user, customer, vehicleID, token)
             Log.d(
                 Constants.TAG,
                 "po pobraniu pozycji viewModel $vehicleID----------: ${_position.value}"
@@ -109,9 +115,9 @@ class DriverMainViewModel @Inject constructor(
     }
 
 
-    fun fetchPositionWithCallback(vehicleID: String, callback: (Position?) -> Unit) {
+    fun fetchPositionWithCallback(user: String, customer: String, pass: String, vehicleID: String, callback: (Position?) -> Unit) {
         viewModelScope.launch {
-            val position = fetchPosition(vehicleID)
+            val position = fetchPosition(user, customer, pass, vehicleID)
             callback(position)
         }
     }
@@ -129,6 +135,14 @@ class DriverMainViewModel @Inject constructor(
     fun loadPosition(vehicleID: String) = viewModelScope.launch {
         positionDetailResponse = positionRepo.getPosition(vehicleID)
     }
+
+
+    fun getAsnData() = viewModelScope.launch {
+        asnDataResponse = repoData.loadASN()
+    }
+
+
+
 
 
 }

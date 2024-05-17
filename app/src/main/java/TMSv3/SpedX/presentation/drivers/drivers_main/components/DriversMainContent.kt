@@ -63,67 +63,86 @@ fun DriversMainContent(
     val scrollState = rememberScrollState()
 //    var loadData by remember { mutableStateOf(false) }
     var currentStep by remember { mutableStateOf(0) }
-    LaunchedEffect(viewModel) {
-        viewModel.getDriverList()
-    }
+
+
 
     LaunchedEffect(viewModel) {
-        viewModel.fetchVehicles()
+        viewModel.getAsnData()
     }
 
-    val fetchedVehicles by viewModel.vehicles.observeAsState(emptyList())
-    val counter by viewModel.counter.observeAsState()
+    GetASNDataApiMD { item ->
+        val user = item.user ?: "błedne dane"
+        val customer = item.customer ?: "błedne dane"
+        val pass = item.gate ?: "błedne dane"
 
 
-    Surface(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Column {
-            Box(
-                modifier = Modifier
-                    .clip(shape = RoundedCornerShape(0.dp, 0.dp, 50.dp, 50.dp))
-                    .height(80.dp)
-                    .fillMaxWidth()
-                    .background(colorResource(id = R.color.colorTest)),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
+
+
+
+
+        LaunchedEffect(viewModel) {
+            viewModel.getDriverList()
+        }
+
+        LaunchedEffect(viewModel) {
+            viewModel.fetchVehicles(user.lowercase(), customer.lowercase(), pass)
+        }
+
+        val fetchedVehicles by viewModel.vehicles.observeAsState(emptyList())
+        val counter by viewModel.counter.observeAsState()
+
+
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
+            Column {
+                Box(
                     modifier = Modifier
-                        .padding(10.dp),
-                    text = "Zarządzaj kierowcami",
-                    fontSize = 25.sp,
-                    color = Color.White
-                )
-            }
-//            Spacer(modifier = Modifier.height(10.dp))
-            GetDrivers { drivers ->
-                Log.d(Constants.TAG, "LISTA DRIVEROW---------- :$drivers ")
-                LazyColumn(
-                    modifier = Modifier
+                        .clip(shape = RoundedCornerShape(0.dp, 0.dp, 50.dp, 50.dp))
+                        .height(80.dp)
                         .fillMaxWidth()
-                        .wrapContentHeight(),
-                    verticalArrangement = Arrangement.spacedBy(5.dp),
-//                    contentPadding = PaddingValues(4.dp)
+                        .background(colorResource(id = R.color.colorTest)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    items(drivers) { driver ->
-                        Spacer(modifier = Modifier.height(5.dp))
-                        ShowDrivers(
-                            driver = driver,
-                            vehicles = fetchedVehicles,
-                            counter,
-                            navigateToEditDriver = { navigateEditDriverScreen(driver.firebaseID) })
+                    Text(
+                        modifier = Modifier
+                            .padding(10.dp),
+                        text = "Zarządzaj kierowcami",
+                        fontSize = 25.sp,
+                        color = Color.White
+                    )
+                }
+//            Spacer(modifier = Modifier.height(10.dp))
+                GetDrivers { drivers ->
+                    Log.d(Constants.TAG, "LISTA DRIVEROW---------- :$drivers ")
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        verticalArrangement = Arrangement.spacedBy(5.dp),
+//                    contentPadding = PaddingValues(4.dp)
+                    ) {
+                        items(drivers) { driver ->
+                            Spacer(modifier = Modifier.height(5.dp))
+                            ShowDrivers(
+                                driver = driver,
+                                vehicles = fetchedVehicles,
+                                counter,
+                                navigateToEditDriver = { navigateEditDriverScreen(driver.firebaseID) })
 
+                        }
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(Color.White)
+                                    .height(75.dp)
+                            )
+                        }
                     }
-                    item {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Color.White)
-                                .height(75.dp)
-                        )
-                    }
+
                 }
 
             }
@@ -131,8 +150,6 @@ fun DriversMainContent(
         }
 
     }
-
-
 }
 
 
@@ -150,13 +167,18 @@ fun ShowDrivers(
     Log.d(Constants.TAG, "SZUKANIE ID--------- :$safeID ===== $checkID ")
 
 
+    GetASNDataApiMD { item ->
+        val user = item.user ?: "błedne dane"
+        val customer = item.customer ?: "błedne dane"
+        val pass = item.gate ?: "błedne dane"
+
     if (checkID) {
 
 
         LaunchedEffect(Unit) {
             Log.d(Constants.TAG, "START LAUNCHeFF $safeID ===== $checkID ")
 
-            viewModel.fetchPositionWithCallback(safeID) { position ->
+            viewModel.fetchPositionWithCallback(user.lowercase(), customer.lowercase(), pass, safeID) { position ->
                 // Tutaj możesz wykonać operacje na pozycji
                 if (position != null) {
                     viewModel.savePosition(position, safeID)
@@ -179,7 +201,12 @@ fun ShowDrivers(
 
         LaunchedEffect(counterRef) {
             viewModel.loadPosition(safeID)
-            viewModel.fetchPositionWithCallback(safeID) { position ->
+            viewModel.fetchPositionWithCallback(
+                user.lowercase(),
+                customer.lowercase(),
+                pass,
+                safeID
+            ) { position ->
                 // Tutaj możesz wykonać operacje na pozycji
                 if (position != null) {
                     viewModel.savePosition(position, safeID)
@@ -236,7 +263,7 @@ fun ShowDrivers(
 
 
     }
-
+}
 
 }
 

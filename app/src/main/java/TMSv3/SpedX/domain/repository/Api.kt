@@ -25,24 +25,30 @@ private val retrofit: Retrofit by lazy {
 }
 
 interface Api {
-    @GET("administrator/ostrokolowicz/positions/{version}")
+    @GET("{user}/{customer}/positions/{version}")
     suspend fun getActualPosition(
+        @Path("user") user: String,
+        @Path("customer") customer: String,
         @Path("version") version: String,
-        @Query("token") token: String = generateToken("xxxxx", "xxxx")
+        @Query("token") token: String
     ): Position
 
 
 
-    @GET("administrator/ostrokolowicz/vehicles")
+    @GET("{user}/{customer}/vehicles")
     suspend fun getVehiclesList(
-        @Query("token") token: String = generateToken("xxxxxxx", "xxxxxx")
+        @Path("user") user: String,
+        @Path("customer") customer: String,
+        @Query("token") token: String
     ): List<Vehicle>
 
 
 
-    @GET("administrator/ostrokolowicz/drivers")
+    @GET("{user}/{customer}/drivers")
     suspend fun getDriversList(
-        @Query("token") token: String = generateToken("xxxxxxxx", "xxxxxxx")
+        @Path("user") user: String,
+        @Path("customer") customer: String,
+        @Query("token") token: String
     ): List<DriverASN>
 
 

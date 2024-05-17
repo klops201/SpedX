@@ -6,6 +6,8 @@ import TMSv3.SpedX.components.NumberField
 import TMSv3.SpedX.components.SmallSpacer
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.presentation.drivers.driver_add.AddDriverViewModel
+import TMSv3.SpedX.presentation.drivers.drivers_main.DriverMainViewModel
+import TMSv3.SpedX.presentation.drivers.drivers_main.components.GetASNDataApi
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -76,282 +78,264 @@ fun AddDriverContent(
     goBack: () -> Unit,
     navigateToDrivers: () -> Unit,
     showSnackBar: () -> Unit,
-    viewModel: AddDriverViewModel = hiltViewModel()
+    viewModel: AddDriverViewModel = hiltViewModel(),
+    viewModel1: DriverMainViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
 
     LaunchedEffect(viewModel) {
-        viewModel.fetchDrivers()
+        viewModel1.getAsnData()
     }
 
-    val fetchedDrivers by viewModel.drivers.observeAsState(emptyList())
+    GetASNDataApi { item ->
+        val user = item.user ?: "błedne dane"
+        val customer = item.customer ?: "błedne dane"
+        val pass = item.gate ?: "błedne dane"
+        Log.d(Constants.TAG, "pobrane dane asn adddrivercontent---------- :$user, $customer")
 
-
-    var showDriversList by remember {
-        mutableStateOf(false)
-    }
-
-
-    var driverName by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
+        LaunchedEffect(viewModel) {
+            viewModel.fetchDrivers(user.lowercase(), customer.lowercase(), pass)
         }
-    )
 
-    var driverPhoneNr by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
+        val fetchedDrivers by viewModel.drivers.observeAsState(emptyList())
 
-    var driverId by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
-        }
-    )
 
-    var vehicleId by rememberSaveable(
-        stateSaver = TextFieldValue.Saver,
-        init = {
-            mutableStateOf(
-                value = TextFieldValue(
-                    text = Constants.EMPTY_STRING
-                )
-            )
+        var showDriversList by remember {
+            mutableStateOf(false)
         }
-    )
-    Box(
-        modifier = Modifier
-            .background(Color.White)
-            .fillMaxSize(), contentAlignment = Alignment.Center
-    ) {
-        Column(
+
+
+        var driverName by rememberSaveable(
+            stateSaver = TextFieldValue.Saver,
+            init = {
+                mutableStateOf(
+                    value = TextFieldValue(
+                        text = Constants.EMPTY_STRING
+                    )
+                )
+            }
+        )
+
+        var driverPhoneNr by rememberSaveable(
+            stateSaver = TextFieldValue.Saver,
+            init = {
+                mutableStateOf(
+                    value = TextFieldValue(
+                        text = Constants.EMPTY_STRING
+                    )
+                )
+            }
+        )
+
+        var driverId by rememberSaveable(
+            stateSaver = TextFieldValue.Saver,
+            init = {
+                mutableStateOf(
+                    value = TextFieldValue(
+                        text = Constants.EMPTY_STRING
+                    )
+                )
+            }
+        )
+
+        var vehicleId by rememberSaveable(
+            stateSaver = TextFieldValue.Saver,
+            init = {
+                mutableStateOf(
+                    value = TextFieldValue(
+                        text = Constants.EMPTY_STRING
+                    )
+                )
+            }
+        )
+        Box(
             modifier = Modifier
-                .padding(vertical = 30.dp)
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
+                .background(Color.White)
+                .fillMaxSize(), contentAlignment = Alignment.Center
         ) {
-            Box(
+            Column(
                 modifier = Modifier
-                    .padding(vertical = 60.dp, horizontal = 20.dp)
+                    .padding(vertical = 30.dp)
                     .fillMaxWidth()
                     .height(IntrinsicSize.Min)
-                    .clip(RoundedCornerShape(18.dp))
-                    .background(colorResource(id = R.color.colorTest)),
-                contentAlignment = Alignment.Center
             ) {
-                Column(
+                Box(
                     modifier = Modifier
-                        .padding(20.dp)
-                        .fillMaxSize()
-                        .verticalScroll(state = scrollState),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .padding(vertical = 60.dp, horizontal = 20.dp)
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min)
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(colorResource(id = R.color.colorTest)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    DataTextField(modifier = Modifier
-                        .clip(RoundedCornerShape(18.dp))
-                        .background(color = colorResource(id = R.color.colorBg)),
-                        labelValue = "Imię i nazwisko",
-                        data = driverName,
-                        onDataValueChange = { newValue ->
-                            driverName = newValue
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(17.dp))
-                    DataTextField(modifier = Modifier
-                        .clip(RoundedCornerShape(18.dp))
-                        .background(color = colorResource(id = R.color.colorBg)),
-                        labelValue = "Numer telefonu",
-                        data = driverPhoneNr,
-                        onDataValueChange = { newValue ->
-                            driverPhoneNr = newValue
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(17.dp))
-                    DataTextField(modifier = Modifier
-                        .clip(RoundedCornerShape(18.dp))
-                        .background(color = colorResource(id = R.color.colorBg)),
-                        labelValue = "ID kierowcy",
-                        data = driverId,
-                        onDataValueChange = { newValue ->
-                            driverId = newValue
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(17.dp))
-                    DataTextField(modifier = Modifier
-                        .clip(RoundedCornerShape(18.dp))
-                        .background(color = colorResource(id = R.color.colorBg)),
-                        labelValue = "ID pojazdu",
-                        data = vehicleId,
-                        onDataValueChange = { newValue ->
-                            vehicleId = newValue
-                        }
-                    )
-                    Spacer(modifier = Modifier.height(17.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-
-                        Icon(
-                            modifier = Modifier
-                                .size(35.dp)
-                                .weight(1f)
-                                .fillMaxSize(),
-                            imageVector = Icons.Filled.Person,
-                            contentDescription = null,
-                            tint = Color.White,
-                        )
-
-                        SmallSpacer()
-
-                        IconButton(
-                            onClick = { showDriversList = !showDriversList }, modifier = Modifier
-                                .width(IntrinsicSize.Min)
-                                .weight(3f)
-                                .padding(horizontal = 20.dp)
-                                .clip(RoundedCornerShape(18.dp))
-                                .background(color = colorResource(id = R.color.colorBg))
-                        ) {
-                            Row(
-                                modifier = Modifier.padding(2.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    modifier = Modifier
-                                        .size(25.dp)
-                                        .fillMaxSize(),
-                                    imageVector = Icons.Filled.List,
-                                    contentDescription = null,
-                                    tint = Color.Black,
-                                )
-                                Text(
-                                    text = "Kierowcy w ASN",
-                                    fontSize = 15.sp, textAlign = TextAlign.Center
-                                )
+                    Column(
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .fillMaxSize()
+                            .verticalScroll(state = scrollState),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        DataTextField(modifier = Modifier
+                            .clip(RoundedCornerShape(18.dp))
+                            .background(color = colorResource(id = R.color.colorBg)),
+                            labelValue = "Imię i nazwisko",
+                            data = driverName,
+                            onDataValueChange = { newValue ->
+                                driverName = newValue
                             }
+                        )
+                        Spacer(modifier = Modifier.height(17.dp))
+                        DataTextField(modifier = Modifier
+                            .clip(RoundedCornerShape(18.dp))
+                            .background(color = colorResource(id = R.color.colorBg)),
+                            labelValue = "Numer telefonu",
+                            data = driverPhoneNr,
+                            onDataValueChange = { newValue ->
+                                driverPhoneNr = newValue
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(17.dp))
+                        DataTextField(modifier = Modifier
+                            .clip(RoundedCornerShape(18.dp))
+                            .background(color = colorResource(id = R.color.colorBg)),
+                            labelValue = "ID kierowcy",
+                            data = driverId,
+                            onDataValueChange = { newValue ->
+                                driverId = newValue
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(17.dp))
+                        DataTextField(modifier = Modifier
+                            .clip(RoundedCornerShape(18.dp))
+                            .background(color = colorResource(id = R.color.colorBg)),
+                            labelValue = "ID pojazdu",
+                            data = vehicleId,
+                            onDataValueChange = { newValue ->
+                                vehicleId = newValue
+                            }
+                        )
+                        Spacer(modifier = Modifier.height(17.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
 
+                            Icon(
+                                modifier = Modifier
+                                    .size(35.dp)
+                                    .weight(1f)
+                                    .fillMaxSize(),
+                                imageVector = Icons.Filled.Person,
+                                contentDescription = null,
+                                tint = Color.White,
+                            )
+
+                            SmallSpacer()
+
+                            IconButton(
+                                onClick = { showDriversList = !showDriversList },
+                                modifier = Modifier
+                                    .width(IntrinsicSize.Min)
+                                    .weight(3f)
+                                    .padding(horizontal = 20.dp)
+                                    .clip(RoundedCornerShape(18.dp))
+                                    .background(color = colorResource(id = R.color.colorBg))
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(2.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(25.dp)
+                                            .fillMaxSize(),
+                                        imageVector = Icons.Filled.List,
+                                        contentDescription = null,
+                                        tint = Color.Black,
+                                    )
+                                    Text(
+                                        text = "Kierowcy w ASN",
+                                        fontSize = 15.sp, textAlign = TextAlign.Center
+                                    )
+                                }
+
+                            }
                         }
+
+                        Spacer(modifier = Modifier.width(15.dp))
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    TextButton(
+                        onClick = {
+                            goBack()
+                            Log.d(Constants.TAG, "KLIIIIIK w anuluj ")
+                        },
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(18.dp))
+                            .background(colorResource(id = R.color.colorTest))
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 15.dp),
+                            text = "Anuluj",
+                            color = Color.White
+                        )
                     }
 
-                    Spacer(modifier = Modifier.width(15.dp))
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
-                TextButton(
-                    onClick = {
-                        goBack()
-                        Log.d(Constants.TAG, "KLIIIIIK w anuluj ")
-                    },
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(18.dp))
-                        .background(colorResource(id = R.color.colorTest))
-                ) {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 15.dp),
-                        text = "Anuluj",
-                        color = Color.White
-                    )
-                }
+
+                    TextButton(
+                        onClick = {
+                            if (areFieldsFilled(
+                                    driverName, driverPhoneNr, driverId,
+                                    vehicleId
+                                )
+                            ) {
+                                addDriver(
+                                    driverName.text,
+                                    driverPhoneNr.text.toInt(),
+                                    driverId.text,
+                                    vehicleId.text,
+                                )
+                                navigateToDrivers()
+                            } else {
+                                showSnackBar()
+                            }
+                        },
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(18.dp))
+                            .background(colorResource(id = R.color.colorTest))
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(horizontal = 15.dp),
+                            text = "Zapisz",
+                            color = Color.White
+                        )
+                    }
 
 
-//                Button(shape = CircleShape,
-//                    colors = ButtonDefaults.buttonColors(
-//                        backgroundColor = colorResource(id = R.color.colorBg),
-//                        contentColor = colorResource(id = R.color.colorTest)
-//                    ),
-//                    onClick = {
-//                        if (areFieldsFilled(
-//                                driverName, driverPhoneNr, driverId,
-//                                vehicleId
-//                            )
-//                        ) {
-//                            addDriver(
-//                                driverName.text,
-//                                driverPhoneNr.text.toInt(),
-//                                driverId.text,
-//                                vehicleId.text,
-//                            )
-//                            navigateToDrivers()
-//                        } else {
-//                            showSnackBar()
-//                        }
-//                    }
-//                ) {
-//                    Text(
-//                        text = Constants.ADD_DRIVER,
-//                        fontSize = 15.sp
-//                    )
-//                }
-
-
-                TextButton(
-                    onClick = {
-                        if (areFieldsFilled(
-                                driverName, driverPhoneNr, driverId,
-                                vehicleId
-                            )
-                        ) {
-                            addDriver(
-                                driverName.text,
-                                driverPhoneNr.text.toInt(),
-                                driverId.text,
-                                vehicleId.text,
-                            )
-                            navigateToDrivers()
-                        } else {
-                            showSnackBar()
-                        }
-                    },
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(18.dp))
-                        .background(colorResource(id = R.color.colorTest))
-                ) {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 15.dp),
-                        text = "Zapisz",
-                        color = Color.White
-                    )
                 }
 
 
             }
-
-
         }
-    }
 
-    if (showDriversList) {
-        Log.d(Constants.TAG, "pokazta ziutkow $fetchedDrivers")
-        Dialog(
-            onDismissRequest = { showDriversList = !showDriversList },
-            properties = DialogProperties(usePlatformDefaultWidth = false)
-        ) {
-            // Draw a rectangle shape with rounded corners inside the dialog
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(500.dp),
-                shape = RoundedCornerShape(16.dp),
+        if (showDriversList) {
+            Log.d(Constants.TAG, "pokazta ziutkow $fetchedDrivers")
+            Dialog(
+                onDismissRequest = { showDriversList = !showDriversList },
+                properties = DialogProperties(usePlatformDefaultWidth = false)
             ) {
+                // Draw a rectangle shape with rounded corners inside the dialog
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(500.dp),
+                    shape = RoundedCornerShape(16.dp),
+                ) {
 //                Column(
 //                    modifier = Modifier
 //                        .fillMaxSize()
@@ -368,83 +352,83 @@ fun AddDriverContent(
 //                            .clip(RoundedCornerShape(16.dp))
 //                    )
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight(),
-                        verticalArrangement = Arrangement.spacedBy(5.dp),
-                        //                    contentPadding = PaddingValues(4.dp)
-                    ) {
-                        items(fetchedDrivers) { driver ->
-
-                            val safeDrivID = driver.driverId ?: ""
-                            val safeDrivName = driver.driverName ?: ""
-                            val safeDrivSurName = driver.driverSurname ?: ""
-
-
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 16.dp, vertical = 8.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = "ID: $safeDrivID",
-                                    modifier = Modifier.weight(1f),
-                                    style = MaterialTheme.typography.body1,
-                                    textAlign = TextAlign.Center
-                                )
-                                // Dodaj dodatkowe kolumny lub elementy wiersza tutaj w razie potrzeby
-                                Spacer(modifier = Modifier.width(20.dp))
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                        text = safeDrivName,
-                                        modifier = Modifier,
-                                        style = MaterialTheme.typography.body1,
-                                        textAlign = TextAlign.Center
-                                    )
-                                    Spacer(modifier = Modifier.height(5.dp))
-                                    Text(
-                                        text = safeDrivSurName,
-                                        modifier = Modifier,
-                                        style = MaterialTheme.typography.body1,
-                                        textAlign = TextAlign.Center
-                                    )
-                                }
-
-                            }
-                            Divider(modifier = Modifier.fillMaxWidth())
-                        }
-
-                    }
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        TextButton(
-                            onClick = { showDriversList = false },
-                            modifier = Modifier.padding(8.dp),
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentHeight(),
+                            verticalArrangement = Arrangement.spacedBy(5.dp),
+                            //                    contentPadding = PaddingValues(4.dp)
                         ) {
-                            androidx.compose.material3.Text("Zamknij")
+                            items(fetchedDrivers) { driver ->
+
+                                val safeDrivID = driver.driverId ?: ""
+                                val safeDrivName = driver.driverName ?: ""
+                                val safeDrivSurName = driver.driverSurname ?: ""
+
+
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "ID: $safeDrivID",
+                                        modifier = Modifier.weight(1f),
+                                        style = MaterialTheme.typography.body1,
+                                        textAlign = TextAlign.Center
+                                    )
+                                    // Dodaj dodatkowe kolumny lub elementy wiersza tutaj w razie potrzeby
+                                    Spacer(modifier = Modifier.width(20.dp))
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = safeDrivName,
+                                            modifier = Modifier,
+                                            style = MaterialTheme.typography.body1,
+                                            textAlign = TextAlign.Center
+                                        )
+                                        Spacer(modifier = Modifier.height(5.dp))
+                                        Text(
+                                            text = safeDrivSurName,
+                                            modifier = Modifier,
+                                            style = MaterialTheme.typography.body1,
+                                            textAlign = TextAlign.Center
+                                        )
+                                    }
+
+                                }
+                                Divider(modifier = Modifier.fillMaxWidth())
+                            }
+
                         }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                        ) {
+                            TextButton(
+                                onClick = { showDriversList = false },
+                                modifier = Modifier.padding(8.dp),
+                            ) {
+                                androidx.compose.material3.Text("Zamknij")
+                            }
+                        }
+
+
                     }
 
-
                 }
-
-            }
 //                }
+            }
         }
+
     }
-
-
 }
 
 private fun areFieldsFilled(

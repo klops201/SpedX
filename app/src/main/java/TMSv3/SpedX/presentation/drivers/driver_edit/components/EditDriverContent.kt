@@ -5,6 +5,7 @@ import TMSv3.SpedX.components.DataTextField
 import TMSv3.SpedX.core.Constants
 import TMSv3.SpedX.presentation.drivers.driver_edit.EditDriverViewModel
 import TMSv3.SpedX.presentation.drivers.drivers_main.DriverMainViewModel
+import TMSv3.SpedX.presentation.drivers.drivers_main.components.GetASNDataApiED
 import TMSv3.SpedX.presentation.drivers.drivers_main.components.GetDrivers
 import TMSv3.SpedX.presentation.drivers.drivers_main.components.ShowDrivers
 import TMSv3.SpedX.presentation.orders.edit_order.EditOrderViewModel
@@ -93,9 +94,29 @@ fun EditDriverContent(
         viewModel.getDriverDetails(driverID)
     }
 
+
     LaunchedEffect(viewModel) {
-        viewModel1.fetchVehicles()
+        viewModel1.getAsnData()
     }
+
+
+    GetASNDataApiED{item ->
+
+        val user = item.user ?: "błedne dane"
+        val customer = item.customer ?: "błedne dane"
+        val pass = item.gate ?: "błedne dane"
+
+
+
+    LaunchedEffect(viewModel) {
+        viewModel1.fetchVehicles(user.lowercase(), customer.lowercase(), pass)
+    }
+
+
+    val fetchedVehicles by viewModel1.vehicles.observeAsState(emptyList())
+
+
+    Log.d(Constants.TAG, "przechwycone pojazdy ED start---------- :$fetchedVehicles ")
 
 
     var showDrivers by remember {
@@ -108,8 +129,6 @@ fun EditDriverContent(
     }
 
 
-    val fetchedVehicles by viewModel1.vehicles.observeAsState(emptyList())
-
 
 //    val scaffoldState = rememberScaffoldState()
     val coroutineScope = rememberCoroutineScope()
@@ -119,6 +138,11 @@ fun EditDriverContent(
 
 
     GetDriver { driver ->
+
+
+//        LaunchedEffect(viewModel) {
+//            viewModel1.fetchVehicles(user.lowercase(), customer.lowercase(), pass)
+//        }
 
         val safeDriverId = driver.driverId ?: ""
         val safeFBId = driver.firebaseID ?: ""
@@ -321,7 +345,8 @@ fun EditDriverContent(
                             Spacer(modifier = Modifier.width(15.dp))
 
                             IconButton(
-                                onClick = { deleteDriver = true
+                                onClick = {
+                                    deleteDriver = true
                                     Log.d(Constants.TAG, "kliknięto w ikonę $deleteDriver")
                                 }, modifier = Modifier
                                     .weight(1f)
@@ -411,6 +436,7 @@ fun EditDriverContent(
                     viewModel.deleteDriver(driverID, true)
                     navigateToDrivers()
                 }
+
                 SnackbarResult.ActionPerformed -> {
                     viewModel.deleteDriver(driverID, false)
                 }
@@ -519,6 +545,7 @@ fun EditDriverContent(
 //                }
         }
     }
+}
 }
 
 

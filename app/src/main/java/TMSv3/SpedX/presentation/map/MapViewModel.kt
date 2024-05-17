@@ -1,6 +1,7 @@
 package TMSv3.SpedX.presentation.map
 
 import TMSv3.SpedX.core.Constants
+import TMSv3.SpedX.domain.model.ASNdata
 import TMSv3.SpedX.domain.model.Order
 import TMSv3.SpedX.domain.model.Position
 import TMSv3.SpedX.domain.model.Response
@@ -8,6 +9,7 @@ import TMSv3.SpedX.domain.model.Response.*
 import TMSv3.SpedX.domain.model.Vehicle
 import TMSv3.SpedX.domain.repository.ASNApi
 import TMSv3.SpedX.domain.repository.Api
+import TMSv3.SpedX.domain.repository.AuthDataRepository
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
@@ -23,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MapViewModel @Inject constructor(
-
+    private val repoData: AuthDataRepository
 ): ViewModel() {
 
     private val _position = MutableLiveData<Position>()
@@ -31,17 +33,18 @@ class MapViewModel @Inject constructor(
     val position: LiveData<Position> = _position
 
 
-
+    var asnDataResponse by mutableStateOf<Response<ASNdata?>>(Loading)
 
 
     private val _vehicles = MutableLiveData<List<Vehicle>>()
     val vehicles: LiveData<List<Vehicle>> = _vehicles
 
 
-    fun fetchVehicles() {
+    fun fetchVehicles(user: String, customer: String, pass: String,) {
         viewModelScope.launch {
             try {
-                _vehicles.value = ASNApi.autoSatNetService.getVehiclesList()
+                val token = Api.generateToken(user, pass)
+                _vehicles.value = ASNApi.autoSatNetService.getVehiclesList(user, customer, token)
                 Log.d(
                     Constants.TAG,
                     "po pobraniu listy fur viewModel ${_vehicles.value}----------: "
@@ -57,27 +60,32 @@ class MapViewModel @Inject constructor(
 
 
 
+    fun getAsnData() = viewModelScope.launch {
+        asnDataResponse = repoData.loadASN()
+    }
 
 
 
 
-    fun fetchPosition(vehicleId: String){
-        viewModelScope.launch {
-            try {
 
-                if(vehicleId != "brak pojazdu"){
-                    Log.d(Constants.TAG, "przed pobraniem pozycji ----------: ")
+    suspend fun fetchPosition(user: String, customer: String, pass: String, vehicleID: String): Position? {
 
-                    _position.value = ASNApi.autoSatNetService.getActualPosition(vehicleId)
-                    Log.d(Constants.TAG, "po pobraniu pozycji ----------: ${_position.value}")
-                } else {
-                    Log.d(Constants.TAG, "Nie wczytano pojazdów")
-                }
+        try {
+            val token = Api.generateToken(user, pass)
+            Log.d(Constants.TAG, "przed pobraniem pozycji viewModel $vehicleID ----------: ")
 
-            }  catch (e: Exception) {
+            _position.value = ASNApi.autoSatNetService.getActualPosition(user, customer, vehicleID, token)
+            Log.d(
+                Constants.TAG,
+                "po pobraniu pozycji viewModel $vehicleID----------: ${_position.value}"
+            )
+            return _position.value
 
-            }
+        } catch (e: Exception) {
+            Log.d(Constants.TAG, "BŁĄD fetchPosition---------- :${_position.value} ")
+            return null
         }
+
     }
 
 }
