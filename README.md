@@ -47,7 +47,7 @@ https://github.com/alexmamo/FirebaseSignInWithEmailAndPassword
 
 W folderze app screens znajdują się zrzuty ekranu z aplikacji.
 
-
+Kod źródłowy zawarty w tym repozytorium jest prywatny i nie może być kopiowany, modyfikowany ani używany bez mojej wyraźnej zgody. Wszelkie próby wykorzystania tego kodu bez autoryzacji są zabronione.
 
 
 ## Functionalities
@@ -97,4 +97,6 @@ https://github.com/alexmamo/FirebaseSignInWithEmailAndPassword
 
 The app screens folder contains screenshots of the application.
 
+
+The source code contained in this repository is private and may not be copied, modified, or used without my express permission. Any attempt to use this code without authorization is prohibited.
 
