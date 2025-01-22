@@ -1,3 +1,5 @@
+## English version below
+
 ## SpedX - mobilny system zarządzania transportem (TMS)/ mobile TMS (Transportation Management System)
 
 ## Funkcjonalności
